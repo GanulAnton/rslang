@@ -1,7 +1,17 @@
 import obj from './main'
 
-import './styles.css'
-import image from  './assets/image.jpg'
+// import './styles.css'
+// import image from  './assets/image.jpg'
 
-console.log(obj);
-console.log('image', image);
+import { Login } from './pages/login/login';
+// import Login from './pages/login/login'
+
+
+//вставляем наш элемент
+const login =  Login();
+// const login = new Login()
+
+login.onInit(document.querySelector('#app'));
+
+// console.log(obj);
+// console.log('image', image);
