@@ -4,12 +4,12 @@ import obj from './main'
 // import image from  './assets/image.jpg'
 
 import { Login } from './pages/login/login';
-// import Login from './pages/login/login'
+// import Login from './pages/login/loginClass';
 
 
 //вставляем наш элемент
 const login =  Login();
-// const login = new Login()
+// const login = new Login();
 
 login.onInit(document.querySelector('#app'));
 
