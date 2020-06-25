@@ -1,23 +1,23 @@
-import "./settings.css"
+import './settings.css';
 
-export const Settings = () => {
-  let settings = {
-    wordsPerDay: "20",
-    newWords: "10",
+export default function Settings() {
+  const settings = {
+    wordsPerDay: '20',
+    newWords: '10',
     hint: {
       translation: false,
       meaning: true,
-      example: false
+      example: false,
     },
-    additional: { 
-      transcription: true, 
-      image: true 
+    additional: {
+      transcription: true,
+      image: true,
     },
     vocabulary: true,
     showAnswer: false,
   };
-  let newSettings = {
-    ...settings
+  const newSettings = {
+    ...settings,
   };
   let containerRef = null;
   let translateCheckboxRef = null;
@@ -29,15 +29,6 @@ export const Settings = () => {
   let showAnswerCheckboxRef = null;
   let saveButtonRef = null;
 
-  const onInit = (anchor) => {
-    const container = anchor.append(render());
-    setRefs();
-    setCheckboxes();
-    addEventListeners();
-
-    return container;
-  }
-
   const setRefs = () => {
     translateCheckboxRef = containerRef.querySelector('#settingsTranslate');
     meaningCheckboxRef = containerRef.querySelector('#settingsMeaning');
@@ -47,106 +38,107 @@ export const Settings = () => {
     vocabularyCheckboxRef = containerRef.querySelector('#settingsVocabulary');
     showAnswerCheckboxRef = containerRef.querySelector('#settingsShowAnswer');
     saveButtonRef = containerRef.querySelector('.settings-save');
-  }
+  };
 
   const validateHint = () => {
+    const values = Object.values(newSettings.hint);
     let check = true;
 
-    for(let key in newSettings.hint) {
-      if(newSettings.hint[key]) {
+    values.forEach((value) => {
+      if (value) {
         check = false;
       }
-    }
+    });
 
-    if(check) {
-      console.log('Выберите хоть один параметр')
+    if (check) {
+      console.log('Выберите хоть один параметр');
     }
 
     return check;
-  }
+  };
 
   const makeDisabledButton = (param) => {
     saveButtonRef.disabled = param;
-  }
+  };
 
   const validateInput = (number) => {
-    if(Number.isInteger(+number) && number < 100 && number > 10) {
-      return true
+    if (Number.isInteger(+number) && number < 100 && number > 10) {
+      return true;
     }
-    return false
-  }
+    return false;
+  };
 
   const addEventListeners = () => {
     const inputWordsPerDay = containerRef.querySelector('#settingsInputWordsperday');
     const inputNewWords = containerRef.querySelector('#settingsInputNewWords');
     inputWordsPerDay.addEventListener('change', () => {
-      if(!validateInput(inputWordsPerDay.value)){
-        //restore default
+      if (!validateInput(inputWordsPerDay.value)) {
+        // restore default
         inputWordsPerDay.value = settings.wordsPerDay;
       } else {
         newSettings.wordsPerDay = inputWordsPerDay.value;
       }
-    })
+    });
 
     inputNewWords.addEventListener('change', () => {
-      if(inputNewWords.value >= inputWordsPerDay.value || !validateInput(inputNewWords.value)){
-        //restore default
+      if (inputNewWords.value >= inputWordsPerDay.value || !validateInput(inputNewWords.value)) {
+        // restore default
         inputNewWords.value = settings.newWords;
       } else {
         newSettings.newWords = inputNewWords.value;
       }
-    })
+    });
 
     translateCheckboxRef.addEventListener('change', () => {
       newSettings.hint.translation = !newSettings.hint.translation;
 
-      makeDisabledButton(validateHint())
-    })
+      makeDisabledButton(validateHint());
+    });
 
     meaningCheckboxRef.addEventListener('change', () => {
       newSettings.hint.meaning = !newSettings.hint.meaning;
 
-      makeDisabledButton(validateHint())
-    })
+      makeDisabledButton(validateHint());
+    });
 
     exampleCheckboxRef.addEventListener('change', () => {
       newSettings.hint.example = !newSettings.hint.example;
 
-      makeDisabledButton(validateHint())
-    })
+      makeDisabledButton(validateHint());
+    });
 
     transcriptionCheckboxRef.addEventListener('change', () => {
       newSettings.additional.transcription = !newSettings.additional.transcription;
-    })
+    });
 
     imageCheckboxRef.addEventListener('change', () => {
       newSettings.additional.image = !newSettings.additional.image;
-    })
+    });
 
     vocabularyCheckboxRef.addEventListener('change', () => {
       newSettings.vocabulary = !newSettings.vocabulary;
-    })
+    });
 
     showAnswerCheckboxRef.addEventListener('change', () => {
       newSettings.showAnswer = !newSettings.showAnswer;
-    })
+    });
 
-    containerRef.querySelector('form').addEventListener("submit", (e) => {
+    containerRef.querySelector('form').addEventListener('submit', (e) => {
       e.preventDefault();
 
-      if(e.submitter.classList.contains('settings-save')) {
-        console.log(newSettings, 'Новые настройки')
+      if (e.submitter.classList.contains('settings-save')) {
+        console.log(newSettings, 'Новые настройки');
       }
 
-      if(e.submitter.classList.contains('settings-cancel')) {
-        console.log(settings, 'Старые настройки')
+      if (e.submitter.classList.contains('settings-cancel')) {
+        console.log(settings, 'Старые настройки');
       }
-    })
-  }
+    });
+  };
 
   const setCheckboxes = () => {
-    const {translate, meaning, example} = settings.hint;
-    const {transcription, image} = settings.additional;
+    const { translate, meaning, example } = settings.hint;
+    const { transcription, image } = settings.additional;
 
     translateCheckboxRef.checked = translate;
     meaningCheckboxRef.checked = meaning;
@@ -155,10 +147,10 @@ export const Settings = () => {
     imageCheckboxRef.checked = image;
     vocabularyCheckboxRef.checked = settings.vocabulary;
     showAnswerCheckboxRef.checked = settings.showAnswer;
-  }
+  };
 
   const render = () => {
-    const container = document.createElement("div");
+    const container = document.createElement('div');
     containerRef = container;
     container.innerHTML = `
     <div class="settings-container">
@@ -192,12 +184,21 @@ export const Settings = () => {
         </div>
       </form>
     </div> 
-    `
+    `;
 
     return container;
-  }
+  };
+
+  const onInit = (anchor) => {
+    const container = anchor.append(render());
+    setRefs();
+    setCheckboxes();
+    addEventListeners();
+
+    return container;
+  };
 
   return {
     onInit,
-  }
+  };
 }
