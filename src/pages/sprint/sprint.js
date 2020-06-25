@@ -10,13 +10,16 @@ export default class Sprint {
   // при иницилизации сразу создаем html и вешаем обработчики
   onInit (anchor) {
     const container = anchor.append(this.render())
-    this.addEventListeners()
+    /* this.addEventListeners() */
     return container
   }
   
+logc(){
+    console.log('ewewewewewewewewew');
+}
 
   // вешаем обработчики
-  addEventListeners  () {
+ /*  addEventListeners  () {
     this.container.querySelector('form').addEventListener('submit', (e) => {
       e.preventDefault()
 
@@ -72,29 +75,21 @@ export default class Sprint {
   // получить токен
   getData  () {
     return this.data
-  }
+  } */
 
   render () {
-    // создаем элементы
+    
     const container = document.createElement('div');
     container.classList.add('login-form')
-    //пример с иннер и чтоб потом получить доступ через queryselector
-    container.innerHTML = `<form>
-                        <div class="login-input-cont">
-                          <label for="login">Login:</label>
-                          <input id= 'login' class="login-input" type="text"/>
+    
+    container.innerHTML = `
+                        <div class="box">
+                          gfgfgfgfgfgfgfgf
                         </div>
-                        <div class="login-input-cont">
-                          <label for="password">Password:</label>
-                          <input id='password' class="login-input" type="password"/>
-                        </div>
-                        <div class="login-control">
-                          <button type="submit" class="login-control-btn login-control-buttonLogIn">LogIn</button>
-                          <button type="submit" class="login-control-btn login-control-buttonCreateAcc">Create Account</button>
-                        </div>
-                       </form>`
+                        
+                       `
     this.container = container;                   
-    // возвращаем готовый элемент для вставки 
+    
     return container
   }
 }

@@ -1,6 +1,6 @@
 import "./sprint.css"
 
-export const Login = () => {
+export const Sprint = () => {
     // переменные для быстрого доступа к инпутам и дате, изначально нулл, потом зададим значение
     let loginInputRef = null;
     let passwordInputRef = null;
