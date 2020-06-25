@@ -164,11 +164,13 @@ export default function Settings() {
           <input type="text" id="settingsInputNewWords" class="settings-input" value="${settings.newWords}" maxlength="3" size="${settings.newWords.length}">
         </div>
         <div class="settings-translate">
+          <h3>Hint:</h3>
           <label for="settingsTranslate">Translation of word <input type="checkbox" name="settings-translate" id="settingsTranslate"></label>
           <label for="settingsMeaning">Meaning of the word <input type="checkbox" name="settings-meaning" id="settingsMeaning" ></label>
           <label for="settingsExample">Example of usage of word <input type="checkbox" name="settings-example" id="settingsExample" ></label>
         </div>
         <div class="settings-additional">
+          <h3>Additional:</h3>
           <label for="settingsTranscription">Transcription <input type="checkbox" name="settings-transcription" id="settingsTranscription" ></label>
           <label for="settingsImage">Image <input type="checkbox" name="settings-image" id="settingsImage" ></label>
         </div>
