@@ -1,0 +1,51 @@
+.settings-container{
+  text-align: center;
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.settings-wordsperday {
+  margin-top: 2rem;
+}
+
+.settings-newwords {
+  margin-top: 2rem;
+}
+
+.settings-input {
+  margin-left: 1rem;
+  border: none;
+  outline: none;
+}
+
+.settings-translate{
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+}
+.settings-additional {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+}
+
+.settings-make-vocabulary {
+  margin-top: 2rem;
+}
+.settings-show-answer {
+  margin-top: 2rem;
+}
+
+.settings-control-panel {
+  margin-top: 2rem;
+}
+
+.settings-btn {
+  margin: 0rem 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid black;
+  border-radius: 4px;
+  background-color: #ffffff;
+  outline: none;
+  cursor: pointer;
+}
