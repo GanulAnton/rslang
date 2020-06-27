@@ -10,6 +10,6 @@ import  Sprint  from './pages/sprint/sprint';
 //вставляем наш элемент
  //const sprint =  Sprint();
  const sprint = new Sprint();
-sprint.logc();
+
  sprint.onInit(document.querySelector('#app')); 
 
