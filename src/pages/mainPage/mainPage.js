@@ -151,11 +151,10 @@ export const MainPage = () => {
               <!-- Content -->
               <div class="card-body">
                 <!-- Name -->
-                <h4 class="card-title font-weight-bold">Своя игра</h4>
+                <h4 class="card-title font-weight-bold">Word Bubbles</h4>
                 <hr>
                 <!-- Quotation -->
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos,
-              adipisci</p>
+                <p>The ability to rapidly retrieve words from your mental vocabulary.</p>
               </div>
           </div>
         </li>
