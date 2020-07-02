@@ -78,7 +78,7 @@ export const Login = () => {
   const render = () => {
     // создаем элементы
     const container = document.createElement('div')
-    const containerer = document.createElement('div')
+    const wrapper = document.createElement('div')
     const form = document.createElement('form')
     const loginInpCont = document.createElement('div')
     const loginLabel = document.createElement('label')
@@ -96,7 +96,7 @@ export const Login = () => {
     const headerText = document.createElement('h3')
 
     // назначаем параметры
-    containerer.classList.add('rgba-stylish-strong')
+    wrapper.classList.add('rgba-stylish-strong')
     headerLogin.classList.add('form-header', 'purple-gradient')
     container.classList.add('login-form')
     backgroundImg.classList.add('view')
@@ -139,7 +139,7 @@ export const Login = () => {
     passwordImage.classList.add('mb-2')
 
     // вставляем в дом в нужном порядке
-    containerer.append(container)
+    wrapper.append(container)
     container.append(headerLogin)
     headerLogin.append(headerText)
     container.append(form)
@@ -158,7 +158,7 @@ export const Login = () => {
     loginInputRef = loginInput
     passwordInputRef = passwordInput
     // возвращаем готовый элемент для вставки
-    return containerer
+    return wrapper
   }
 
   // отдаем обьект для управления, чтоб создать элемент или получить токен
