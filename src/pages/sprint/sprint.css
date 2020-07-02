@@ -1,7 +1,8 @@
 
 .box {
     display: block;
-    height: 100vh;
+    min-height: 100vh;
+    background: linear-gradient(135deg, rgba(85,239,203,1) 0%,rgba(30,87,153,1) 0%,rgba(85,239,203,1) 0%,rgba(91,202,255,1) 100%);
 }
 
 
@@ -93,6 +94,7 @@
 
 .sprint-box {
     display: flex;
+    flex-direction: column;
     position: absolute;
     height: 300px;
     width: 380px;
@@ -103,6 +105,47 @@
     background: rgb(236, 233, 233);
     border-radius: 6px;
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+
+.correctWord{
+    position: absolute;
+    height: 300px;
+    width: 380px;
+    background: #2ecc71;
+}
+
+.sprint-box-top{
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background:  pink;
+    border-radius: 6px 6px 0 0;
+}
+
+.sprint-box-mid{
+    width: 100%;
+    height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.sprint-box-mid h2{
+    color: black;
+    font-weight: 300;
+}
+
+.sprint-box-bot{
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background:  pink;
+    border-radius: 0 0 6px 6px;
 }
 
 .start-btn{
@@ -152,6 +195,35 @@
       transition: all 1.35s cubic-bezier(0.19, 1, 0.22, 1);
   }
 
+
+
+  .play-btn{
+      width: 130px;
+      height: 40px;
+      border: 1.5px solid white;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+  }
+
+
+  .exit-btn{
+    position: absolute;
+    display: flex;
+    right: -41px;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: tomato;
+    border: 1.5px solid tomato;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+
+
 /*   ***************************** TIMER  ********************************************************* */
 .timer {
     position: absolute;
@@ -164,3 +236,5 @@
    transform: rotate(-90deg);
    stroke: #fff;
 }
+
+
