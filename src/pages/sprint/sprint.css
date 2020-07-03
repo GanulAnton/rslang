@@ -108,10 +108,21 @@
 }
 
 .correctWord{
-    position: absolute;
+    display: flex;
     height: 300px;
     width: 380px;
+    min-width: 300px;
     background: #2ecc71;
+    border-radius: 6px;
+}
+
+.incorrectWord{
+  display: flex;
+  height: 300px;
+  width: 380px;
+  min-width: 300px;
+  background: tomato;
+  border-radius: 6px;
 }
 
 .sprint-box-top{
@@ -152,6 +163,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
+    height: 45px;
     transform: translateX(-50%) translateY(-50%);
     color: #fff;
     cursor: pointer;
@@ -228,7 +240,8 @@
 .timer {
     position: absolute;
     left: 50%;
-    transform: translateX(-50%) translateY(-130%);
+    top: 10%;
+    transform: translateX(-50%);
 }
 
 .timer__circle{
@@ -236,5 +249,6 @@
    transform: rotate(-90deg);
    stroke: #fff;
 }
+
 
 
