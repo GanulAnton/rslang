@@ -1,26 +1,42 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.rgba-stylish-strong {
+  position: fixed;
+  justify-content: center;
+}
+
 .login-form {
   display: flex;
   flex-direction: column;
-  margin: 10rem auto;
   padding: 2rem 1rem;
   width: 500px;
-  border: 1px solid black;
-  justify-content: space-evenly;
+  margin: 180px 445px;
+  justify-content: center;
+  text-align: center;
+  position: absolute;
+  background-color: rgba(230, 230, 230, 0.85);
+  border: .5px solid rgba(0, 0, 0, 0.15);
   align-items: center;
   border-radius: 5px;
+  z-index: 10;
   text-align: left;
+  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15)
 }
 
 .login-input-cont {
   margin: 1rem 0;
-  text-align: center;
 }
 
 .login-input {
   margin-left: 1rem;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem .6rem;
+  width: 250px;
   border-radius: 3px;
-  border: 1px solid black;
+  background: transparent !important;
+  border: 1px solid rgb(194, 24, 129);
   outline: none;
 }
 
@@ -31,8 +47,116 @@
 .login-control-btn {
   margin: 0rem 0.5rem;
   padding: 0.25rem 0.5rem;
-  border: 1px solid black;
   background-color: #ffffff;
   outline: none;
   cursor: pointer;
+}
+
+.btn {
+  background-color: rgba(230, 230, 230, 0.9);
+  -webkit-transition: .5s ease;
+  transition: .5s ease;
+  border: none;
+  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+}
+
+.btn:hover,
+.btn:focus,
+.btn:active,
+.btn:active:focus .btn.active {
+    background-color: #fff;
+}
+
+.btn-lg, .btn-group-lg > .btn {
+  margin: 10px;
+  padding: 0.5rem 1rem;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  border-radius: 0.3rem;
+}
+
+.btn.btn-lg {
+  padding: 1rem 2.4rem;
+  font-size: .94rem
+}
+
+.form-header {
+  padding: 1rem;
+  margin-top: -3.13rem;
+  margin-bottom: 3rem;
+  color: #fff;
+  text-align: center;
+  border-radius: .125rem;
+  -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15)
+}
+
+.form-header {
+  padding: 1rem;
+  margin-top: -3.13rem;
+  margin-bottom: 3rem;
+  color: #787878;
+  text-align: center;
+  border-radius: .125rem;
+  -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15)
+}
+
+.pink-text {
+  color: #a50063;
+}
+
+.white-text {
+  color: #fff;
+}
+
+.purple-gradient {
+  background: linear-gradient(40deg, #ff6ec4, #7873f5) !important
+}
+
+#app {
+  height: 100vh;
+  font-family: 'Roboto', 'Arial', 'sans-serif';
+  z-index: 9;
+  background: url("https://mdbootstrap.com/img/Photos/Horizontal/Nature/full page/img%20(11).jpg") no-repeat center center;
+  /* background-color: rgba(62,69,81,0.7); */
+  /* background: url("https://sun2-4.userapi.com/DF4qydMZeGjw0rrp0PwrOQo9z0686F9zaHh7IA/fxhUpd4HORc.jpg") no-repeat; */
+}
+
+/* background: transparent !important; */
+
+@media (max-width: 769px) {
+  .login-form {
+    /* max-width: 540px; */
+    margin: 100px 150px;
+  }
+}
+
+@media (max-width: 576px) {
+  .login-form {
+    /* max-width: 540px; */
+    margin: 100px 35px;
+  }
+}
+
+@media (max-width: 376px) {
+  .login-form {
+    width: 347px;
+    /* max-width: 540px; */
+    margin: 100px 14px;
+  }
+  .fa-lock:before {
+    content: "";
+}
+  .fa-user:before {
+    content: "";
+  }
+}
+
+@media (max-width: 340px) {
+  .login-form {
+    width: 300px;
+    /* max-width: 540px; */
+    margin: 100px 12px;
+  }
 }
