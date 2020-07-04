@@ -1,25 +1,21 @@
 import './login.css'
 
 export const Login = () => {
-  // переменные для быстрого доступа к инпутам и дате, изначально нулл, потом зададим значение
   let loginInputRef = null
   let passwordInputRef = null
   let formRef = null
   let data = null
 
-  // при иницилизации сразу создаем html и вешаем обработчики
   const onInit = (anchor) => {
     const container = anchor.append(render())
     addEventListeners()
     return container
   }
 
-  // вешаем обработчки событий
   const addEventListeners = () => {
     formRef.addEventListener('submit', (e) => {
       e.preventDefault()
 
-      // по классу находим нужную кнопку и отправляем запрос
       if (e.submitter.classList.contains('login-control-buttonLogIn')) {
         logIn()
       }
@@ -31,7 +27,6 @@ export const Login = () => {
 
   }
 
-  // функции логин и создать акк
   const createAccount = () => {
     fetch('https://afternoon-falls-25894.herokuapp.com/users', {
       method: 'POST',
@@ -39,7 +34,6 @@ export const Login = () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        //  а теперь благодаря ссылкам используем где надо.
         email: `${loginInputRef.value}`,
         password: `${passwordInputRef.value}`
       })
@@ -56,7 +50,6 @@ export const Login = () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        //  а теперь благодаря ссылкам используем где надо.
         email: `${loginInputRef.value}`,
         password: `${passwordInputRef.value}`
       })
@@ -69,13 +62,11 @@ export const Login = () => {
   }
 
 
-  // получить токен
   const getData = () => ({
     data: () => data
   })
 
   const render = () => {
-    // создаем элементы
     const container = document.createElement('div')
     const wrapper = document.createElement('div')
     const form = document.createElement('form')
@@ -94,7 +85,6 @@ export const Login = () => {
     const headerLogin = document.createElement('div')
     const headerText = document.createElement('h3')
 
-    // назначаем параметры
     wrapper.classList.add('rgba-stylish-strong')
     headerLogin.classList.add('form-header', 'purple-gradient')
     container.classList.add('login-form')
@@ -105,13 +95,11 @@ export const Login = () => {
     loginLabel.for = 'login'
     headerText.innerText = 'RS Lang Authorization'
     headerText.classList.add('white-text')
-//      loginLabel.innerText = "Login:";
     loginInput.id = 'login'
     loginInput.classList.add('login-input')
     loginInput.type = 'text'
     passwordInpCont.classList.add('login-input-cont')
     passwordLabel.for = 'password'
-//      passwordLabel.innerText = "Password:";
     passwordInput.id = 'password'
     passwordInput.classList.add('login-input')
     loginInput.placeholder = 'Login'
@@ -119,13 +107,10 @@ export const Login = () => {
     passwordInput.type = 'password'
     controlPanel.classList.add('login-control')
     btnLogIn.type = 'submit'
-    // btnLogIn.classList.add('login-control-btn')
-    // btnLogIn.classList.add('login-control-buttonLogIn')
     btnLogIn.classList.add('btn', 'btn-lg')
     btnLogIn.innerText = 'LogIn'
     btnCreateAcc.type = 'submit'
     btnCreateAcc.classList.add('btn', 'btn-lg')
-    //btnCreateAcc.classList.add('login-control-buttonCreateAcc')
     btnCreateAcc.innerText = 'Create Acc'
     passwordImage.classList.add('fas')
     loginImage.classList.add('fas')
@@ -137,7 +122,6 @@ export const Login = () => {
     passwordImage.classList.add('mt-2')
     passwordImage.classList.add('mb-2')
 
-    // вставляем в дом в нужном порядке
     wrapper.append(container)
     container.append(headerLogin)
     headerLogin.append(headerText)
@@ -152,15 +136,12 @@ export const Login = () => {
     controlPanel.append(btnLogIn)
     controlPanel.append(btnCreateAcc)
 
-    // делаем ссылки,чтоб потом переиспользовать
     formRef = form
     loginInputRef = loginInput
     passwordInputRef = passwordInput
-    // возвращаем готовый элемент для вставки
     return wrapper
   }
 
-  // отдаем обьект для управления, чтоб создать элемент или получить токен
   return {
     onInit,
     getData
