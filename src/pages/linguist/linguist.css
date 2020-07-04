@@ -1,0 +1,133 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: 0.5s all ease-in-out;
+}
+
+.linguist-container {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.linguist-additional-control{
+  width: 600px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: end;
+}
+
+.linguist-main-container {
+  margin: 3rem auto;
+  position: relative;
+}
+
+.linguist-card-cont{
+  margin: 0 auto;
+  width: 600px;
+  border: 1px solid black;
+  text-align: center;
+}
+
+.linguist-card-question {
+  display: flex;
+  width: 100%;
+  min-height: 150px;
+  border-bottom: 1px solid black;
+  justify-content: center;
+  align-items: center;
+}
+
+.linguist-answer-input-cont {
+  margin: 0 10px;
+}
+
+.linguist-answer-input {
+  border: none;
+  border-bottom: 1px solid black;
+  outline: none;
+}
+
+.linguist-card-hint {
+  display: flex;
+  padding: 0.75rem 0;
+  flex-direction: column;
+  width: 100%;
+  min-height: 75px;
+  justify-content: center;
+  align-items: center;
+}
+
+.linguist-card-translation {
+  text-transform: capitalize;
+}
+
+.linguist-btn {
+  padding: 0.25rem 0.75rem;
+  border: 1px solid black;
+  background: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.linguist-btn.linguist-translate-btn {
+  border-bottom: none;
+  border-right: none;
+}
+
+.linguist-btn.linguist-audio-btn {
+  border-bottom: none;
+}
+
+.linguist-btn__active {
+  background: #000000;
+  color: #ffffff;
+}
+
+.linguist-card-cont span + span  {
+  padding-left: 5px;
+}
+
+.linguist-card-control {
+  padding-bottom: 0.75rem;
+}
+
+.linguist__margin-bottom {
+  margin-bottom: 0.75rem;
+}
+
+.linguist__opacity {
+  opacity: 0.5;
+}
+
+.linguist__wrong {
+  color: red;
+}
+
+.linguist__right {
+  color: green;
+}
+
+.linguist__text-color {
+  color: #808080;
+}
+
+.linguist-card-answer {
+  margin: 0 5px;
+}
+
+.linguist-card-answer-text {
+  color: green;
+  text-decoration: underline;
+}
+
+.linguist-display-none {
+  display: none;
+}
+
+@media(hover: hover){
+  .linguist-btn:hover {
+    background: #000000;
+    color: #45b6fe;
+  }
+}

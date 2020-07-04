@@ -1,6 +1,6 @@
 import './login.css';
 
-export default function Login() {
+export default function Login(cb) {
   let loginInputRef = null;
   let passwordInputRef = null;
   let formRef = null;
@@ -25,7 +25,7 @@ export default function Login() {
     fetch('https://afternoon-falls-25894.herokuapp.com/signin', {
       method: 'POST',
       headers: {
-        Accept: 'application/json',
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -37,6 +37,7 @@ export default function Login() {
       .then((authentication) => {
         data = authentication;
         console.log(authentication);
+        cb()
       });
   };
 

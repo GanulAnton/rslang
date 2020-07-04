@@ -1,3 +1,4 @@
+import MainPage from "../mainPage"
 import './settings.css';
 
 export default function Settings() {
@@ -134,6 +135,12 @@ export default function Settings() {
         console.log(settings, 'Старые настройки');
       }
     });
+
+    document.querySelector('.link').addEventListener('click', () => {
+      const mainPage = MainPage();
+      document.querySelector('#app').innerHTML= "";
+      mainPage.onInit(document.querySelector('#app'))
+    })
   };
 
   const setCheckboxes = () => {
@@ -154,6 +161,7 @@ export default function Settings() {
     containerRef = container;
     container.innerHTML = `
     <div class="settings-container">
+      <a href="#" class="link">Back</a>
       <form action="#">
         <div class="settings-wordsperday">
           <label for="">Words per day</label>
