@@ -10,6 +10,8 @@ export const Sprint = () => {
     items: [],
     index: 0,
     score: 0, 
+    streak: 0,
+    prevScore: 0,
 }
 
 let arr = [];
@@ -47,7 +49,7 @@ const delay = ms =>{
       }
       let uniq = Array.from(new Set(arr));
       for(let i=0;i<uniq.length;i++){
-      uniq[i] =  fetch(`https://afternoon-falls-25894.herokuapp.com/words?page=${uniq[i]}&group=0`);
+      uniq[i] =  fetch(`https://afternoon-falls-25894.herokuapp.com/words?page=${uniq[i]}&group=${state.level}`);
       }
       return Promise.all(uniq).then(res=>{
           return Promise.all(res.map(r => r.json()));
@@ -56,12 +58,13 @@ const delay = ms =>{
       .then((result) => {
         state.items = [...result];
          return delay(500).then(()=>{
-          document.querySelector('.box').innerHTML = ``;
+            document.querySelector('.box').innerHTML = ``;
         }); 
   
       },
       (error)=>{
         state.error = error;
+        
     }
       )
     }
@@ -90,9 +93,9 @@ const delay = ms =>{
 
     function drawCard(t){
 
-      console.log(arr);
+      /* console.log(arr);
       console.log(state.index);
-      console.log(state.score);
+      console.log(state.score); */
       
 
       document.querySelector('.sprint-box').innerHTML = `
@@ -106,16 +109,19 @@ const delay = ms =>{
 
               </div>
               <div class="sprint-box-bot">
-                     <div class='exit-btn'> X </div>
                      <div class='play-btn NotCorrect-btn'> Не верно </div>
                      <div class='play-btn Correct-btn'> Верно </div>
+              </div>
+              <div class="set-box">
+                <div class='set-btn'> A </div>
+                <div class='set-btn'> A </div>
+                <div class='exit-btn'> X </div>
               </div>
       `;
       document.querySelector('.Correct-btn').addEventListener('click', ()=>{
         if(document.querySelector("#app > div > div > div.sprint-box-mid > h2:nth-child(2)").textContent == arr[state.index].wordTranslate){
           console.log('это слово правильное');
            handleCorrect(); 
-           state.score = state.score+10;
         } else {
           console.log('это слово не правильное');
            handleNotCorrect(); 
@@ -126,7 +132,7 @@ const delay = ms =>{
             drawCard()
           });
         } else {
-           /* finishGame(); */
+            finishGame(); 
         }
       })
 
@@ -134,7 +140,6 @@ const delay = ms =>{
         if(document.querySelector("#app > div > div > div.sprint-box-mid > h2:nth-child(2)").textContent == arr[state.index].false){
           console.log('это слово не правильное');
            handleCorrect(); 
-           state.score = state.score+10;
         } else {
           console.log('это слово правильное');
            handleNotCorrect(); 
@@ -160,25 +165,46 @@ const delay = ms =>{
 
 
     function  handleCorrect(){
+      let points;
+      state.streak++;
+      if(state.streak>=8){
+        points = 40;
+        state.score = state.score+40;
+      } else if(state.streak>=4){
+          state.score = state.score+20;
+          points = 20;
+      } else {
+        state.score = state.score+10;
+        points = 10;
+      }
+      
       document.querySelector('.sprint-box').innerHTML = `
-        <div class='correctWord'></div>
+        <div class='correctWord'>
+        <h2>+${points} points</h2>
+        </div>
       `
     }
    
     function  handleNotCorrect(){
+      state.streak = 0;
       document.querySelector('.sprint-box').innerHTML = `
-        <div class='incorrectWord'></div>
+        <div class='incorrectWord'>
+        <h2>+0 points</h2>
+        </div>
       `
     }
 
     function StartGame() {
+      
       state = {
         click: false,
         error: null,
         isLoaded: false,
         items: [],
         index: 0,
-        score: 0, 
+        score: 0,
+        streak: 0,
+        level: document.querySelector('#hardness').value - 1,
     }
       document.querySelector('.box').innerHTML = `
       <div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
@@ -223,6 +249,7 @@ const delay = ms =>{
                      <div class='play-btn back-btn'> Назад </div>
               </div>
       `;
+      state.prevScore = state.score;
       document.querySelector('.back-btn').addEventListener('click', ()=>{
         startRender();
       })
@@ -238,12 +265,26 @@ const delay = ms =>{
 
 function startRender() {
   
-  document.querySelector('.box').innerHTML = `<div class="start-btn">
+  document.querySelector('.box').innerHTML = `
+                                              <h2 class='prev_score'>Previous score: ${state.prevScore}</h2>
+                                              <div class="start-btn">
                                                 <svg>
                                                   <rect x="0" y="0" fill="none" width="100%" height="100%"/>
                                                 </svg>
                                                 <p> Start game </p>
-                                              </siv>`;
+                                              </div>
+                                              <div class="level">
+                                              <label for="hardness">уровень сложности:</label>
+                                              <select id="hardness">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                              </select>
+                                            </div>
+                                              `;
     document.querySelector('.start-btn').addEventListener('click', () => {
       StartGame();
     })                                   
@@ -260,7 +301,19 @@ function startRender() {
                                 <rect x="0" y="0" fill="none" width="100%" height="100%"/>
                               </svg>
                                <p> Start game </p>
-                            </siv>
+                            </div>
+                            <div class="level">
+                              <label for="hardness">уровень сложности:</label>
+                              <select id="hardness">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                              </select>
+                            </div>
+                            
                        `;           
     return container 
     }
