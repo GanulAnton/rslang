@@ -1,4 +1,4 @@
 export default {
-    test: true,
-    dev: false
-}
+  test: true,
+  dev: false,
+};

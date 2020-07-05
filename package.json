@@ -17,6 +17,11 @@
     "babel-preset-react-app": "^9.0.0",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.5.2",
+    "eslint": "^7.4.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "file-loader": "^6.0.0",
     "html-loader": "^1.1.0",
     "html-webpack-plugin": "^4.2.0",
@@ -36,5 +41,13 @@
       "prettier --write",
       "git add"
     ]
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GanulAnton/rslang.git"
+  },
+  "bugs": {
+    "url": "https://github.com/GanulAnton/rslang/issues"
+  },
+  "homepage": "https://github.com/GanulAnton/rslang#readme"
 }

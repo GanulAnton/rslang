@@ -157,6 +157,33 @@
     font-weight: 300;
 }
 
+.sprint-box-mid p{
+  color: black;
+  font-weight: 200;
+  text-align: center;
+  padding-left: 15px;
+}
+
+.sprint-box-mid-stat{
+  border-radius: 6px 6px 0 0;
+  width: 100%;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: scroll;
+  overflow-x:hidden;
+}
+
+.sprint-box-mid-stat h2{
+  
+  font-size: 16px;
+  color: black;
+  font-weight: 300;
+  padding: 10px;
+}
+
 .sprint-box-bot{
     width: 100%;
     height: 80px;
@@ -279,11 +306,11 @@
     border-radius: 2px;
   }
 
- /*  .set-btn:hover{
+ .black-btn{
     background-color: #fff;
     color: black;
   }
- */
+ 
 /*   ***************************** TIMER  ********************************************************* */
 .timer {
     position: absolute;
@@ -323,4 +350,24 @@
   transform: translateX(-50%) translateY(50%);
   font-size: 20px;
   color: #fff;
+}
+
+/*   ***************************** SCROLLBAR ********************************************************* */
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.2); 
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.4); 
+}
+
+::selection {
+  background: transparent;
 }
