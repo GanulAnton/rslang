@@ -180,10 +180,10 @@ export default function Sprint() {
 
     document.querySelector('.Correct-btn').addEventListener('click', () => {
       if (document.querySelector('.wrongTrans').textContent === arr[state.index].wordTranslate) {
-        console.log('это слово правильное');
+        /* console.log('это слово правильное'); */
         handleCorrect();
       } else {
-        console.log('это слово не правильное');
+        /* console.log('это слово не правильное'); */
         handleNotCorrect();
       }
       if (state.index < arr.length) {
