@@ -119,7 +119,6 @@ export const WordBubbles = () => {
       }
 
       function endTimer() {
-        gameEndingAudio.play()
         gameEndingResults()
       }
 
@@ -136,7 +135,7 @@ export const WordBubbles = () => {
       }
     }
 
-    function getRandomFirstLetters() {
+    function mainGame() {
       const firstLetters = [
         're', 'po', 'fa', 'bo', 'st', 'mo', 'su', 'of', 'as', 'co', 'di', 'in', 'al', 'an', 'au', 'ba', 'bu',
         'un', 'ma', 'no', 'ob', 'po', 'qu', 'ra', 'ri', 'sa', 'sc', 'su', 'ta', 'ca', 'cl', 'co', 'cr', 'de',
@@ -144,7 +143,11 @@ export const WordBubbles = () => {
       ]
       const firstLettersInRender = document.querySelector('.own-game-first-letters')
       const gameScore = document.querySelector('#own-game-score-wrapper')
+      const addGameScore = document.querySelector('#own-game-score')
+      const gameScorePoints = document.createElement('p')
       let firstLettersGlobal = `${firstLetters[Math.floor(Math.random() * 51)]}`
+
+      gameScorePoints.classList.add('own-game-score-points')
       firstLettersInRender.innerText = firstLettersGlobal
       
 
@@ -185,17 +188,22 @@ export const WordBubbles = () => {
                 gameInput.value=''
                 if (arr[i].length <= 4) {
                   scorePoints += 20
+                  infoScorePoints(20)
                 }
                 else if (arr[i].length == 5 || arr[i].length == 6) {
                   scorePoints += 40
+                  infoScorePoints(40)
                 }
                 else if (arr[i].length == 7 || arr[i].length == 8) {
                   scorePoints += 60
+                  infoScorePoints(60)
                 }
                 else if (arr[i].length == 9 || arr[i].length == 10) {
                   scorePoints += 80
+                  infoScorePoints(80)
                 } else {
                   scorePoints += 100
+                  infoScorePoints(100)
                 }
                 gameScore.innerHTML = `${scorePoints}`
               }
@@ -204,6 +212,11 @@ export const WordBubbles = () => {
 
           function wordIsNotCorrect() {
             audioWrongAnswer.play()
+          }
+
+          function infoScorePoints(number) {
+            gameScorePoints.innerText = `+${number}`
+            addGameScore.append(gameScorePoints)
           }
           checkIsCorrect()
         }
@@ -216,51 +229,61 @@ export const WordBubbles = () => {
         <div class="own-game-modal-window-ending">
           <h1 id="own-game__result-h1">Results</h1>
           <h2 id="own-game__result-is"></h2>
-            <form id="own-game-modal-window-button">
-              <button class="own-game-results">OK</button>
-            </form>
+          <section id="own-game__previous-results">
+            <h3 id="own-game__result-tryings"></h3>
+            <h3 id="own-game__result-maxscore"></h3>
+          </section>
+          <audio id="owngame-audio-game-ending" src="https://res.cloudinary.com/meta-modern/video/upload/v1593942147/kessidi-dzyn_mp3cut.net_1_1_a3bme0.mp3"></audio>
         </div>
       </div>
       `
       const resultIs = document.querySelector('#own-game__result-is')
-      const formApprove = document.querySelector('#own-game-modal-window-button')
       const bodyTimer = document.querySelector('.own-game-modal-window-ending')
+      const gameEndingAudio = document.querySelector('#owngame-audio-game-ending')
+      const amountOfTryings = document.querySelector('#own-game__result-tryings')
+      const maxScoreRender = document.querySelector('#own-game__result-maxscore')
       const output = document.createElement('span')
-      output.id = 'own-game-output'
       const slider = document.createElement('div')
+
+      output.id = 'own-game-output'
       slider.id = 'own-game-slider'
+      
       bodyTimer.append(output)
       bodyTimer.append(slider)
+      gameEndingAudio.play()
 
       resultIs.innerHTML = `Ваш результат: ${scorePoints} баллов`
       output.style.display = 'none'
       slider.style.display = 'none'
 
+      let amount = localStorage.getItem('Word Bubbles Score')
 
-      formApprove.addEventListener('submit', (e) => {
-        e.preventDefault()
-  
-        if (e.submitter.classList.contains('game-enter')) {
-          console.log('Была попытка выйти из игры. Нюанс №1')
-        }
-      })
+      if (scorePoints > amount) {
+        localStorage.setItem('Word Bubbles Score', scorePoints)
+        maxScoreRender.innerHTML = `Наилучший результат: ${scorePoints}`
+      } else {
+        maxScoreRender.innerHTML = `Наилучший результат: ${amount}`
+      }
+
+      let amountOfTrying = localStorage.getItem('Word Bubbles Tryings')
+      amountOfTrying++
+      localStorage.setItem('Word Bubbles Tryings', amountOfTrying)
+      amountOfTryings.innerHTML = `Количество попыток: ${amountOfTrying}`
     }
 
     document.querySelector('#app').innerHTML = `
       <div class="own-game-main-container">
         <div class="own-game-game-wrapper">
-        <form class="own-game-close-icon-form">
-          <button class="own-game-close-icon-game"></button>
-        </form>
           <div id="own-game-timer"></div>
-          <h4 id="own-game-score-wrapper"></h4>
+          <div id="own-game-score">
+            <h4 id="own-game-score-wrapper"></h4>
+          </div>
           <form class="own-game-input-place">
             <h4 class="own-game-first-letters"></h4>
             <input class="own-game-game-input" type="text" autofocus spellcheck="false">
             <button class="own-game-game-enter">Enter</button>
           </form>
           <audio id="owngame-audio-tiking-down" src="https://res.cloudinary.com/meta-modern/video/upload/v1593935234/55_smy6vv.mp3"></audio>
-          <audio id="owngame-audio-game-ending" src="https://res.cloudinary.com/meta-modern/video/upload/v1593942147/kessidi-dzyn_mp3cut.net_1_1_a3bme0.mp3"></audio>
           <audio id="owngame-audio-right-answer" src="https://res.cloudinary.com/meta-modern/video/upload/v1593953407/rightAnswerBubble_du1wub.mp3"></audio>
           <audio id="owngame-audio-wrong-answer" src="https://res.cloudinary.com/meta-modern/video/upload/v1593953406/wrongAnswerBubble_zmnjrn.mp3"></audio>
         </div>
@@ -270,28 +293,18 @@ export const WordBubbles = () => {
     const input = document.querySelector('input')
     const gameInput = document.querySelector('.own-game-game-input')
     const form = document.querySelector('.own-game-input-place')
-    const formClose = document.querySelector('.own-game-close-icon-form')
     const audioRightAnswer = document.querySelector('#owngame-audio-right-answer')
     const audioWrongAnswer = document.querySelector('#owngame-audio-wrong-answer')
 
     container.style.backgroundImage = 'url(\'../../assets/img/ownGame-gameBackground-3.png\')'
     container.style.height = '100vh'
 
-    getRandomFirstLetters()
+    mainGame()
     appendTimeoutWhole()
 
     input.addEventListener('keyup', function () {
       this.value = this.value.replace(/[^A-Za-z]/g, '');
     });
-
-    formClose.addEventListener('submit', (e) => {
-      e.preventDefault()
-
-      if (e.submitter.classList.contains('own-game-close-icon-game')) {
-        console.log('Была попытка выйти из игры. Нюанс №1')
-        render()
-      }
-    })
   }
 
   const render = () => {

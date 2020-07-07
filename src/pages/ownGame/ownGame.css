@@ -43,6 +43,37 @@ button {
   transition: .3s;
 }
 
+#own-game-score {
+  display: flex;
+  flex-flow: column;
+}
+
+.own-game-score-points {
+  font-size: 34px;
+  color: #fff;
+  text-align: center;
+  opacity: 0;
+  animation: opacityToggle 2.7s;
+  -webkit-animation: opacityToggle 2.7s;
+}
+
+@-webkit-keyframes opacityToggle{
+  0%{
+    opacity: 1;
+  }
+  100%{
+    opacity: 0;
+  }
+}
+@keyframes opacityToggle{
+  0%{
+    opacity: 1;
+  }
+  100%{
+    opacity: 0;
+  }
+}
+
 .own-game-btn-wrapper {
   padding-top: 50px;
   width: 400px;
@@ -90,6 +121,23 @@ button:focus {
   outline: none;
 }
 
+.own-game-close-icon {
+  position: absolute;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  outline: none;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-image: url('../../assets/img/close.png');
+}
+
+.own-game-close-icon:hover {
+  transform: translateY(-5px);
+}
+
 .own-game-modal-window {
   position: absolute;
   left: calc(50% - 990px / 2);
@@ -130,23 +178,6 @@ button:focus {
 .own-game-tooltip-img {
   width: 320px;
   padding-top: 40px;
-}
-
-.own-game-close-icon {
-  position: absolute;
-  right: 10px;
-  width: 24px;
-  height: 24px;
-  outline: none;
-  cursor: pointer;
-  border: none;
-  background-color: transparent;
-  background-repeat: no-repeat;
-  background-image: url('../../assets/img/close.png');
-}
-
-.own-game-close-icon:hover {
-  transform: translateY(-5px);
 }
 
 #own-game-score-wrapper {
@@ -291,22 +322,39 @@ button:focus {
   left: calc(50% - 790px / 2);
   top: 150px;
   background-color: rgba(255, 255, 255, 0.9);
-  height: 300px;
-  width: 800px;
+  height: 250px;
+  width: 60%;
   border-radius: 9px;
   padding: 15px;
 }
 
+#own-game__previous-results {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  font-size: 20px;
+  color: #f0693c;
+  padding-top: 20px;
+}
+
 @media (max-width: 1024px) {
+  .own-game-main-container {
+    width: 1030px;
+    height: 660px;
+  }
   .own-game-main-wrapper {
     width: 700px;
-    height: 700px;
+    height: 490px;
     left: calc(50% - 690px / 2);
-    top: 300px;
+    top: 150px;
   }
 
   .own-game-centered-block {
     margin-top: 60px;
+  }
+
+  .own-game-btn-wrapper {
+    padding-top: 110px;
   }
   
   .own-game-name-game {
@@ -318,42 +366,355 @@ button:focus {
     padding-top: 30px;
   }
   
-  .own-game-btn-wrapper {
-    padding-top: 90px;
-    width: 400px;
-    margin: 0 auto;
-  }
-  
   .own-game-btn {
-    border-radius: 17px;
-    margin-left: 10px;
+    border-radius: 45px;
+    margin-left: 25px;
   }
   
   .own-game-how-to-play {
-    width: 34px;
+    width: 90px;
     text-align: center;
-    font-size: 18px;
-    font-weight: 800;
-    height: 34px;
-    outline: none;
-    border: none;
-    background-color: #969696;
+    font-size: 50px;
+    height: 90px;
+    font-weight: 700;
   }
   
   .own-game-go-to-play {
-    width: 86%;
-    height: 34px;
-    font-weight: 700;
-    font-size: 16px;
-    outline: none;
-    border: none;
-    background-color: #f0693c;
+    width: 65%;
+    height: 90px;
+    font-weight: 500;
+    font-size: 50px;
+  }
+
+  .own-game-modal-window {
+    position: absolute;
+    left: calc(50% - 820px / 2);
+    top: 150px;
+    background-color: rgba(255, 255, 255, 0.9);
+    height: 1090px;
+    width: 800px;
+    border-radius: 9px;
+    padding: 15px;
+    
   }
   
-  .own-game-btn:hover {
-    background: #2EE59D;
-    box-shadow: 0 15px 20px rgba(46,229,157,.4);
-    color: white;
-    transform: translateY(-5px);
+  #own-game-tooltip-points-wrapper {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 55px;
+  }
+  
+  .own-game-tooltip-points {
+    font-size: 30px;
+  }
+  
+  #own-game-modal-window-header {
+    position: relative;
+  }
+  
+  #own-game-how-to-play {
+    font-size: 50px;
+    left: calc(50% - 365px / 2);
+  }
+  
+  .own-game-tooltip-img {
+    width: 420px;
+    padding-top: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .own-game-main-wrapper {
+    width: 700px;
+    height: 400px;
+    left: calc(50% - 400px / 2);
+    top: 100px;
+  }
+
+  .own-game-btn-wrapper {
+    padding-top: 30px;
+  }
+  
+  .own-game-name-game {
+    font-size: 60px;
+  }
+  
+  .own-game-description {
+    font-size: 38px;
+    padding-top: 30px;
+  }
+  
+  .own-game-btn {
+    border-radius: 35px;
+    margin-left: 25px;
+  }
+  
+  .own-game-how-to-play {
+    width: 70px;
+    font-size: 40px;
+    height: 70px;
+    font-weight: 700;
+  }
+  
+  .own-game-go-to-play {
+    width: 65%;
+    height: 70px;
+    font-weight: 500;
+    font-size: 40px;
+  }
+
+  .own-game-modal-window {
+    position: absolute;
+    left: calc(50% - 735px / 2);
+    top: 50px;
+    height: 900px;
+    width: 700px;
+  }
+  
+  #own-game-how-to-play {
+    font-size: 50px;
+    left: calc(50% - 365px / 2);
+  }
+  
+  .own-game-tooltip-img {
+    width: 300px;
+    padding-top: 40px;
+  }
+}
+
+@media (max-width: 690px) {
+  .own-game-main-wrapper {
+    width: 600px;
+    height: 400px;
+    left: calc(50% - 610px / 2);
+    top: 250px;
+  }
+
+  .own-game-btn-wrapper {
+    padding-top: 30px;
+  }
+  
+  .own-game-name-game {
+    font-size: 60px;
+  }
+  
+  .own-game-description {
+    font-size: 38px;
+    padding-top: 30px;
+  }
+  
+  .own-game-btn {
+    border-radius: 35px;
+    margin-left: 25px;
+  }
+  
+  .own-game-how-to-play {
+    width: 70px;
+    font-size: 40px;
+    height: 70px;
+    font-weight: 700;
+  }
+  
+  .own-game-go-to-play {
+    width: 65%;
+    height: 70px;
+    font-weight: 500;
+    font-size: 40px;
+  }
+
+  .own-game-modal-window {
+    position: absolute;
+    left: calc(50% - 735px / 2);
+    top: 50px;
+    height: 900px;
+    width: 700px;
+  }
+  
+  #own-game-how-to-play {
+    font-size: 50px;
+    left: calc(50% - 365px / 2);
+  }
+  
+  .own-game-tooltip-img {
+    width: 300px;
+    padding-top: 40px;
+  }
+}
+
+@media (max-width: 414px) and (min-width: 400px) {
+  .own-game-main-container {
+    height: 1033px;
+    width: 570px;
+  }
+
+  .own-game-main-wrapper {
+    width: 460px;
+    height: 620px;
+    left: calc(50% - 340px / 2);
+    top: 270px;
+  }
+
+  .own-game-btn-wrapper {
+    padding-top: 80px;
+  }
+  
+  .own-game-name-game {
+    font-size: 60px;
+  }
+  
+  .own-game-description {
+    font-size: 40px;
+    padding-top: 30px;
+  }
+  
+  .own-game-btn {
+    border-radius: 45px;
+    margin-left: 25px;
+    font-size: 60px;
+  }
+  
+  .own-game-how-to-play {
+    width: 90px;
+    height: 90px;
+    font-weight: 700;
+  }
+  
+  .own-game-go-to-play {
+    width: 65%;
+    height: 90px;
+    font-weight: 500;
+  }
+}
+
+@media (max-width: 375px) {
+  .own-game-main-container {
+    height: 1292px;
+    width: 570px;
+  }
+
+  .own-game-main-wrapper {
+    width: 500px;
+    height: 520px;
+    left: calc(50% - 315px / 2);
+    top: 270px;
+  }
+
+  .own-game-btn-wrapper {
+    padding-top: 30px;
+  }
+  
+  .own-game-name-game {
+    font-size: 77px;
+  }
+  
+  .own-game-description {
+    font-size: 40px;
+    padding-top: 40px;
+  }
+  
+  .own-game-btn {
+    border-radius: 40px;
+    margin-left: 15px;
+  }
+  
+  .own-game-how-to-play {
+    width: 80px;
+    font-size: 35px;
+    height: 80px;
+    font-weight: 700;
+  }
+  
+  .own-game-go-to-play {
+    width: 70%;
+    height: 80px;
+    font-weight: 500;
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 360px) {
+
+  .own-game-main-wrapper {
+    width: 400px;
+    height: 620px;
+    left: calc(50% - 200px / 2);
+    top: 160px;
+  }
+
+  .own-game-btn-wrapper {
+    padding-top: 30px;
+  }
+  
+  .own-game-name-game {
+    font-size: 80px;
+  }
+  
+  .own-game-description {
+    font-size: 40px;
+    padding-top: 30px;
+  }
+  
+  .own-game-btn {
+    border-radius: 35px;
+    margin-left: 10px;
+    font-size: 50px;
+  }
+  
+  .own-game-how-to-play {
+    width: 70px;
+    height: 70px;
+    font-weight: 400;
+  }
+  
+  .own-game-go-to-play {
+    width: 67%;
+    height: 70px;
+    font-weight: 500;
+  }
+}
+
+@media (max-width: 320px) {
+  .own-game-main-container {
+    height: 1078px;
+  }
+
+  .own-game-main-wrapper {
+    width: 470px;
+    height: 600px;
+    left: calc(50% - 230px / 2);
+    top: 150px;
+  }
+
+  .own-game-btn-wrapper {
+    padding-top: 15px;
+  }
+  
+  .own-game-name-game {
+    font-size: 80px;
+  }
+  
+  .own-game-description {
+    font-size: 38px;
+    padding-top: 20px;
+  }
+  
+  .own-game-btn {
+    border-radius: 40px;
+    margin-left: 19px;
+    font-size: 46px;
+  }
+  
+  .own-game-how-to-play {
+    width: 80px;
+    height: 80px;
+    font-weight: 700;
+  }
+  
+  .own-game-go-to-play {
+    width: 65%;
+    height: 80px;
+    font-weight: 500;
   }
 }
