@@ -6,15 +6,30 @@
 }
 
 .linguist-container {
-  width: 1200px;
   margin: 0 auto;
+  padding: 2rem 0 0;
+  height: calc(100vh - 70px);
 }
 
-.linguist-additional-control{
+.linguist-additional-control {
   width: 600px;
   margin: 0 auto;
   display: flex;
   justify-content: end;
+}
+
+.linguist-additional-counter{
+  width: 600px;
+  margin: 0 auto; 
+  display: flex;
+  justify-content: start;
+}
+
+.linguist-additional-counter-container {
+  padding: 0.25rem 0.75rem;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
 }
 
 .linguist-main-container {
@@ -29,11 +44,19 @@
   text-align: center;
 }
 
+.linguist-card-image {
+  padding-top: 1.5rem;
+}
+
+.linguist-card-image img {
+  width: 300px;
+  height: auto;
+}
+
 .linguist-card-question {
   display: flex;
   width: 100%;
-  min-height: 150px;
-  border-bottom: 1px solid black;
+  min-height: 50px;
   justify-content: center;
   align-items: center;
 }
@@ -56,6 +79,14 @@
   min-height: 75px;
   justify-content: center;
   align-items: center;
+}
+
+.linguist-card-example-translate, .linguist-card-meaning-translate {
+  font-size: 0.75rem;
+}
+
+.linguist-card-translation-translate {
+  text-transform: capitalize;
 }
 
 .linguist-card-translation {
@@ -89,11 +120,19 @@
 }
 
 .linguist-card-control {
-  padding-bottom: 0.75rem;
+  padding-bottom: 1.5rem;
 }
 
 .linguist__margin-bottom {
   margin-bottom: 0.75rem;
+}
+
+.linguist__margin-top {
+  margin-top: 0.75rem;
+}
+
+.linguist__padding-left{
+  padding-left: 0.75rem;
 }
 
 .linguist__opacity {
@@ -121,7 +160,7 @@
   text-decoration: underline;
 }
 
-.linguist-display-none {
+.linguist__display-none {
   display: none;
 }
 

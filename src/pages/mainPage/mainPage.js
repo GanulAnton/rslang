@@ -1,12 +1,141 @@
-import './mainPage.css'
+import Settings from '../settings/settings';
+import Linguist from '../linguist/linguist';
+import './mainPage.css';
 
-export const MainPage = () => {
-  const onInit = (anchor) => {
-    return anchor.append(render())
-  }
+export default function MainPage(cb) {
+  let user = null;
+  const callbacks = cb;
+  let userSettings = null;
+  let mainContainer = null;
+  let settings = null;
+  let linguist = null;
+  let words = [];
+
+  const startLinguist = (userWords) => {
+    console.log(words, 'gotovo');
+    linguist.onInit(mainContainer, userWords);
+  };
+
+  const getWords = async (param) => {
+    const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(param.filter)}&wordsPerPage=${param.amount}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const content = await rawResponse.json();
+    console.log(content, 'sm');
+    words = [...content[0].paginatedResults, ...words];
+    startLinguist(words);
+  };
+
+  const getMixedWords = (param) => {
+    let diff = 0;
+    fetch(`https://afternoon-falls-25894.herokuapp.com/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(param.filter)}&wordsPerPage=${param.amount - param.newWords}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        words = [...data[0].paginatedResults];
+        console.log(words, 'smth');
+
+        if (data[0].paginatedResults.length < param.amount - param.newWords) {
+          diff += param.amount - param.newWords - data[0].paginatedResults.length;
+        }
+
+        const filterNew = {
+          $or: [
+            { userWord: null },
+          ],
+        };
+        console.log(data);
+        return fetch(`https://afternoon-falls-25894.herokuapp.com/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(filterNew)}&wordsPerPage=${+param.newWords + +diff}`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        })
+          .then((res) => res.json());
+      })
+      .then((data) => {
+        words = [...words, ...data[0].paginatedResults];
+        startLinguist(words);
+      });
+  };
+
+  const getDataForLinguist = () => {
+    words = [];
+    // new user userSettings.optional.linguist.isNewUser
+    const param = {
+      amount: userSettings.optional.linguist.wordsPerDay,
+      newWords: userSettings.optional.linguist.newWords,
+      filter: {
+        $or: [
+          { userWord: null },
+        ],
+      },
+    };
+
+    if (userSettings.optional.linguist.isNewUser) {
+      getWords(param);
+    } else {
+      param.filter = { 'userWord.optional.status': 'inProgress' };
+
+      getMixedWords(param);
+    }
+
+    return words;
+  };
+
+  const goToPage = (marker, element) => {
+    if (element.classList.contains(marker)) {
+      linguist.removeEvents();
+
+      if (element.dataset.name === 'main') {
+        mainContainer.innerHTML = '';
+        onInit(mainContainer);
+      }
+
+      if (element.dataset.name === 'settings') {
+        mainContainer.innerHTML = '';
+        settings.onInit(mainContainer);
+      }
+
+      if (element.dataset.name === 'linguist') {
+        getDataForLinguist();
+        mainContainer.innerHTML = '';
+      }
+
+      document.querySelector('.header-nav').classList.remove('header-navActive');
+    }
+  };
+
+  const addEventListeners = () => {
+    document.querySelector('header .header-nav').addEventListener('click', (e) => {
+      goToPage('header-link', e.target);
+    });
+    document.querySelector('.main-page__mini-games').addEventListener('click', (e) => {
+      goToPage('main-page-btn', e.target);
+    });
+
+    document.querySelector('.linguist-start-game').addEventListener('click', (e) => {
+      goToPage('main-page-btn', e.target);
+    });
+  };
+
   const render = () => {
-    const container = document.createElement('div')
-    container.classList.add('container')
+    const container = document.createElement('div');
+    container.classList.add('main-page-container');
     container.innerHTML = `
     <div class="main-page__body">
           <!-- <h1 id="big-logo"><span id="rs">RS</span> Lang</h1> -->
@@ -15,49 +144,19 @@ export const MainPage = () => {
     </div>
     <hr class="main-page__separator">
     <div class="main-page__father-div">
+    <div class="main-page-linguist-container">
+      <div class="linguist-stats">
+        <p>Статистика</p>
+        <p>Выучить сегодня: ${userSettings.optional.linguist.wordsPerDay};</p>  
+        <p>Выученно слов: 0 с 3600;</p>
+      </div>
+      <div class="linguist-control">
+        <button data-name="linguist" class="main-page-btn linguist-start-game">Start Game</button>
+      </div>
+    </div>
     <div class="mini-games">
       <!-- <h1 class="main-page-father-div__h1">Mini-Games</h1> -->
       <ul class="main-page__mini-games">
-        <li class="main-page__mini-game">
-        <!--Card-->
-          <div class="wrapper">
-            <div class="card testimonial-card mt-2 mb-3">
-              <!-- Background color -->
-              <div class="card-up blue-gradient-rgba"></div>
-              <!-- Avatar -->
-              <div class="avatar mx-auto white">
-                <img src="https://sun2-3.userapi.com/JaVj9NvnZ3ItdtK3KMwRm-ph2Xfeju3swCqdCQ/boAA0ssT7s4.jpg" class="rounded-circle img-responsive" alt="woman avatar">
-              </div> 
-              <!-- Content -->
-              <div class="card-body">
-                <!-- Name -->
-                <h4 class="card-title font-weight-bold">Lingvist</h4>
-                <hr>
-                <!-- Quotation -->
-                <p>Приложение подстраивается под Вас и Ваш ритм, чтобы достичь наилучший результат</p>
-              </div>
-          </div>
-        </li>
-        <li class="main-page__mini-game">
-        <!--Card-->
-          <div class="wrapper">
-            <div class="card testimonial-card mt-2 mb-3">
-              <!-- Background color -->
-              <div class="card-up aqua-gradient"></div>
-              <!-- Avatar -->
-              <div class="avatar mx-auto white">
-                <img src="https://sun2-4.userapi.com/bShxDcdyfsns4xOnpNRlLV-Xfp5-R5FIh9dAlw/q6YBWFu-jQI.jpg" class="rounded-circle img-responsive" alt="woman avatar">
-              </div> 
-              <!-- Content -->
-              <div class="card-body">
-                <!-- Name -->
-                <h4 class="card-title font-weight-bold">English Puzzle</h4>
-                <hr>
-                <!-- Quotation -->
-                <p>Объедините популярное хобби и изучение английского языка</p>
-              </div>
-          </div>
-        </li>
         <li class="main-page__mini-game">
         <!--Card-->
           <div class="wrapper">
@@ -75,6 +174,7 @@ export const MainPage = () => {
                 <hr>
                 <!-- Quotation -->
                 <p>Покоряйте Саванну, изучая английский и расширяя словарный запас</p>
+                <button data-name="savannah"class="main-page-btn">Savannah</button>
               </div>
           </div>
         </li>
@@ -95,6 +195,7 @@ export const MainPage = () => {
                 <hr>
                 <!-- Quotation -->
                 <p>Сопоставьте перевод слова и его английский эквивалент</p>
+                <button data-name="sprint"class="main-page-btn">Sprint</button>
               </div>
           </div>
         </li>
@@ -115,6 +216,7 @@ export const MainPage = () => {
                 <hr>
                 <!-- Quotation -->
                 <p>Тренируйте навык аудирования для наилучшего понимания речи</p>
+                <button data-name="audioChallenge"class="main-page-btn">Audio Challenge</button>
               </div>
           </div>
         </li>
@@ -135,6 +237,7 @@ export const MainPage = () => {
                 <hr>
                 <!-- Quotation -->
                 <p>Преобразите произношение слов на английском языке</p>
+                <button data-name="speakIt" class="main-page-btn">Speak It</button>
               </div>
           </div>
         </li>
@@ -155,6 +258,7 @@ export const MainPage = () => {
                 <hr>
                 <!-- Quotation -->
                 <p>The ability to rapidly retrieve words from your mental vocabulary.</p>
+                <button data-name="wordBubbles"class="main-page-btn">Word Bubbles</button>
               </div>
           </div>
         </li>
@@ -218,10 +322,25 @@ export const MainPage = () => {
         </div>
         <h6 id="year">© 2020</h6>
       </footer>
-    `
-    return container
-  }
+    `;
+
+    return container;
+  };
+
+  const onInit = (anchor) => {
+    mainContainer = anchor;
+    userSettings = callbacks.getSettingsCallback();
+    user = callbacks.getUserCallback();
+    const container = render();
+    settings = Settings(userSettings, callbacks);
+    linguist = Linguist(userSettings, callbacks);
+
+    anchor.append(container);
+    addEventListeners();
+    return container;
+  };
+
   return {
-    onInit
-  }
+    onInit,
+  };
 }

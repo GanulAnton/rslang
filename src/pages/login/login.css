@@ -3,7 +3,7 @@
   padding: 0;
 }
 
-.rgba-stylish-strong {
+.login-rgba-stylish-strong {
   position: fixed;
   justify-content: center;
 }
@@ -52,7 +52,7 @@
   cursor: pointer;
 }
 
-.btn {
+.login-btn {
   background-color: rgba(230, 230, 230, 0.9);
   -webkit-transition: .5s ease;
   transition: .5s ease;
@@ -60,14 +60,14 @@
   box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
 }
 
-.btn:hover,
-.btn:focus,
-.btn:active,
-.btn:active:focus .btn.active {
+.login-btn:hover,
+.login-btn:focus,
+.login-btn:active,
+.login-btn:active:focus .login-btn.login-active {
     background-color: #fff;
 }
 
-.btn-lg, .btn-group-lg > .btn {
+.login-btn-lg, .login-btn-group-lg > .login-btn {
   margin: 10px;
   padding: 0.5rem 1rem;
   font-size: 1.25rem;
@@ -75,12 +75,12 @@
   border-radius: 0.3rem;
 }
 
-.btn.btn-lg {
+.login-btn.login-btn-lg {
   padding: 1rem 2.4rem;
   font-size: .94rem
 }
 
-.form-header {
+.login-form-header {
   padding: 1rem;
   margin-top: -3.13rem;
   margin-bottom: 3rem;
@@ -91,7 +91,7 @@
   box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15)
 }
 
-.form-header {
+.login-form-header {
   padding: 1rem;
   margin-top: -3.13rem;
   margin-bottom: 3rem;
@@ -102,15 +102,15 @@
   box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15)
 }
 
-.pink-text {
+.login-pink-text {
   color: #a50063;
 }
 
-.white-text {
+.login-white-text {
   color: #fff;
 }
 
-.purple-gradient {
+.login-purple-gradient {
   background: linear-gradient(40deg, #ff6ec4, #7873f5) !important
 }
 
