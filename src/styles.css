@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 * {
     box-sizing: border-box;
     transition-property: all;
@@ -9,11 +9,9 @@
   }
 
 body {
-    color: #f7f7f7;
-    font-family: 'Lato', sans-serif;
-    font-weight: 300;
+    font-family: 'Roboto', 'Arial', 'sans-serif';
   }
-=======
+
 @font-face {
   font-family: "Roboto Regular";
   font-style: normal;
@@ -35,7 +33,3 @@ body {
   src: url(assets/fonts/Roboto-Light.ttf) format('truetype');
 }
 
-body {
-  font-family: 'Roboto', 'Arial', 'sans-serif';
-}
->>>>>>> develop
