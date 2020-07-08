@@ -1,9 +1,9 @@
-export function setTimer(end = 0) {
-  document.querySelector('.box').insertAdjacentHTML('afterbegin', `<svg class="timer" width='120px' height='120px'>
-    <circle class="timer__circle" fill='transparent' stroke-width='4' cx='60' cy='60' r='52'/>
+export default function setTimer(end = 0) {
+  document.querySelector('.box').insertAdjacentHTML('afterbegin', `<svg class="timer-sprint" width='120px' height='120px'>
+    <circle class="timer__circle-sprint" fill='transparent' stroke-width='4' cx='60' cy='60' r='52'/>
     </svg>`);
 
-  const circle = document.querySelector('.timer__circle');
+  const circle = document.querySelector('.timer__circle-sprint');
   const radius = circle.r.baseVal.value;
   const circumference = 2 * Math.PI * radius;
   circle.style.stroke = '#2ecc71';

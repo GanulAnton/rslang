@@ -2,7 +2,8 @@
 .box {
     display: block;
     min-height: 100vh;
-    background: linear-gradient(135deg, rgba(85,239,203,1) 0%,rgba(30,87,153,1) 0%,rgba(85,239,203,1) 0%,rgba(91,202,255,1) 100%);
+    /* background: linear-gradient(135deg, rgba(85,239,203,1) 0%,rgba(30,87,153,1) 0%,rgba(85,239,203,1) 0%,rgba(91,202,255,1) 100%); */
+    background: linear-gradient(to top left, #3471FF, #87D0FD);
 }
 
 
@@ -107,7 +108,7 @@
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 }
 
-.correctWord{
+.correctWord-sprint{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -120,7 +121,7 @@
     border-radius: 6px;
 }
 
-.incorrectWord{
+.incorrectWord-sprint{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -139,7 +140,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background:  pink;
+    background:  #11AEFD;
     border-radius: 6px 6px 0 0;
 }
 
@@ -190,11 +191,11 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background:  pink;
+    background:  #11AEFD;
     border-radius: 0 0 6px 6px;
 }
 
-.start-btn{
+.start-btn-sprint{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -212,14 +213,14 @@
 }
 
 
-.start-btn p{
+.start-btn-sprint p{
     font-size:16px;
     display: block;
     font-weight: 100;
 }
 
 
-.start-btn rect {
+.start-btn-sprint rect {
     fill: none;
       stroke: #fff;
       stroke-width: 2;
@@ -227,7 +228,7 @@
       transition: all 0.35s linear;
 }
 
-.start-btn svg {
+.start-btn-sprint svg {
     height: 45px;
     left: 0;
     position: absolute;
@@ -235,7 +236,7 @@
     width: 100%; 
   }
   
-  .start-btn:hover rect {
+  .start-btn-sprint:hover rect {
       stroke-width: 5;
       stroke-dasharray: 15, 310;
       stroke-dashoffset: 48;
@@ -244,7 +245,7 @@
 
 
 
-  .play-btn{
+  .play-btn-sprint{
       width: 130px;
       height: 40px;
       border: 1.5px solid white;
@@ -255,13 +256,13 @@
       cursor: pointer;
   }
 
-  .play-btn:hover{
+  .play-btn-sprint:hover{
     background-color: #fff;
-    color: pink;
+    color: #11AEFD;
     
   }
 
-  .exit-btn{
+  .exit-btn-sprint{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -274,13 +275,13 @@
     margin: 10px 0;
   }
 
-  .exit-btn:hover{
+  .exit-btn-sprint:hover{
     color: #fff;
     background-color: tomato;
     border: 1.5px solid #fff;
   }
 
-.set-box{
+.settings-box-sprint{
   position: absolute;
   display: block;
   width: 40px;
@@ -293,7 +294,7 @@
   left: 103%;
 }
 
-  .set-btn{
+  .settings-btn-sprint{
     margin: 10px 0;
     display: flex;
     align-items: center;
@@ -306,20 +307,20 @@
     border-radius: 2px;
   }
 
- .black-btn{
+ .black-btn-sprint{
     background-color: #fff;
     color: black;
   }
  
 /*   ***************************** TIMER  ********************************************************* */
-.timer {
+.timer-sprint {
     position: absolute;
     left: 50%;
     top: 10%;
     transform: translateX(-50%);
 }
 
-.timer__circle{
+.timer__circle-sprint{
    transform-origin: center;
    transform: rotate(-90deg);
    stroke: #fff;
@@ -329,7 +330,7 @@
 
 /*   ***************************** LEVEL  ********************************************************* */
 
-.level{
+.level-sprint{
   position: absolute;
   left: 50%;
   top: 50%;
@@ -338,12 +339,11 @@
   color: #fff;
 }
 
-#cars{
+#hardness{
   width: 40px;
-  
 }
 
-.prev_score{
+.prev_score-sprint{
   position: absolute;
   left: 50%;
   top: 25%;

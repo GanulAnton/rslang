@@ -1,7 +1,5 @@
 import './sprint.css';
-import {
-  setTimer,
-} from './timer';
+import setTimer from './timer';
 
 const svgSound = '<svg xmlns="http://www.w3.org/2000/svg" id="Capa_1" enable-background="new 0 0 512.01 512.01" fill="#fff" height="25" viewBox="0 0 512.01 512.01" width="25"><g><path d="m234.603 46.947-134.809 82.058h-84.794c-8.284 0-15 6.716-15 15v224c0 8.284 6.716 15 15 15h84.794l134.808 82.058c29.996 18.259 68.398-3.311 68.398-38.439v-341.238c0-35.116-38.394-56.703-68.397-38.439zm-204.603 112.058h59v194h-59zm243 267.619c0 11.698-12.787 18.908-22.8 12.813l-131.2-79.862v-207.14l131.2-79.861c9.995-6.084 22.8 1.091 22.8 12.813z"/><path d="m345.678 217.114c-5.858 5.858-5.858 15.355 0 21.213 9.77 9.771 9.771 25.584 0 35.355-5.858 5.858-5.858 15.355 0 21.213 5.857 5.858 15.355 5.859 21.213 0 21.444-21.444 21.444-56.337 0-77.781-5.858-5.858-15.356-5.858-21.213 0z"/><path d="m412.146 171.86c-5.857-5.858-15.355-5.858-21.213 0s-5.858 15.355 0 21.213c34.701 34.701 34.701 91.164 0 125.865-5.858 5.858-5.858 15.355 0 21.213 5.857 5.858 15.355 5.859 21.213 0 46.398-46.398 46.398-121.893 0-168.291z"/><path d="m457.4 126.605c-5.857-5.858-15.355-5.858-21.213 0s-5.858 15.355 0 21.213c60.666 60.666 60.666 155.709 0 216.375-5.858 5.858-5.858 15.355 0 21.213 5.857 5.858 15.355 5.859 21.213 0 72.774-72.774 72.851-185.95 0-258.801z"/></g></svg>';
 
@@ -30,7 +28,7 @@ export default function Sprint() {
   };
 
   function addEventListeners() {
-    document.querySelector('.start-btn').addEventListener('click', () => {
+    document.querySelector('.start-btn-sprint').addEventListener('click', () => {
       StartGame();
     });
   }
@@ -75,7 +73,7 @@ export default function Sprint() {
     arr.sort(() => Math.random() - 0.5);
   }
 
-  function getRatndomTranslate(array) {
+  function getRandomTranslate(array) {
     const rand = ([array[state.index].wordTranslate, array[state.index].false])[Math.floor(Math.random() * 2)];
 
     return rand;
@@ -88,18 +86,19 @@ export default function Sprint() {
   }
 
   function drawCard(t) {
-    const wrongTrans = getRatndomTranslate(arr);
+    const wrongTrans = getRandomTranslate(arr);
     let helpPhrase = '';
     let blackStyle = '';
 
     if (state.helpOn === true) {
       helpPhrase = arr[state.index].textExample;
-      blackStyle = 'black-btn';
+      blackStyle = 'black-btn-sprint';
     }
+    const container = document.querySelector('.sprint-box');
 
-    document.querySelector('.sprint-box').innerHTML = `
+    container.innerHTML = `
               <div class="sprint-box-top">
-                Your score: ${state.score}
+                Всего очков: ${state.score}
               </div>
               <div class="sprint-box-mid">
 
@@ -109,16 +108,19 @@ export default function Sprint() {
 
               </div>
               <div class="sprint-box-bot">
-                     <div class='play-btn NotCorrect-btn'> Не верно </div>
-                     <div class='play-btn Correct-btn'> Верно </div>
+                     <div class='play-btn-sprint NotCorrect-btn'> Не верно </div>
+                     <div class='play-btn-sprint Correct-btn'> Верно </div>
               </div>
-              <div class="set-box">
-                <div class='set-btn sound-btn'> ${svgSound} </div>
-                <div class='set-btn help-btn ${blackStyle}'> A </div>
-                <div class='exit-btn'> X </div>
+              <div class="settings-box-sprint">
+                <div class='settings-btn-sprint sound-btn'> ${svgSound} </div>
+                <div class='settings-btn-sprint help-btn ${blackStyle}'> A </div>
+                <div class='exit-btn-sprint'> X </div>
               </div>
       `;
+      drawCardEventListeners(t, wrongTrans);
+  }
 
+  function drawCardEventListeners(t, wrongTrans) {
     document.querySelector('.sound-btn').addEventListener('click', () => {
       soundClick();
     });
@@ -131,13 +133,13 @@ export default function Sprint() {
           <p>${arr[state.index].textExample}</p>
           <h2 class="wrongTrans">${wrongTrans}</h2>
           `;
-        document.querySelector('.help-btn').classList.add('black-btn');
+        document.querySelector('.help-btn').classList.add('black-btn-sprint');
       } else if (state.helpOn === false) {
         document.querySelector('.sprint-box-mid').innerHTML = `
           <h2>${arr[state.index].word}</h2>
           <h2 class="wrongTrans">${wrongTrans}</h2>
           `;
-        document.querySelector('.help-btn').classList.remove('black-btn');
+        document.querySelector('.help-btn').classList.remove('black-btn-sprint');
       }
     });
 
@@ -215,7 +217,7 @@ export default function Sprint() {
       }
     });
 
-    document.querySelector('.exit-btn').addEventListener('click', () => {
+    document.querySelector('.exit-btn-sprint').addEventListener('click', () => {
       clearTimeout(t);
       finishGame();
     });
@@ -237,8 +239,8 @@ export default function Sprint() {
     }
 
     document.querySelector('.sprint-box').innerHTML = `
-        <div class='correctWord'>
-        <h2>+${points} points</h2>
+        <div class='correctWord-sprint'>
+        <h2>+${points} очков</h2>
         </div>
       `;
   }
@@ -247,8 +249,8 @@ export default function Sprint() {
     (state.incorAnswers).push(arr[state.index]);
     state.streak = 0;
     document.querySelector('.sprint-box').innerHTML = `
-        <div class='incorrectWord'>
-        <h2>+0 points</h2>
+        <div class='incorrectWord-sprint'>
+        <h2>+0 очков</h2>
         </div>
       `;
   }
@@ -267,14 +269,15 @@ export default function Sprint() {
       incorAnswers: [],
       helpOn: false,
     };
-    document.querySelector('.box').innerHTML = `
+    const container = document.querySelector('.box');
+    container.innerHTML = `
       <div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
     `;
 
     getWords().then(() => {
       if (state.error) {
-        document.querySelector('.box').innerHTML = '';
-        document.querySelector('.box').insertAdjacentHTML('afterbegin', '<div class=\'black\'>error</div>');
+        container.innerHTML = '';
+        container.insertAdjacentHTML('afterbegin', '<div class=\'black\'>error</div>');
       } else {
         setTimer();
         shuffleItems();
@@ -282,42 +285,43 @@ export default function Sprint() {
           finishGame();
         }, 65000);
 
-        document.querySelector('.box').insertAdjacentHTML('afterbegin', ' <div class="sprint-box"></div>');
+        container.insertAdjacentHTML('afterbegin', ' <div class="sprint-box"></div>');
 
         drawCard(t);
       }
-    })
+    });
   }
 
   function finishGame() {
-    document.querySelector('.timer').innerHTML = '';
+    document.querySelector('.timer-sprint').innerHTML = '';
     setTimer(1);
-    document.querySelector('.sprint-box').innerHTML = `
+    const container = document.querySelector('.sprint-box');
+    container.innerHTML = `
               <div class="sprint-box-top">
-                Game is over!
+                Конец игры!
               </div >
               <div class="sprint-box-mid">
 
-                  <h2>Your score: ${state.score}</h2>
+                  <h2>Ваш результат: ${state.score} баллов</h2>
 
               </div>
               <div class="sprint-box-bot">
-                     <div class='play-btn stat-btn'> Статистика </div>
-                     <div class='play-btn back-btn'> Выход </div>
+                     <div class='play-btn-sprint stat-btn-sprint'> Статистика </div>
+                     <div class='play-btn-sprint back-btn-sprint'> Выход </div>
               </div>
       `;
     state.prevScore = state.score;
-    document.querySelector('.back-btn').addEventListener('click', () => {
+    document.querySelector('.back-btn-sprint').addEventListener('click', () => {
       startRender();
     });
-    document.querySelector('.stat-btn').addEventListener('click', () => {
+    document.querySelector('.stat-btn-sprint').addEventListener('click', () => {
       showStat();
     });
   }
 
   function showStat() {
-    console.log(state.corAnswers);
-    console.log(state.incorAnswers);
+    /* console.log(state.corAnswers);
+    console.log(state.incorAnswers); */
     const AllWords = [...state.corAnswers, ...state.incorAnswers];
 
     let percent = 0;
@@ -335,23 +339,23 @@ export default function Sprint() {
           <h2>Очков всего: ${state.score}</h2>
       </div>
       <div class="sprint-box-bot">
-         <div class='play-btn wrongWords-btn'>Неверные слова </div>
-         <div class='play-btn back-btn'> Выход </div>
+         <div class='play-btn-sprint wrongWords-btn-sprint'>Неверные слова </div>
+         <div class='play-btn-sprint back-btn-sprint'> Выход </div>
       </div> 
       `;
-    document.querySelector('.back-btn').addEventListener('click', () => {
+    document.querySelector('.back-btn-sprint').addEventListener('click', () => {
       startRender();
     });
-    document.querySelector('.wrongWords-btn').addEventListener('click', () => {
+    document.querySelector('.wrongWords-btn-sprint').addEventListener('click', () => {
       document.querySelector('.sprint-box').innerHTML = `
           <div class="sprint-box-mid-stat">
               ${returnList()}
           </div>
           <div class="sprint-box-bot">
-            <div class='play-btn back-stat-btn'>К статистике</div>
+            <div class='play-btn-sprint back-stat-btn-sprint'>К статистике</div>
           </div> 
         `;
-      document.querySelector('.back-stat-btn').addEventListener('click', () => {
+      document.querySelector('.back-stat-btn-sprint').addEventListener('click', () => {
         showStat();
       });
     });
@@ -370,15 +374,16 @@ export default function Sprint() {
   }
 
   function startRender() {
-    document.querySelector('.box').innerHTML = `
-                                              <h2 class='prev_score'>Previous score: ${state.prevScore}</h2>
-                                              <div class="start-btn">
+    const container = document.querySelector('.box');
+    container.innerHTML = `
+                                              <h2 class='prev_score-sprint'>Предыдущий результат: ${state.prevScore}</h2>
+                                              <div class="start-btn-sprint">
                                                 <svg>
                                                   <rect x="0" y="0" fill="none" width="100%" height="100%"/>
                                                 </svg>
-                                                <p> Start game </p>
+                                                <p> Начать игру </p>
                                               </div>
-                                              <div class="level">
+                                              <div class="level-sprint">
                                               <label for="hardness">уровень сложности:</label>
                                               <select id="hardness">
                                                 <option value="1">1</option>
@@ -390,7 +395,7 @@ export default function Sprint() {
                                               </select>
                                             </div>
                                               `;
-    document.querySelector('.start-btn').addEventListener('click', () => {
+    document.querySelector('.start-btn-sprint').addEventListener('click', () => {
       StartGame();
     });
   }
@@ -399,13 +404,13 @@ export default function Sprint() {
     const container = document.createElement('div');
     container.classList.add('box');
     container.innerHTML = `
-                            <div class="start-btn">
+                            <div class="start-btn-sprint">
                               <svg>
                                 <rect x="0" y="0" fill="none" width="100%" height="100%"/>
                               </svg>
-                               <p> Start game </p>
+                               <p> Начать игру </p>
                             </div>
-                            <div class="level">
+                            <div class="level-sprint">
                               <label for="hardness">уровень сложности:</label>
                               <select id="hardness">
                                 <option value="1">1</option>
