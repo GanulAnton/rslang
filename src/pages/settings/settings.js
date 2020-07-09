@@ -1,12 +1,13 @@
 import './settings.css';
+import Modal from '../../components/modal/modal'
 
-export default function Settings(settingsSaved, cb) {
+export default function Settings(cb) {
   const callbacks = cb;
-  const settings = settingsSaved;
-  const newSettings = {
-    ...settings.optional.linguist,
-  };
-
+  const modal = Modal();
+  
+  let pages = null;
+  let settings = null;
+  let newSettings = null;
   let containerRef = null;
   let translateCheckboxRef = null;
   let meaningCheckboxRef = null;
@@ -39,6 +40,7 @@ export default function Settings(settingsSaved, cb) {
     });
 
     if (check) {
+      modal.showModal("Выберите хоть один параметр")
       console.log('Выберите хоть один параметр');
     }
 
@@ -117,11 +119,20 @@ export default function Settings(settingsSaved, cb) {
       if (e.submitter.classList.contains('settings-save')) {
         console.log(callbacks);
         callbacks.setSettingsCallback({ ...settings.optional, linguist: newSettings });
+
+        const mainContainer = callbacks.getMainContainerCallback();
+        mainContainer.innerHTML = "";
+
+        pages.mainPage.onInit(mainContainer)
         console.log(newSettings, 'Новые настройки');
       }
 
       if (e.submitter.classList.contains('settings-cancel')) {
         console.log(settings, 'Старые настройки');
+        const mainContainer = callbacks.getMainContainerCallback();
+        mainContainer.innerHTML = "";
+
+        pages.mainPage.onInit(mainContainer)
       }
     });
   };
@@ -178,14 +189,26 @@ export default function Settings(settingsSaved, cb) {
     </div> 
     `;
 
+    modal.onInit(container)
+
     return container;
   };
 
   const onInit = (anchor) => {
+    const settingsSaved = callbacks.getSettingsCallback();
+
+    settings = settingsSaved;
+    newSettings = {
+      ...settings.optional.linguist,
+    };
+
+    pages = callbacks.getPagesCallback();
+
     const container = anchor.append(render());
     setRefs();
     setCheckboxes();
     addEventListeners();
+
     return container;
   };
 

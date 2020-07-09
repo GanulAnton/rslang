@@ -1,13 +1,37 @@
-import './header.css'
+import './header.css';
 
-export default function Header () {
+export default function Header(container, cb) {
+  const mainContainer = container;
+  const callbacks = cb;
+  let pages = null;
+
+  const goToPage = (marker, element) => {
+    if (element.classList.contains(marker)) {
+      pages.linguistPage.removeEvents();
+
+      if (element.dataset.name === 'main') {
+        mainContainer.innerHTML = '';
+        pages.mainPage.onInit(mainContainer);
+      }
+
+      if (element.dataset.name === 'settings') {
+        mainContainer.innerHTML = '';
+        pages.settingsPage.onInit(mainContainer);
+      }
+
+      document.querySelector('.header-nav').classList.remove('header-navActive');
+    }
+  };
 
   const addEventListeners = () => {
     document.querySelector('.header-main-nav-btn').addEventListener('click', () => {
-      document.querySelector('.header-nav').classList.toggle('header-navActive')
-    })
-  }
+      document.querySelector('.header-nav').classList.toggle('header-navActive');
+    });
 
+    document.querySelector('header .header-nav').addEventListener('click', (e) => {
+      goToPage('header-link', e.target);
+    });
+  };
 
   const render = () => {
     const header = document.createElement('header');
@@ -35,20 +59,23 @@ export default function Header () {
         </div>
       </div>
     </div>
-    `
+    `;
 
     return header;
-  }
+  };
 
   const onInit = (anchor) => {
-    const header = render()
+    const header = render();
     anchor.prepend(header);
-    addEventListeners()
 
-    return header
-  }
+    pages = callbacks.getPagesCallback();
+
+    addEventListeners();
+
+    return header;
+  };
 
   return {
-    onInit
-  }
+    onInit,
+  };
 }

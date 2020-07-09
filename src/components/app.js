@@ -1,42 +1,23 @@
 import Header from './header/header';
 import Login from '../pages/login/login';
 import MainPage from '../pages/mainPage/mainPage';
+import Settings from '../pages/settings/settings';
+import Linguist from '../pages/linguist/linguist';
+
+import defaultUrl from '../accessories/defaultUrl';
+import defaultSettings from '../accessories/defaultSettings';
+import { getFromLocalStorage, setToLocalStorage } from '../accessories/accessories';
 
 export default function App() {
-  const defaultSettings = {
-    linguist: {
-      isNewUser: true,
-      lastWord: {},
-      wordsPerDay: '20',
-      newWords: '10',
-      hint: {
-        translation: false,
-        meaning: true,
-        example: false,
-      },
-      additional: {
-        transcription: true,
-        image: true,
-      },
-      vocabulary: true,
-      showAnswer: false,
-    },
-    savannah: {},
-    audioChallenge: {},
-    sprint: {},
-    speakIt: {},
-    wordBubble: {},
-  };
+  const mainContainer = document.createElement('div');
 
+  let cb = {};
+  let pages = {};
   let settings = null;
   let loginRef = null;
   let user = { userId: null, token: null };
 
-  const setToLocalStorage = () => {
-    localStorage.setItem('user', JSON.stringify({ userId: user.userId, token: user.token }));
-  };
-
-  const setWord = (word) => fetch(`https://afternoon-falls-25894.herokuapp.com/users/${user.userId}/words/${word.id}`, {
+  const setWord = (word) => fetch(`${defaultUrl}/users/${user.userId}/words/${word.id}`, {
     method: word.isUpdated ? 'PUT' : 'POST',
     withCredentials: true,
     headers: {
@@ -48,8 +29,23 @@ export default function App() {
   })
     .then((res) => res.json());
 
+  const getSettings = async () => {
+    const rawResponse = await fetch(`${defaultUrl}/users/${user.userId}/settings`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const userSettings = await rawResponse.json();
+
+    return userSettings;
+  };
+
   const setSettings = async (options) => {
-    const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${user.userId}/settings`, {
+    const rawResponse = await fetch(`${defaultUrl}/users/${user.userId}/settings`, {
       method: 'PUT',
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -71,10 +67,15 @@ export default function App() {
 
   const getSettingsCallback = () => settings;
 
+  const getUserCallback = () => user;
+
+  const getPagesCallback = () => pages;
+
+  const getMainContainerCallback = () => mainContainer;
+
   const setSettingsCallback = (options) => {
     setSettings(options);
     settings.optional = options;
-    console.log(settings, 'app');
   };
 
   const setWordsCallback = (words) => {
@@ -89,36 +90,68 @@ export default function App() {
     }
   };
 
-  const getLoginDataCallback = () => {
+  const getLoginDataCallback = async () => {
     const loginData = loginRef.getData();
     user.userId = loginData.data.userId;
     user.token = loginData.data.token;
     console.log(user);
-    setToLocalStorage();
-    haveToLogin();
-  };
-
-  const getUserCallback = () => user;
-
-  const startMainPage = async (userSettings) => {
-    const mainPage = MainPage({
-      setSettingsCallback, setStatistics, getSettingsCallback, setWordsCallback, getUserCallback,
-    });
-    const header = Header();
-    const appContainer = document.createElement('div');
+    setToLocalStorage('user', { userId: user.userId, token: user.token });
+    const userSettings = await getSettings();
     settings = userSettings;
 
+    const header = Header(mainContainer, cb);
+
     document.querySelector('#app').innerHTML = '';
-    appContainer.classList.add('app-container');
+    mainContainer.classList.add('app-container');
 
     header.onInit(document.querySelector('#app'));
-    document.querySelector('#app').append(appContainer);
-    mainPage.onInit(appContainer);
+    document.querySelector('#app').append(mainContainer);
+    pages.mainPage.onInit(mainContainer);
+  };
+
+  const setCallbacks = () => {
+    cb = {
+      setSettingsCallback,
+      setStatistics,
+      getSettingsCallback,
+      setWordsCallback,
+      getUserCallback,
+      getPagesCallback,
+      getMainContainerCallback,
+      getLoginDataCallback,
+    };
+
+    return cb;
+  };
+
+  const setPages = () => {
+    const mainPage = MainPage(cb);
+    const linguistPage = Linguist(cb);
+    const settingsPage = Settings(cb);
+    pages = { mainPage, linguistPage, settingsPage };
+  };
+
+  const startMainPage = (userSettings) => {
+    settings = userSettings;
+
+    setCallbacks();
+    setPages();
+
+    const header = Header(mainContainer, cb);
+
+    document.querySelector('#app').innerHTML = '';
+    mainContainer.classList.add('app-container');
+
+    header.onInit(document.querySelector('#app'));
+    document.querySelector('#app').append(mainContainer);
+    pages.mainPage.onInit(mainContainer);
     console.log(settings);
   };
 
   const haveToLogin = async () => {
-    const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${user.userId}/settings`, {
+    console.log(defaultSettings);
+
+    const rawResponse = await fetch(`${defaultUrl}/users/${user.userId}/settings`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -140,15 +173,14 @@ export default function App() {
     }
   };
 
-  const getFromLocalStorage = () => {
-    if (localStorage.getItem('user')) {
-      const storageData = JSON.parse(localStorage.getItem('user'));
-      user = storageData;
-    }
-  };
-
   const onInit = () => {
-    getFromLocalStorage();
+    user = getFromLocalStorage('user');
+    if (!user) {
+      user = { userId: null, token: null };
+    }
+
+    setCallbacks();
+    setPages();
     haveToLogin();
   };
 

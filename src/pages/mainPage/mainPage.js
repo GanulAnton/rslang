@@ -1,19 +1,17 @@
-import Settings from '../settings/settings';
-import Linguist from '../linguist/linguist';
 import './mainPage.css';
 
 export default function MainPage(cb) {
-  let user = null;
   const callbacks = cb;
-  let userSettings = null;
-  let mainContainer = null;
+
   let settings = null;
-  let linguist = null;
+  let user = null;
+  let pages = null;
+  let mainContainer = null;
   let words = [];
 
   const startLinguist = (userWords) => {
     console.log(words, 'gotovo');
-    linguist.onInit(mainContainer, userWords);
+    pages.linguistPage.onInit(mainContainer, userWords);
   };
 
   const getWords = async (param) => {
@@ -77,8 +75,8 @@ export default function MainPage(cb) {
     words = [];
     // new user userSettings.optional.linguist.isNewUser
     const param = {
-      amount: userSettings.optional.linguist.wordsPerDay,
-      newWords: userSettings.optional.linguist.newWords,
+      amount: settings.optional.linguist.wordsPerDay,
+      newWords: settings.optional.linguist.newWords,
       filter: {
         $or: [
           { userWord: null },
@@ -86,7 +84,7 @@ export default function MainPage(cb) {
       },
     };
 
-    if (userSettings.optional.linguist.isNewUser) {
+    if (settings.optional.linguist.isNewUser) {
       getWords(param);
     } else {
       param.filter = { 'userWord.optional.status': 'inProgress' };
@@ -99,17 +97,7 @@ export default function MainPage(cb) {
 
   const goToPage = (marker, element) => {
     if (element.classList.contains(marker)) {
-      linguist.removeEvents();
-
-      if (element.dataset.name === 'main') {
-        mainContainer.innerHTML = '';
-        onInit(mainContainer);
-      }
-
-      if (element.dataset.name === 'settings') {
-        mainContainer.innerHTML = '';
-        settings.onInit(mainContainer);
-      }
+      pages.linguistPage.removeEvents();
 
       if (element.dataset.name === 'linguist') {
         getDataForLinguist();
@@ -121,9 +109,6 @@ export default function MainPage(cb) {
   };
 
   const addEventListeners = () => {
-    document.querySelector('header .header-nav').addEventListener('click', (e) => {
-      goToPage('header-link', e.target);
-    });
     document.querySelector('.main-page__mini-games').addEventListener('click', (e) => {
       goToPage('main-page-btn', e.target);
     });
@@ -147,7 +132,7 @@ export default function MainPage(cb) {
     <div class="main-page-linguist-container">
       <div class="linguist-stats">
         <p>Статистика</p>
-        <p>Выучить сегодня: ${userSettings.optional.linguist.wordsPerDay};</p>  
+        <p>Выучить сегодня: ${settings.optional.linguist.wordsPerDay};</p>  
         <p>Выученно слов: 0 с 3600;</p>
       </div>
       <div class="linguist-control">
@@ -328,12 +313,12 @@ export default function MainPage(cb) {
   };
 
   const onInit = (anchor) => {
-    mainContainer = anchor;
-    userSettings = callbacks.getSettingsCallback();
     user = callbacks.getUserCallback();
+    settings = callbacks.getSettingsCallback();
+    pages = callbacks.getPagesCallback();
+    mainContainer = anchor;
+
     const container = render();
-    settings = Settings(userSettings, callbacks);
-    linguist = Linguist(userSettings, callbacks);
 
     anchor.append(container);
     addEventListeners();

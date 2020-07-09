@@ -1,7 +1,9 @@
 import './linguist.css';
+import Modal from '../../components/modal/modal';
 
-export default function Linguist(userSettings, cb) {
+export default function Linguist(cb) {
   const callbacks = cb;
+  const modal = Modal();
   let data = null;
   let currentIndex = 0;
   let error = 0;
@@ -23,10 +25,9 @@ export default function Linguist(userSettings, cb) {
   let deleteWordBtnRef = null;
   let showAnswerBtnRef = null;
   let nextBtnRef = null;
-  const settings = {
-    ...userSettings.optional.linguist,
-  };
-  const words = [];
+  let settings = null;
+  let pages = null;
+  let words = [];
 
   const render = () => {
     const container = document.createElement('div');
@@ -34,7 +35,7 @@ export default function Linguist(userSettings, cb) {
     container.classList.add('linguist-container');
 
     container.innerHTML = `
-    <div class="linguist-main-cont">
+      <div class="linguist-main-cont">
         <div class="linguist-additional-control">
           <button class="linguist-btn linguist-translate-btn linguist-btn__active">T</button> 
           <button class="linguist-btn linguist-audio-btn">A</button> 
@@ -62,12 +63,14 @@ export default function Linguist(userSettings, cb) {
             <button class="linguist-next-btn linguist-btn">Next</button>
           </div>
          </div>
-    </div>
-    <div class="linguist-additional-counter">
-      <div class="linguist-additional-counter-container"></div>
-    </div>`;
+         <div class="linguist-additional-counter">
+          <div class="linguist-additional-counter-container"></div>
+         </div>
+      </div>`;
 
     containerRef = container;
+
+    modal.onInit(container);
 
     return container;
   };
@@ -76,7 +79,7 @@ export default function Linguist(userSettings, cb) {
     answer = data[currentIndex].word;
   };
 
-  const makeQuestion = () => `<div class="linguist-answer-input-cont"><input type="text" class="linguist-answer-input" size=${answer.length}/></div>`;
+  const makeQuestion = () => `<div class="linguist-answer-input-cont"><input type="text" class="linguist-answer-input" size="${answer.length}" /></div>`;
 
   const makeHint = (str, marker) => {
     let result = '';
@@ -139,15 +142,26 @@ export default function Linguist(userSettings, cb) {
     }
   };
 
+  const goToMainPage = () => {
+    const mainContainer = callbacks.getMainContainerCallback();
+    mainContainer.innerHTML = '';
+
+    pages.mainPage.onInit(mainContainer);
+  };
+
   const changeCard = () => {
     // end
-    if (currentIndex !== settings.wordsPerDay - 1) {
+    if (currentIndex !== 1) {
       isAnswered = false;
       currentIndex += 1;
       error = 0;
       renderCard();
     } else {
       callbacks.setWordsCallback(words);
+
+      modal.showModal('На сегодня всё! Молодец!');
+      modal.addCallBack(goToMainPage);
+
       console.log('na segodnya vse');
     }
   };
@@ -329,6 +343,7 @@ export default function Linguist(userSettings, cb) {
   };
 
   const keydownEnterHandler = (e) => {
+    console.log(e);
     if (e.key === 'Enter') {
       checkAnswer();
     }
@@ -358,11 +373,22 @@ export default function Linguist(userSettings, cb) {
 
   const removeEvents = () => {
     document.onkeydown = null;
+    currentIndex = 0;
+    words = [];
   };
 
   const onInit = (anchor, userWords) => {
     const container = anchor.append(render());
+    const userSettings = callbacks.getSettingsCallback();
+
     data = userWords;
+
+    settings = {
+      ...userSettings.optional.linguist,
+    };
+
+    pages = callbacks.getPagesCallback();
+
     setRefs();
     renderCard();
     addEventListeners();
