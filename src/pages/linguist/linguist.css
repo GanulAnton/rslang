@@ -1,0 +1,174 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: 0.5s all ease-in-out;
+}
+
+.linguist-container {
+  margin: 0 auto;
+  padding: 2rem 0 0;
+  height: calc(100vh - 70px);
+}
+
+.linguist-additional-control {
+  width: 600px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: end;
+}
+
+.linguist-additional-counter{
+  width: 600px;
+  margin: 0 auto; 
+  display: flex;
+  justify-content: start;
+}
+
+.linguist-additional-counter-container {
+  padding: 0.25rem 0.75rem;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.linguist-main-container {
+  margin: 3rem auto;
+  position: relative;
+}
+
+.linguist-card-cont{
+  margin: 0 auto;
+  width: 600px;
+  border: 1px solid black;
+  text-align: center;
+}
+
+.linguist-card-image {
+  padding-top: 1.5rem;
+}
+
+.linguist-card-image img {
+  width: 300px;
+  height: auto;
+}
+
+.linguist-card-question {
+  display: flex;
+  width: 100%;
+  min-height: 50px;
+  justify-content: center;
+  align-items: center;
+}
+
+.linguist-answer-input-cont {
+  margin: 0 10px;
+}
+
+.linguist-answer-input {
+  border: none;
+  border-bottom: 1px solid black;
+  font-size: 1rem;
+  text-align: center;
+  outline: none;
+}
+
+.linguist-card-hint {
+  display: flex;
+  padding: 0.75rem 0;
+  flex-direction: column;
+  width: 100%;
+  min-height: 75px;
+  justify-content: center;
+  align-items: center;
+}
+
+.linguist-card-example-translate, .linguist-card-meaning-translate {
+  font-size: 0.75rem;
+}
+
+.linguist-card-translation-translate {
+  text-transform: capitalize;
+}
+
+.linguist-card-translation {
+  text-transform: capitalize;
+}
+
+.linguist-btn {
+  padding: 0.25rem 0.75rem;
+  border: 1px solid black;
+  background: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.linguist-btn.linguist-translate-btn {
+  border-bottom: none;
+  border-right: none;
+}
+
+.linguist-btn.linguist-audio-btn {
+  border-bottom: none;
+}
+
+.linguist-btn__active {
+  background: #000000;
+  color: #ffffff;
+}
+
+.linguist-card-cont span + span  {
+  padding-left: 5px;
+}
+
+.linguist-card-control {
+  padding-bottom: 1.5rem;
+}
+
+.linguist__margin-bottom {
+  margin-bottom: 0.75rem;
+}
+
+.linguist__margin-top {
+  margin-top: 0.75rem;
+}
+
+.linguist__padding-left{
+  padding-left: 0.75rem;
+}
+
+.linguist__opacity {
+  opacity: 0.5;
+}
+
+.linguist__wrong {
+  color: red;
+}
+
+.linguist__right {
+  color: green;
+}
+
+.linguist__text-color {
+  color: #808080;
+}
+
+.linguist-card-answer {
+  margin: 0 5px;
+}
+
+.linguist-card-answer-text {
+  color: green;
+  text-decoration: underline;
+}
+
+.linguist__display-none {
+  display: none;
+}
+
+@media(hover: hover){
+  .linguist-btn:hover {
+    background: #000000;
+    color: #45b6fe;
+  }
+}
