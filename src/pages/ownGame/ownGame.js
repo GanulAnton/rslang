@@ -1,7 +1,9 @@
 import './ownGame.css'
 
 export const WordBubbles = () => {
-  let userChoice = null
+  let state = {
+    level: 0
+  }
 
   const onInit = (anchor) => {
     const container = anchor.append(render())
@@ -10,16 +12,11 @@ export const WordBubbles = () => {
   }
 
   const addEventListeners = () => {
-    userChoice.addEventListener('submit', (e) => {
-      e.preventDefault()
-
-      if (e.submitter.classList.contains('own-game-how-to-play')) {
-        helpMe()
-      }
-
-      if (e.submitter.classList.contains('own-game-go-to-play')) {
-        mainGame()
-      }
+    document.querySelector('.own-game-how-to-play').addEventListener('click', function() {
+      helpMe()
+    })
+    document.querySelector('.own-game-go-to-play').addEventListener('click', function() {
+      mainGame()
     })
   }
 
@@ -53,13 +50,16 @@ export const WordBubbles = () => {
 
   const mainGame = () => {
     let scorePoints = 0
-    let arr = []
+    let allEnteredWords = []
     let res = []
-    function appendTimeoutWhole() {
+    state = {
+      level: document.querySelector('.own-game-hardness').value - 1
+    }
+
+    function appendTimeout() {
       const bodyTimer = document.querySelector('#own-game-timer')
       const output = document.createElement('span')
-      const tikingDown = document.querySelector('#owngame-audio-tiking-down')
-      const gameEndingAudio = document.querySelector('#owngame-audio-game-ending')
+      const tickingDown = document.querySelector('#owngame-audio-tiking-down')
       output.id = 'own-game-output'
       const slider = document.createElement('div')
       slider.id = 'own-game-slider'
@@ -69,13 +69,12 @@ export const WordBubbles = () => {
       let time = 60,
         fps = 60
 
-      let Timer = function (obj) {
+      let Timer = function(obj) {
         this.time = obj.time
         this.fps = obj.fps
         this.onEnd = obj.onEnd || null
         this.onStart = obj.onStart || null
         this.onTick = obj.onTick || null
-        this.intervalID = null
 
         this.start = () => {
           this.interval = setInterval(this.update, 1000 / this.fps)
@@ -95,13 +94,10 @@ export const WordBubbles = () => {
           switch (par) {
             case undefined:
               return this.time
-              break
             case 'dig':
               return Math.ceil(this.time)
-              break
             case 'end':
               return this.onEnd()
-              break
           }
         }
       }
@@ -115,11 +111,11 @@ export const WordBubbles = () => {
       })
 
       function onTimerStart() {
-        tikingDown.play()
+        tickingDown.play()
       }
 
       function endTimer() {
-        gameEndingResults()
+        gameResults()
       }
 
       timer1.start()
@@ -135,70 +131,70 @@ export const WordBubbles = () => {
       }
     }
 
+
     function mainGame() {
-      const firstLetters = [
-        're', 'po', 'fa', 'bo', 'st', 'mo', 'su', 'of', 'as', 'co', 'di', 'in', 'al', 'an', 'au', 'ba', 'bu',
-        'un', 'ma', 'no', 'ob', 'po', 'qu', 'ra', 'ri', 'sa', 'sc', 'su', 'ta', 'ca', 'cl', 'co', 'cr', 'de',
-        'dr', 'fo', 'gr', 'ha', 'he', 'il', 'mi', 'li', 'wi', 'mi', 'pr', 'ch', 'li', 'fr', 'tr', 'un', 'ea'
-      ]
       const firstLettersInRender = document.querySelector('.own-game-first-letters')
+      const getWords = async () => {
+        const url = `https://afternoon-falls-25894.herokuapp.com/words?page=${Math.floor(Math.random() * 29)}&group=${state.level}`
+        const res = await fetch(url)
+        const json = await res.json()
+        firstLettersInRender.innerText = `${json[1].word.substring(0,2)}`
+        state = {
+          firstLetters: `${json[1].word.substring(0, 2)}`
+        }
+      }
       const gameScore = document.querySelector('#own-game-score-wrapper')
       const addGameScore = document.querySelector('#own-game-score')
       const gameScorePoints = document.createElement('p')
-      let firstLettersGlobal = `${firstLetters[Math.floor(Math.random() * 51)]}`
+
 
       gameScorePoints.classList.add('own-game-score-points')
-      firstLettersInRender.innerText = firstLettersGlobal
-      
 
       form.addEventListener('submit', (e) => {
         e.preventDefault()
 
         if (e.submitter.classList.contains('own-game-game-enter')) {
-          let checkMeWord = firstLettersGlobal + input.value
-          let userWord = checkMeWord.replace(/ +/g, '').trim().toLowerCase();
+          let checkMeWord = state.firstLetters + input.value
+          let userWord = checkMeWord.replace(/ +/g, '').trim().toLowerCase()
 
           function checkIsCorrect() {
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function () {
-              if (this.readyState == 4) {
-                if (xhr.status == 200) {
+            const xhr = new XMLHttpRequest()
+            xhr.onreadystatechange = function() {
+              if (this.readyState === 4) {
+                if (xhr.status === 200) {
                   let data = JSON.parse(xhr.responseText)
                   if (data.length) {
                     wordIsNotCorrect()
                   } else {
-                    arr.push(userWord)
+                    allEnteredWords.push(userWord)
                     wordIsCorrect()
                   }
                 } else {
-                  console.log(xhr.status);
+                  console.log(xhr.status)
                 }
               }
             }
-            xhr.open("GET", "http://speller.yandex.net/services/spellservice.json/checkText?options=7&text=" + userWord);
-            xhr.send();
+            xhr.open('GET', 'http://speller.yandex.net/services/spellservice.json/checkText?options=7&text=' + userWord)
+            xhr.send()
           }
-          
+
 
           function wordIsCorrect() {
-            for (let i = 0; i < arr.length; i++) {
-              if (!res.includes(arr[i])) {
-                res.push(arr[i])
+            for (let i = 0; i < allEnteredWords.length; i++) {
+              if (!res.includes(allEnteredWords[i])) {
+                res.push(allEnteredWords[i])
                 audioRightAnswer.play()
-                gameInput.value=''
-                if (arr[i].length <= 4) {
+                gameInput.value = ''
+                if (allEnteredWords[i].length <= 4) {
                   scorePoints += 20
                   infoScorePoints(20)
-                }
-                else if (arr[i].length == 5 || arr[i].length == 6) {
+                } else if (allEnteredWords[i].length === 5 || allEnteredWords[i].length === 6) {
                   scorePoints += 40
                   infoScorePoints(40)
-                }
-                else if (arr[i].length == 7 || arr[i].length == 8) {
+                } else if (allEnteredWords[i].length === 7 || allEnteredWords[i].length === 8) {
                   scorePoints += 60
                   infoScorePoints(60)
-                }
-                else if (arr[i].length == 9 || arr[i].length == 10) {
+                } else if (allEnteredWords[i].length === 9 || allEnteredWords[i].length === 10) {
                   scorePoints += 80
                   infoScorePoints(80)
                 } else {
@@ -218,12 +214,18 @@ export const WordBubbles = () => {
             gameScorePoints.innerText = `+${number}`
             addGameScore.append(gameScorePoints)
           }
+
           checkIsCorrect()
+        }
+      })
+      getWords().then(() => {
+        if (state.error) {
+          console.log("Произошла ошибка, связанная с Backend'ом.")
         }
       })
     }
 
-    function gameEndingResults() {
+    function gameResults() {
       document.querySelector('#app').innerHTML = `
       <div class="own-game-ending-container">
         <div class="own-game-modal-window-ending">
@@ -237,6 +239,7 @@ export const WordBubbles = () => {
         </div>
       </div>
       `
+
       const resultIs = document.querySelector('#own-game__result-is')
       const bodyTimer = document.querySelector('.own-game-modal-window-ending')
       const gameEndingAudio = document.querySelector('#owngame-audio-game-ending')
@@ -247,7 +250,7 @@ export const WordBubbles = () => {
 
       output.id = 'own-game-output'
       slider.id = 'own-game-slider'
-      
+
       bodyTimer.append(output)
       bodyTimer.append(slider)
       gameEndingAudio.play()
@@ -300,11 +303,11 @@ export const WordBubbles = () => {
     container.style.height = '100vh'
 
     mainGame()
-    appendTimeoutWhole()
+    appendTimeout()
 
-    input.addEventListener('keyup', function () {
-      this.value = this.value.replace(/[^A-Za-z]/g, '');
-    });
+    input.addEventListener('keyup', function() {
+      this.value = this.value.replace(/[^A-Za-z]/g, '')
+    })
   }
 
   const render = () => {
@@ -317,6 +320,9 @@ export const WordBubbles = () => {
     const centeredBlock = document.createElement('div')
     const nameGame = document.createElement('h1')
     const description = document.createElement('p')
+    const levelOfHardness = document.createElement('section')
+    const labelForLevel = document.createElement('label')
+    const selectForLevel = document.createElement('select')
 
     container.classList.add('own-game-main-container')
     centeredBlock.classList.add('own-game-centered-block')
@@ -334,6 +340,19 @@ export const WordBubbles = () => {
     nameGame.innerText = 'Word Bubbles'
     description.classList.add('own-game-description')
     description.innerText = 'The ability to rapidly retrieve words from your mental vocabulary.'
+    levelOfHardness.classList.add('own-game-level-hard')
+    labelForLevel.setAttribute('for', 'own-game-hardness')
+    labelForLevel.innerText = 'Select the difficulty level: '
+    labelForLevel.classList.add('own-game-label-hardness')
+    selectForLevel.classList.add('own-game-hardness')
+    selectForLevel.innerHTML = `
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    `
 
     container.append(wrapper)
     wrapper.append(centeredBlock)
@@ -343,8 +362,9 @@ export const WordBubbles = () => {
     form.append(controlPanel)
     controlPanel.append(btnHowToPlay)
     controlPanel.append(btnGoToPlay)
-
-    userChoice = form
+    wrapper.append(levelOfHardness)
+    levelOfHardness.append(labelForLevel)
+    levelOfHardness.append(selectForLevel)
     return container
   }
   return {
