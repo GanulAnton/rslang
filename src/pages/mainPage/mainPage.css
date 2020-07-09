@@ -23,6 +23,64 @@ body {
   text-align: center;
   vertical-align: middle;
   padding-top: 200px; */
+ 
+  .main-page-linguist-container {
+    padding: 50px;
+    display: flex;
+    background-color: rgba(250, 250, 240, 0.8);
+  } 
+
+  .linguist-stats, .linguist-control {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .linguist-stats {
+    flex-direction: column;
+  }
+
+  .info {
+    width: 80%;
+    display: flex;
+    justify-content: space-evenly;
+  }
+  
+  .cards{
+    padding: 5rem;
+    border: 1px solid #12394f;
+    border-radius: 5px;
+  }
+  
+  .stat {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .about {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  footer .container {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 9rem;
+    font-size: 1rem;
+    background-color: #9eaec5;
+    color: #ffffff;
+  }
+  
+  button:hover {
+    color: #12394f;
+  }
+  
+  header li:hover {
+    color: #12394f; 
+  }
 
 
 .main-page__h1 {
@@ -118,6 +176,15 @@ body {
   top: 104px;
   font-size: 35px;
   color: rgba(46, 46, 46, 0.4)
+}
+
+.main-page-btn {
+  margin-top: 1rem;
+  padding: 0.5rem 2rem;
+  background: #ffffff;
+  border-color: 1px solid #d4dbd4;
+  outline: none;
+  cursor: pointer;
 }
 
 #card-additions-1 {
@@ -433,6 +500,7 @@ footer {
 
 #footer__h1 {
   background: linear-gradient(#0eb6ff, #164dc1);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   color: #0B2349;

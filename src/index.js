@@ -22,5 +22,3 @@ app.start();
 
 console.log(obj);
 // console.log('image', image);
-
-
