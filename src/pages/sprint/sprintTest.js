@@ -41,7 +41,6 @@ export default function Sprint() {
       getRandomInt(30);
     }
     const uniq = Array.from(new Set(randArr));
-    const uniq2 = Array.from(new Set(randArr));
     for (let i = 0; i < uniq.length; i++) {
       uniq[i] = fetch(`https://afternoon-falls-25894.herokuapp.com/words?page=${uniq[i]}&group=${state.level}`).then((res) => res.json());
     }
@@ -57,6 +56,23 @@ export default function Sprint() {
         });
 
   }
+
+  /* function getOwnWords(){
+    const param = {amount: userSettings.optional.linguist.wordsPerDay, filter: {"userWord": null}}
+        const getWords = async () => {
+          const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(param.filter)}&wordsPerPage=${param.amount}`, {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${user.token}`,
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+            },
+          });
+
+          const content = await rawResponse.json();
+          console.log(content)
+        }
+  } */
 
   function shuffleItems() {
     const mix = state.items.slice();
@@ -268,6 +284,7 @@ export default function Sprint() {
       incorAnswers: [],
       helpOn: false,
     };
+    /* getOwnWords(); */
     const container = document.querySelector('.box');
     container.innerHTML = `
       <div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
@@ -430,5 +447,5 @@ export default function Sprint() {
 
   return {
     onInit,
-  };
-};
+  }
+}

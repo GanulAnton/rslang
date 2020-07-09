@@ -1,18 +1,12 @@
-import obj from './main'
 
-// import './styles.css'
-// import image from  './assets/image.jpg'
+/* import './styles.css' */
 
-import  Login from './pages/login/login';
+import Sprint from "./pages/sprint/sprintTest"
 
-// const login =  Login();
-
-import  Settings  from "./pages/settings/settings"
-
-const settings = Settings()
-const app = document.querySelector("#app")
-settings.onInit(app)
+const sprint = Sprint();
+const app = document.querySelector("#app");
+sprint.onInit(app)
 // login.onInit(app);
 
-console.log(obj);
-// console.log('image', image);
+
+
