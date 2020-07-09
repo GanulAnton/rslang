@@ -61,6 +61,5 @@ export function playAudio(wordAuido) {
 export function createImage(wordImage) {
     const image = new Image(100, 100);
     image.src = wordImage;
-    console.log(wordImage, image.src, '9108250918205819025');
     return image.src;
 }

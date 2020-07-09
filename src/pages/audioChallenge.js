@@ -100,12 +100,9 @@ export function createPages() {
         const LevelOfDifficulty = DIFFICULTY_LEVEL_SELECT.options[DIFFICULTY_LEVEL_SELECT.selectedIndex].text;
         const NumberOfRound = ROUND_NUMBER_SELECT.options[ROUND_NUMBER_SELECT.selectedIndex].text;
         WordsArray = await setWords(LevelOfDifficulty, NumberOfRound);
-        console.log(WordsArray, '4444444444444444444444444444');
         const fiveWordsForPage = createArrayForApp(WordsArray);
         const russianWordsNode = document.querySelectorAll('.audio_russian_word_to_choose');
         const russianWordsArray = Array.from(russianWordsNode);
-        // eslint-disable-next-line no-console
-        console.log(russianWordsArray);
         fillRussianWords(russianWordsArray, fiveWordsForPage);
         const audioOfWord = `${URL_TO_BACK}${WordsArray[0].audio}`;
         playAudio(audioOfWord);
