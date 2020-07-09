@@ -58,6 +58,13 @@ export default function Settings(cb) {
     return false;
   };
 
+  const goToMainPage = () => {
+    const mainContainer = callbacks.getMainContainerCallback();
+    mainContainer.innerHTML = '';
+
+    pages.mainPage.onInit(mainContainer);
+  };
+
   const addEventListeners = () => {
     const inputWordsPerDay = containerRef.querySelector('#settingsInputWordsperday');
     const inputNewWords = containerRef.querySelector('#settingsInputNewWords');
@@ -119,20 +126,13 @@ export default function Settings(cb) {
       if (e.submitter.classList.contains('settings-save')) {
         console.log(callbacks);
         callbacks.setSettingsCallback({ ...settings.optional, linguist: newSettings });
-
-        const mainContainer = callbacks.getMainContainerCallback();
-        mainContainer.innerHTML = "";
-
-        pages.mainPage.onInit(mainContainer)
+        goToMainPage();
         console.log(newSettings, 'Новые настройки');
       }
 
       if (e.submitter.classList.contains('settings-cancel')) {
         console.log(settings, 'Старые настройки');
-        const mainContainer = callbacks.getMainContainerCallback();
-        mainContainer.innerHTML = "";
-
-        pages.mainPage.onInit(mainContainer)
+        goToMainPage();
       }
     });
   };

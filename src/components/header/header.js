@@ -1,8 +1,11 @@
 import './header.css';
 
+import { removeFromLocalStorage } from '../../accessories/accessories';
+
 export default function Header(container, cb) {
   const mainContainer = container;
   const callbacks = cb;
+  let headerRef = null;
   let pages = null;
 
   const goToPage = (marker, element) => {
@@ -19,16 +22,27 @@ export default function Header(container, cb) {
         pages.settingsPage.onInit(mainContainer);
       }
 
-      document.querySelector('.header-nav').classList.remove('header-navActive');
+      if (element.dataset.name === 'logOut') {
+        removeFromLocalStorage('user');
+
+        const appContainer = callbacks.getAppContainerCallback();
+
+        appContainer.innerHTML = '';
+        pages.loginPage.onInit(appContainer);
+      }
+
+      if (headerRef.querySelector('.header-nav')) {
+        headerRef.querySelector('.header-nav').classList.remove('header-navActive');
+      }
     }
   };
 
   const addEventListeners = () => {
-    document.querySelector('.header-main-nav-btn').addEventListener('click', () => {
-      document.querySelector('.header-nav').classList.toggle('header-navActive');
+    headerRef.querySelector('.header-main-nav-btn').addEventListener('click', () => {
+      headerRef.querySelector('.header-nav').classList.toggle('header-navActive');
     });
 
-    document.querySelector('header .header-nav').addEventListener('click', (e) => {
+    headerRef.querySelector('header .header-nav').addEventListener('click', (e) => {
       goToPage('header-link', e.target);
     });
   };
@@ -60,6 +74,8 @@ export default function Header(container, cb) {
       </div>
     </div>
     `;
+
+    headerRef = header;
 
     return header;
   };

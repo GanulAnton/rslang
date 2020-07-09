@@ -9,3 +9,9 @@ export const getFromLocalStorage = (keyName) => {
   }
   return null;
 };
+
+export const removeFromLocalStorage = (keyName) => {
+  if (localStorage.getItem(keyName)) {
+    localStorage.removeItem(keyName);
+  }
+};

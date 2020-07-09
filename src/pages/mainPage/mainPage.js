@@ -1,5 +1,7 @@
 import './mainPage.css';
 
+import defaultUrl from '../../accessories/defaultUrl';
+
 export default function MainPage(cb) {
   const callbacks = cb;
 
@@ -7,6 +9,8 @@ export default function MainPage(cb) {
   let user = null;
   let pages = null;
   let mainContainer = null;
+  let containerRef = null;
+  let appContainerRef = null;
   let words = [];
 
   const startLinguist = (userWords) => {
@@ -15,7 +19,7 @@ export default function MainPage(cb) {
   };
 
   const getWords = async (param) => {
-    const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(param.filter)}&wordsPerPage=${param.amount}`, {
+    const rawResponse = await fetch(`${defaultUrl}/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(param.filter)}&wordsPerPage=${param.amount}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -32,7 +36,7 @@ export default function MainPage(cb) {
 
   const getMixedWords = (param) => {
     let diff = 0;
-    fetch(`https://afternoon-falls-25894.herokuapp.com/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(param.filter)}&wordsPerPage=${param.amount - param.newWords}`, {
+    fetch(`${defaultUrl}/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(param.filter)}&wordsPerPage=${param.amount - param.newWords}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -55,7 +59,7 @@ export default function MainPage(cb) {
           ],
         };
         console.log(data);
-        return fetch(`https://afternoon-falls-25894.herokuapp.com/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(filterNew)}&wordsPerPage=${+param.newWords + +diff}`, {
+        return fetch(`${defaultUrl}/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(filterNew)}&wordsPerPage=${+param.newWords + +diff}`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -104,16 +108,16 @@ export default function MainPage(cb) {
         mainContainer.innerHTML = '';
       }
 
-      document.querySelector('.header-nav').classList.remove('header-navActive');
+      appContainerRef.querySelector('.header-nav').classList.remove('header-navActive');
     }
   };
 
   const addEventListeners = () => {
-    document.querySelector('.main-page__mini-games').addEventListener('click', (e) => {
+    containerRef.querySelector('.main-page__mini-games').addEventListener('click', (e) => {
       goToPage('main-page-btn', e.target);
     });
 
-    document.querySelector('.linguist-start-game').addEventListener('click', (e) => {
+    containerRef.querySelector('.linguist-start-game').addEventListener('click', (e) => {
       goToPage('main-page-btn', e.target);
     });
   };
@@ -309,6 +313,8 @@ export default function MainPage(cb) {
       </footer>
     `;
 
+    containerRef = container;
+
     return container;
   };
 
@@ -317,6 +323,7 @@ export default function MainPage(cb) {
     settings = callbacks.getSettingsCallback();
     pages = callbacks.getPagesCallback();
     mainContainer = anchor;
+    appContainerRef = callbacks.getAppContainerCallback();
 
     const container = render();
 

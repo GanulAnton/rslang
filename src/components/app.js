@@ -10,11 +10,11 @@ import { getFromLocalStorage, setToLocalStorage } from '../accessories/accessori
 
 export default function App() {
   const mainContainer = document.createElement('div');
+  const appRef = document.querySelector('#app');
 
   let cb = {};
   let pages = {};
   let settings = null;
-  let loginRef = null;
   let user = { userId: null, token: null };
 
   const setWord = (word) => fetch(`${defaultUrl}/users/${user.userId}/words/${word.id}`, {
@@ -73,6 +73,8 @@ export default function App() {
 
   const getMainContainerCallback = () => mainContainer;
 
+  const getAppContainerCallback = () => appRef;
+
   const setSettingsCallback = (options) => {
     setSettings(options);
     settings.optional = options;
@@ -91,7 +93,7 @@ export default function App() {
   };
 
   const getLoginDataCallback = async () => {
-    const loginData = loginRef.getData();
+    const loginData = pages.loginPage.getData();
     user.userId = loginData.data.userId;
     user.token = loginData.data.token;
     console.log(user);
@@ -119,6 +121,7 @@ export default function App() {
       getPagesCallback,
       getMainContainerCallback,
       getLoginDataCallback,
+      getAppContainerCallback,
     };
 
     return cb;
@@ -128,7 +131,10 @@ export default function App() {
     const mainPage = MainPage(cb);
     const linguistPage = Linguist(cb);
     const settingsPage = Settings(cb);
-    pages = { mainPage, linguistPage, settingsPage };
+    const loginPage = Login(getLoginDataCallback);
+    pages = {
+      mainPage, linguistPage, settingsPage, loginPage,
+    };
   };
 
   const startMainPage = (userSettings) => {
@@ -161,10 +167,7 @@ export default function App() {
     });
 
     if (rawResponse.status === 401) {
-      const login = Login(getLoginDataCallback);
-      loginRef = login;
-      const app = document.querySelector('#app');
-      login.onInit(app);
+      pages.loginPage.onInit(appRef);
     } else if (rawResponse.status === 404) {
       setSettings(defaultSettings);
     } else {
@@ -181,6 +184,7 @@ export default function App() {
 
     setCallbacks();
     setPages();
+
     haveToLogin();
   };
 
