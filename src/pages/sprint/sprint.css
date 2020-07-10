@@ -8,7 +8,7 @@
     padding: 0;
 }
 
-.box {
+.box_sprintGame {
     display: block;
     min-height: 100vh;
     /* background: linear-gradient(135deg, rgba(85,239,203,1) 0%,rgba(30,87,153,1) 0%,rgba(85,239,203,1) 0%,rgba(91,202,255,1) 100%); */
@@ -108,6 +108,7 @@
     position: absolute;
     height: 300px;
     max-width: 380px;
+    width: 100%;
     min-width: 300px;
     top: 50%;
     left: 50%;
@@ -125,6 +126,7 @@
     font-weight: 100;
     height: 300px;
     max-width: 380px;
+    width: 100%;
     min-width: 200px;
     background: #2ecc71;
     border-radius: 6px;
@@ -138,6 +140,7 @@
   font-weight: 100;
   height: 300px;
   max-width: 380px;
+  width: 100%;
   min-width: 300px;
   background: tomato;
   border-radius: 6px;

@@ -48,7 +48,7 @@ export default function Sprint() {
       .then((result) => {
           state.items = [...result];
           return delay(500).then(() => {
-            document.querySelector('.box').innerHTML = '';
+            document.querySelector('.box_sprintGame').innerHTML = '';
           });
         },
         (error) => {
@@ -285,7 +285,7 @@ export default function Sprint() {
       helpOn: false,
     };
     /* getOwnWords(); */
-    const container = document.querySelector('.box');
+    const container = document.querySelector('.box_sprintGame');
     container.innerHTML = `
       <div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
     `;
@@ -392,7 +392,7 @@ export default function Sprint() {
   }
 
   function startRender() {
-    const container = document.querySelector('.box');
+    const container = document.querySelector('.box_sprintGame');
     container.innerHTML = `
                                               <h2 class='prev_score-sprint'>Предыдущий результат: ${state.prevScore}</h2>
                                               <div class="start-btn-sprint">
@@ -421,7 +421,7 @@ export default function Sprint() {
   const render = () => {
 
     const container = document.createElement('div');
-    container.classList.add('box');
+    container.classList.add('box_sprintGame');
     container.innerHTML = `
                             <div class="start-btn-sprint">
                               <svg>
