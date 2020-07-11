@@ -1,6 +1,7 @@
 import './wordBubbles.css'
 
 export const WordBubbles = () => {
+  let containerWrdBbbls = null
   let state = {
     level: 0
   }
@@ -12,16 +13,16 @@ export const WordBubbles = () => {
   }
 
   const addEventListeners = () => {
-    document.querySelector('.own-game-how-to-play').addEventListener('click', function() {
+    containerWrdBbbls.querySelector('.own-game-how-to-play').addEventListener('click', function() {
       helpMe()
     })
-    document.querySelector('.own-game-go-to-play').addEventListener('click', function() {
+    containerWrdBbbls.querySelector('.own-game-go-to-play').addEventListener('click', function() {
       mainGame()
     })
   }
 
   const helpMe = () => {
-    document.querySelector('#app').innerHTML = `
+    containerWrdBbbls.innerHTML = `
       <div class="own-game-main-container">
         <div class="own-game-modal-window">
           <form id="own-game-modal-window-header">
@@ -45,7 +46,7 @@ export const WordBubbles = () => {
         </div>
       </div>
       `
-    document.querySelector('.own-game-main-container').style.backgroundImage = 'url(\'../../assets/img/ownGame-startBackground-38.png\')'
+      containerWrdBbbls.querySelector('.own-game-main-container').style.backgroundImage = 'url(\'../../assets/img/wordbubbles/ownGame-startBackground-38.png\')'
   }
 
   const mainGame = () => {
@@ -53,13 +54,13 @@ export const WordBubbles = () => {
     let allEnteredWords = []
     let res = []
     state = {
-      level: document.querySelector('.own-game-hardness').value - 1
+      level: containerWrdBbbls.querySelector('.own-game-hardness').value - 1
     }
 
     function appendTimeout() {
-      const bodyTimer = document.querySelector('#own-game-timer')
+      const bodyTimer = containerWrdBbbls.querySelector('#own-game-timer')
       const output = document.createElement('span')
-      const tickingDown = document.querySelector('#owngame-audio-tiking-down')
+      const tickingDown = containerWrdBbbls.querySelector('#owngame-audio-tiking-down')
       output.id = 'own-game-output'
       const slider = document.createElement('div')
       slider.id = 'own-game-slider'
@@ -122,18 +123,14 @@ export const WordBubbles = () => {
       requestAnimationFrame(tick)
 
       function tick() {
-        id('own-game-output').innerHTML = timer1.get('dig')
-        id('own-game-slider').style.width = timer1.get() / time * 100 + '%'
-      }
-
-      function id(id) {
-        return document.getElementById(id)
+        output.innerHTML = timer1.get('dig')
+        slider.style.width = timer1.get() / time * 100 + '%'
       }
     }
 
 
     function mainGame() {
-      const firstLettersInRender = document.querySelector('.own-game-first-letters')
+      const firstLettersInRender = containerWrdBbbls.querySelector('.own-game-first-letters')
       const getWords = async () => {
         const url = `https://afternoon-falls-25894.herokuapp.com/words?page=${Math.floor(Math.random() * 29)}&group=${state.level}`
         const res = await fetch(url)
@@ -144,8 +141,8 @@ export const WordBubbles = () => {
           firstLetters: `${json[randomIndex].word.substring(0, 2)}`
         }
       }
-      const gameScore = document.querySelector('#own-game-score-wrapper')
-      const addGameScore = document.querySelector('#own-game-score')
+      const gameScore = containerWrdBbbls.querySelector('#own-game-score-wrapper')
+      const addGameScore = containerWrdBbbls.querySelector('#own-game-score')
       const gameScorePoints = document.createElement('p')
 
       gameScorePoints.classList.add('own-game-score-points')
@@ -220,31 +217,31 @@ export const WordBubbles = () => {
       })
       getWords().then(() => {
         if (state.error) {
-          console.log("Произошла ошибка, связанная с Backend'ом.")
+          console.log("Произошла ошибка, связанная с Backend'ом таска RS Lang.")
         }
       })
     }
 
     function gameResults() {
-      document.querySelector('#app').innerHTML = `
-      <div class="own-game-ending-container">
-        <div class="own-game-modal-window-ending">
-          <h1 id="own-game__result-h1">Results</h1>
-          <h2 id="own-game__result-is"></h2>
-          <section id="own-game__previous-results">
-            <h3 id="own-game__result-tryings"></h3>
-            <h3 id="own-game__result-maxscore"></h3>
-          </section>
-          <audio id="owngame-audio-game-ending" src="https://res.cloudinary.com/meta-modern/video/upload/v1593942147/kessidi-dzyn_mp3cut.net_1_1_a3bme0.mp3"></audio>
-        </div>
-      </div>
+      containerWrdBbbls.innerHTML = `
+          <div class="own-game-ending-container">
+            <div class="own-game-modal-window-ending">
+              <h1 id="own-game__result-h1">Results</h1>
+              <h2 id="own-game__result-is"></h2>
+              <section id="own-game__previous-results">
+                <h3 id="own-game__result-tryings"></h3>
+                <h3 id="own-game__result-maxscore"></h3>
+              </section>
+              <audio id="owngame-audio-game-ending" src="https://res.cloudinary.com/meta-modern/video/upload/v1593942147/kessidi-dzyn_mp3cut.net_1_1_a3bme0.mp3"></audio>
+            </div>
+          </div>
       `
 
-      const resultIs = document.querySelector('#own-game__result-is')
-      const bodyTimer = document.querySelector('.own-game-modal-window-ending')
-      const gameEndingAudio = document.querySelector('#owngame-audio-game-ending')
-      const amountOfTryings = document.querySelector('#own-game__result-tryings')
-      const maxScoreRender = document.querySelector('#own-game__result-maxscore')
+      const resultIs = containerWrdBbbls.querySelector('#own-game__result-is')
+      const bodyTimer = containerWrdBbbls.querySelector('.own-game-modal-window-ending')
+      const gameEndingAudio = containerWrdBbbls.querySelector('#owngame-audio-game-ending')
+      const amountOfTryings = containerWrdBbbls.querySelector('#own-game__result-tryings')
+      const maxScoreRender = containerWrdBbbls.querySelector('#own-game__result-maxscore')
       const output = document.createElement('span')
       const slider = document.createElement('div')
 
@@ -274,32 +271,32 @@ export const WordBubbles = () => {
       amountOfTryings.innerHTML = `Количество попыток: ${amountOfTrying}`
     }
 
-    document.querySelector('#app').innerHTML = `
-      <div class="own-game-main-container">
-        <div class="own-game-game-wrapper">
-          <div id="own-game-timer"></div>
-          <div id="own-game-score">
-            <h4 id="own-game-score-wrapper"></h4>
+    containerWrdBbbls.innerHTML = `
+        <div class="own-game-main-container">
+          <div class="own-game-game-wrapper">
+            <div id="own-game-timer"></div>
+            <div id="own-game-score">
+              <h4 id="own-game-score-wrapper"></h4>
+            </div>
+            <form class="own-game-input-place">
+              <h4 class="own-game-first-letters"></h4>
+              <input class="own-game-game-input" type="text" autofocus spellcheck="false">
+              <button class="own-game-game-enter">Enter</button>
+            </form>
+            <audio id="owngame-audio-tiking-down" src="https://res.cloudinary.com/meta-modern/video/upload/v1593935234/55_smy6vv.mp3"></audio>
+            <audio id="owngame-audio-right-answer" src="https://res.cloudinary.com/meta-modern/video/upload/v1593953407/rightAnswerBubble_du1wub.mp3"></audio>
+            <audio id="owngame-audio-wrong-answer" src="https://res.cloudinary.com/meta-modern/video/upload/v1593953406/wrongAnswerBubble_zmnjrn.mp3"></audio>
           </div>
-          <form class="own-game-input-place">
-            <h4 class="own-game-first-letters"></h4>
-            <input class="own-game-game-input" type="text" autofocus spellcheck="false">
-            <button class="own-game-game-enter">Enter</button>
-          </form>
-          <audio id="owngame-audio-tiking-down" src="https://res.cloudinary.com/meta-modern/video/upload/v1593935234/55_smy6vv.mp3"></audio>
-          <audio id="owngame-audio-right-answer" src="https://res.cloudinary.com/meta-modern/video/upload/v1593953407/rightAnswerBubble_du1wub.mp3"></audio>
-          <audio id="owngame-audio-wrong-answer" src="https://res.cloudinary.com/meta-modern/video/upload/v1593953406/wrongAnswerBubble_zmnjrn.mp3"></audio>
         </div>
-      </div>
     `
-    const container = document.querySelector('.own-game-main-container')
-    const input = document.querySelector('input')
-    const gameInput = document.querySelector('.own-game-game-input')
-    const form = document.querySelector('.own-game-input-place')
-    const audioRightAnswer = document.querySelector('#owngame-audio-right-answer')
-    const audioWrongAnswer = document.querySelector('#owngame-audio-wrong-answer')
+    const container = containerWrdBbbls.querySelector('.own-game-main-container')
+    const input = containerWrdBbbls.querySelector('input')
+    const gameInput = containerWrdBbbls.querySelector('.own-game-game-input')
+    const form = containerWrdBbbls.querySelector('.own-game-input-place')
+    const audioRightAnswer = containerWrdBbbls.querySelector('#owngame-audio-right-answer')
+    const audioWrongAnswer = containerWrdBbbls.querySelector('#owngame-audio-wrong-answer')
 
-    container.style.backgroundImage = 'url(\'../../assets/img/ownGame-gameBackground-3.png\')'
+    container.style.backgroundImage = 'url(\'../../assets/img/wordbubbles/ownGame-gameBackground-3.png\')'
     // container.style.height = '100vh'
 
     mainGame()
@@ -311,6 +308,7 @@ export const WordBubbles = () => {
   }
 
   const render = () => {
+    const mainWb = document.createElement('main')
     const container = document.createElement('div')
     const wrapper = document.createElement('div')
     const form = document.createElement('form')
@@ -354,6 +352,7 @@ export const WordBubbles = () => {
     <option value="6">6</option>
     `
 
+    mainWb.append(container)
     container.append(wrapper)
     wrapper.append(centeredBlock)
     centeredBlock.append(nameGame)
@@ -365,7 +364,10 @@ export const WordBubbles = () => {
     wrapper.append(levelOfHardness)
     levelOfHardness.append(labelForLevel)
     levelOfHardness.append(selectForLevel)
-    return container
+
+    containerWrdBbbls = mainWb
+
+    return mainWb
   }
   return {
     onInit
