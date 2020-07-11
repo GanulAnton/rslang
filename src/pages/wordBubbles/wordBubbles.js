@@ -1,6 +1,6 @@
-import './ownGame.css'
+import './wordBubbles.css'
 
-export const OwnGame = () => {
+export const WordBubbles = () => {
   let state = {
     level: 0
   }
