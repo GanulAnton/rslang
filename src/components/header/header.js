@@ -26,6 +26,15 @@ export default function Header(container, cb) {
         mainContainer.innerHTML = '';
         pages.vocabularyPage.onInit(mainContainer);
       }
+        if (element.dataset.name === 'aboutUs') {
+        mainContainer.innerHTML = '';
+        pages.aboutUsPage.onInit(mainContainer);
+      } 
+
+      if (element.dataset.name === 'sprint') {
+        mainContainer.innerHTML = '';
+        pages.sprintPage.onInit(mainContainer);
+      } 
 
       if (element.dataset.name === 'logOut') {
         removeFromLocalStorage('user');
@@ -71,6 +80,7 @@ export default function Header(container, cb) {
           </ul>
           <ul class="header-profile-nav">
             <li data-name="vocabulary" class="header-link">Vocabulary</li>
+            <li data-name="aboutUs" class="header-link">About Us</li>
             <li data-name="statistics" class="header-link">Statistics</li>
             <li data-name="settings" class="header-link">Settings</li>
             <li data-name="logOut" class="header-link">Log Out</li>

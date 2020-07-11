@@ -1,3 +1,17 @@
+
+* {
+    box-sizing: border-box;
+    transition-property: all;
+    transition-duration: .6s; 
+    transition-timing-function: ease;
+    margin: 0;
+    padding: 0;
+  }
+
+body {
+    font-family: 'Roboto', 'Arial', 'sans-serif';
+  }
+
 @font-face {
   font-family: "Roboto Regular";
   font-style: normal;
@@ -19,6 +33,3 @@
   src: url(assets/fonts/Roboto-Light.ttf) format('truetype');
 }
 
-body {
-  font-family: 'Roboto', 'Arial', 'sans-serif';
-}

@@ -4,8 +4,10 @@
 }
 
 .login-rgba-stylish-strong {
-  position: fixed;
-  justify-content: center;
+  height: 100vh;
+  font-family: 'Roboto', 'Arial', 'sans-serif';
+  z-index: 9;
+  background: url("https://mdbootstrap.com/img/Photos/Horizontal/Nature/full page/img%20(11).jpg") no-repeat center center;
 }
 
 .login-form {
@@ -65,6 +67,8 @@
 .login-btn:active,
 .login-btn:active:focus .login-btn.login-active {
     background-color: #fff;
+    outline: none;
+    border: none;
 }
 
 .login-btn-lg, .login-btn-group-lg > .login-btn {
@@ -114,27 +118,14 @@
   background: linear-gradient(40deg, #ff6ec4, #7873f5) !important
 }
 
-#app {
-  height: 100vh;
-  font-family: 'Roboto', 'Arial', 'sans-serif';
-  z-index: 9;
-  background: url("https://mdbootstrap.com/img/Photos/Horizontal/Nature/full page/img%20(11).jpg") no-repeat center center;
-  /* background-color: rgba(62,69,81,0.7); */
-  /* background: url("https://sun2-4.userapi.com/DF4qydMZeGjw0rrp0PwrOQo9z0686F9zaHh7IA/fxhUpd4HORc.jpg") no-repeat; */
-}
-
-/* background: transparent !important; */
-
 @media (max-width: 769px) {
   .login-form {
-    /* max-width: 540px; */
     margin: 100px 150px;
   }
 }
 
 @media (max-width: 576px) {
   .login-form {
-    /* max-width: 540px; */
     margin: 100px 35px;
   }
 }
@@ -142,7 +133,6 @@
 @media (max-width: 376px) {
   .login-form {
     width: 347px;
-    /* max-width: 540px; */
     margin: 100px 14px;
   }
   .fa-lock:before {
@@ -156,7 +146,6 @@
 @media (max-width: 340px) {
   .login-form {
     width: 300px;
-    /* max-width: 540px; */
     margin: 100px 12px;
   }
 }
