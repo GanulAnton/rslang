@@ -37,8 +37,8 @@ export default function Linguist(cb) {
     container.innerHTML = `
       <div class="linguist-main-cont">
         <div class="linguist-additional-control">
-          <button class="linguist-btn linguist-translate-btn linguist-btn__active">T</button> 
-          <button class="linguist-btn linguist-audio-btn">A</button> 
+          <button class="linguist-btn linguist-translate-btn linguist-btn__active">Перевод</button> 
+          <button class="linguist-btn linguist-audio-btn">Звук</button> 
         </div>   
         <div class="linguist-card-cont">
           <div class="linguist-card-image">
@@ -53,14 +53,14 @@ export default function Linguist(cb) {
           <div class="linguist-card-additional">
           </div>
           <div class="linguist-card-vocabulary linguist__margin-bottom linguist__display-none">
-            <button class="linguist-hardWord-btn linguist-btn">Add hard word</button>
-            <button class="linguist-deleteWord-btn linguist-btn">Delete word</button>
+            <button class="linguist-hardWord-btn linguist-btn">Добавить в Сложные</button>
+            <button class="linguist-deleteWord-btn linguist-btn">Добавить в Удаленные</button>
           </div>
           <div class="linguist-card-question">
           </div>
           <div class="linguist-card-control">
-            <button class="linguist-showAnswer-btn linguist-btn linguist__display-none">Show Answer</button>
-            <button class="linguist-next-btn linguist-btn">Next</button>
+            <button class="linguist-showAnswer-btn linguist-btn linguist__display-none">Показать Ответ</button>
+            <button class="linguist-next-btn linguist-btn">Следующее слово</button>
           </div>
          </div>
          <div class="linguist-additional-counter">
@@ -100,9 +100,11 @@ export default function Linguist(cb) {
   };
 
   const renderCard = () => {
-    counterRef.innerHTML = `<span>${currentIndex + 1} from ${settings.wordsPerDay}</span>`;
+    counterRef.innerHTML = `<span>${currentIndex + 1} с ${settings.wordsPerDay}</span>`;
 
+    nextBtnRef.innerText = "Проверить";
     nextBtnRef.classList.remove('linguist__display-none');
+
     setAnswer();
     questionRef.innerHTML = makeQuestion(data[currentIndex].textExample, '<b>');
     setInputFocus();
@@ -151,7 +153,7 @@ export default function Linguist(cb) {
 
   const changeCard = () => {
     // end
-    if (currentIndex !== 1) {
+    if (currentIndex !== settings.wordsPerDay -1) {
       isAnswered = false;
       currentIndex += 1;
       error = 0;
@@ -161,8 +163,6 @@ export default function Linguist(cb) {
 
       modal.showModal('На сегодня всё! Молодец!');
       modal.addCallBack(goToMainPage);
-
-      console.log('na segodnya vse');
     }
   };
 
@@ -263,7 +263,15 @@ export default function Linguist(cb) {
     }
 
     word.addEventListener('ended', () => {
-      example.play();
+      if(settings.hint.example) {
+        example.play();
+      }
+
+      if(settings.hint.example && settings.hint.meaning) return
+      
+      if(settings.hint.meaning) {
+        meaning.play();
+      }
     });
 
     example.addEventListener('ended', () => {
@@ -283,6 +291,9 @@ export default function Linguist(cb) {
     questionRef.querySelector('.linguist-answer-input-cont').classList.remove('linguist__opacity');
     questionRef.querySelector('.linguist-answer-input-cont').innerHTML = `<span class="linguist__right">${answer}</span>`;
     // show meaning with answer without translate
+
+    nextBtnRef.innerText = "Следующее слово";
+
     if (settings.hint.meaning) {
       meaningRef.innerHTML = `<span>${data[currentIndex].textMeaning}</span>`;
     }
@@ -311,7 +322,7 @@ export default function Linguist(cb) {
       if (needTranslate) {
         clearTranslation();
       }
-    }, 10000);
+    }, 8000);
   };
 
   const checkAnswer = () => {
@@ -343,13 +354,36 @@ export default function Linguist(cb) {
   };
 
   const keydownEnterHandler = (e) => {
-    console.log(e);
+
     if (e.key === 'Enter') {
       checkAnswer();
     }
   };
 
   const addEventListeners = () => {
+    hardWordBtnRef.addEventListener('click', () => {
+      console.log('hard')
+      const wordInfo = { id: data[currentIndex]._id, status: 'hard', isUpdated: false };
+      if (data[currentIndex].userWord) {
+        wordInfo.isUpdated = true;
+      }
+
+      words.push(wordInfo);
+      console.log(words)
+      changeCard();
+    })
+
+    deleteWordBtnRef.addEventListener('click', () => {
+      console.log('delete')
+      const wordInfo = { id: data[currentIndex]._id, status: 'delete', isUpdated: false };
+      if (data[currentIndex].userWord) {
+        wordInfo.isUpdated = true;
+      }
+      words.push(wordInfo);
+      console.log(words)
+      changeCard();
+    })
+
     nextBtnRef.addEventListener('click', () => {
       checkAnswer();
     });
@@ -375,6 +409,8 @@ export default function Linguist(cb) {
     document.onkeydown = null;
     currentIndex = 0;
     words = [];
+    needAudio = false;
+    needTranslate = true;
   };
 
   const onInit = (anchor, userWords) => {

@@ -11,6 +11,7 @@ export default function MainPage(cb) {
   let mainContainer = null;
   let containerRef = null;
   let appContainerRef = null;
+  let gameParameter = "default";
   let words = [];
 
   const startLinguist = (userWords) => {
@@ -33,6 +34,31 @@ export default function MainPage(cb) {
     words = [...content[0].paginatedResults, ...words];
     startLinguist(words);
   };
+
+  const getLearnedWords = async (param) => {
+    const rawResponse = await fetch(`${defaultUrl}/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(param.filter)}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const content = await rawResponse.json();
+    console.log(content, 'sm');
+    return [...content]
+  };
+
+  const makeLinguistStats = (arr) => {
+    console.log(arr[0].totalCount[0].count, 'smth')
+    containerRef.querySelector('.linguist-stats').innerHTML = `
+    <p>Статистика:</p>
+    <p>Карточек на каждый день: ${settings.optional.linguist.wordsPerDay}.</p>  
+    <p>Выученно слов: ${arr[0].totalCount[0].count} с 3600.</p>
+    <progress class="linguist-progress-bar" value="${arr[0].totalCount[0].count}" max="3600"></progress>
+    `
+  }
 
   const getMixedWords = (param) => {
     let diff = 0;
@@ -91,9 +117,24 @@ export default function MainPage(cb) {
     if (settings.optional.linguist.isNewUser) {
       getWords(param);
     } else {
-      param.filter = { 'userWord.optional.status': 'inProgress' };
+      if ( gameParameter === "new" ) {
+        param.filter = { 'userWord.optional.status': null };
 
-      getMixedWords(param);
+        getWords(param);
+      } else if ( gameParameter === "repeat" ) {
+        param.filter = { 'userWord.optional.status': 'inProgress' };
+
+        getWords(param);
+      } else if ( gameParameter === "hard" ) {
+        param.filter = { 'userWord.optional.status': 'hard' };
+
+        getWords(param);
+      } else {
+        param.filter = { 'userWord.optional.status': 'inProgress' };
+
+        getMixedWords(param);
+      }
+
     }
 
     return words;
@@ -113,6 +154,11 @@ export default function MainPage(cb) {
   };
 
   const addEventListeners = () => {
+    containerRef.querySelector('.linguist-select').addEventListener('change', (e) => {
+      gameParameter = e.target.value;
+      console.log(gameParameter)
+    })
+
     containerRef.querySelector('.main-page__mini-games').addEventListener('click', (e) => {
       goToPage('main-page-btn', e.target);
     });
@@ -135,11 +181,18 @@ export default function MainPage(cb) {
     <div class="main-page__father-div">
     <div class="main-page-linguist-container">
       <div class="linguist-stats">
-        <p>Статистика</p>
-        <p>Выучить сегодня: ${settings.optional.linguist.wordsPerDay};</p>  
-        <p>Выученно слов: 0 с 3600;</p>
+        <p>Статистика:</p>
+        <p>Карточек на каждый день: ${settings.optional.linguist.wordsPerDay}.</p>  
+        <p>Выученно слов: 0 с 3600.</p>
+        <progress class="progress-bar" value="52" max="3600"></progress>
       </div>
       <div class="linguist-control">
+        <select class="linguist-select">
+          <option value="default">Стандартный набор</option>
+          <option value="new">Только новые карточки</option>
+          <option value="repeat">Только карточки на повтор</option>
+          <option value="hard">Только сложные карточки</option>          
+        </select>
         <button data-name="linguist" class="main-page-btn linguist-start-game">Start Game</button>
       </div>
     </div>
@@ -154,7 +207,7 @@ export default function MainPage(cb) {
               <div class="card-up peach-gradient"></div>
               <!-- Avatar -->
               <div class="avatar mx-auto white">
-                <img src="https://sun2-4.userapi.com/berjmRBX9vV4PGGmvpliFg1eV8P2Z0_-EEd6Rg/x09oQtDLPNs.jpg" class="rounded-circle img-responsive" alt="woman avatar">
+                <img src="https://sun2-3.userapi.com/WDHOVt7dX0Ac_HA0uJdEGexRvQ4fh7B0oKM9ng/ou_Yh0moOtU.jpg" class="rounded-circle img-responsive" alt="woman avatar">
               </div> 
               <!-- Content -->
               <div class="card-body">
@@ -205,7 +258,7 @@ export default function MainPage(cb) {
                 <hr>
                 <!-- Quotation -->
                 <p>Тренируйте навык аудирования для наилучшего понимания речи</p>
-                <button data-name="audioChallenge"class="main-page-btn">Audio Challenge</button>
+                <button data-name="audioChallenge" class="main-page-btn">Audio Challenge</button>
               </div>
           </div>
         </li>
@@ -318,7 +371,7 @@ export default function MainPage(cb) {
     return container;
   };
 
-  const onInit = (anchor) => {
+  const onInit = async (anchor) => {
     user = callbacks.getUserCallback();
     settings = callbacks.getSettingsCallback();
     pages = callbacks.getPagesCallback();
@@ -328,6 +381,11 @@ export default function MainPage(cb) {
     const container = render();
 
     anchor.append(container);
+
+    const learnedWords = await getLearnedWords( { filter:{ "userWord.optional.status": "learned" }});
+
+    makeLinguistStats(learnedWords)
+
     addEventListeners();
     return container;
   };

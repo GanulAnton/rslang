@@ -1,6 +1,5 @@
 .settings-container{
   text-align: center;
-  width: 1200px;
   margin: 0 auto;
 }
 
@@ -16,6 +15,7 @@
   margin-left: 1rem;
   border: none;
   outline: none;
+  cursor: pointer;
 }
 
 .settings-translate{
@@ -23,6 +23,7 @@
   flex-direction: column;
   margin-top: 2rem;
 }
+
 .settings-additional {
   display: flex;
   flex-direction: column;
@@ -40,6 +41,11 @@
   margin-top: 2rem;
 }
 
+.settings-container input[type=checkbox] {
+  margin-left: 5px;
+  cursor: pointer;
+}
+
 .settings-btn {
   margin: 0rem 0.5rem;
   padding: 0.25rem 0.5rem;
@@ -48,4 +54,19 @@
   background-color: #ffffff;
   outline: none;
   cursor: pointer;
+}
+
+.settings-container h3 {
+  font-family: "Roboto Bold";
+}
+
+@media(hover: hover){
+  .settings-btn:hover {
+    background: #000000;
+    color: #45b6fe;
+  }
+  .settings-btn:disabled:hover {
+    background-color: #ffffff;
+    color: grey; 
+  }
 }

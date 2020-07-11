@@ -33,13 +33,18 @@ body {
   .linguist-stats, .linguist-control {
     width: 50%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
   }
 
-  .linguist-stats {
-    flex-direction: column;
+  .linguist-progress-bar {
+    margin-top: 1rem;
   }
+
+  /* .linguist-stats {
+    flex-direction: column;
+  } */
 
   .info {
     width: 80%;
@@ -813,5 +818,20 @@ h3:first-letter {
   .card-additions__h5 {
     font-size: 25px;
     top: 86px;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 768px) {
+  .main-page-linguist-container {
+    flex-direction: column;
+    padding: 25px;
+  }
+
+  .linguist-stats, .linguist-control {
+    width: 100%;
+  }
+
+  .linguist-control {
+    padding-top: 1rem;
   }
 }

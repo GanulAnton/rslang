@@ -15,7 +15,7 @@
 .modal-content {
   position: relative;
   width: 480px;
-  height: 180px;
+  min-height: 180px;
   padding: 24px;
   background-color: white;
 }
@@ -50,3 +50,10 @@
 	0% { opacity: 0; }
 	100% { opacity: 1; }
 }
+
+@media (min-width: 320px) and (max-width: 768px) {
+  .modal-content {
+    width: 280px;
+    word-wrap: break-word;
+  }  
+}  

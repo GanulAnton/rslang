@@ -3,6 +3,7 @@ import Login from '../pages/login/login';
 import MainPage from '../pages/mainPage/mainPage';
 import Settings from '../pages/settings/settings';
 import Linguist from '../pages/linguist/linguist';
+import Vocabulary from "../pages/vocabulary/vocabulary"
 
 import defaultUrl from '../accessories/defaultUrl';
 import defaultSettings from '../accessories/defaultSettings';
@@ -80,8 +81,12 @@ export default function App() {
     settings.optional = options;
   };
 
+  const setWordCallback = (word) => {
+    setWord(word)
+  }  
+
   const setWordsCallback = (words) => {
-    const wordsFetch = words.map((el) => setWord(el));
+    const wordsFetch = words.map((word) => setWord(word));
 
     Promise.all(wordsFetch).then((data) => console.log(data));
 
@@ -117,6 +122,7 @@ export default function App() {
       setStatistics,
       getSettingsCallback,
       setWordsCallback,
+      setWordCallback,
       getUserCallback,
       getPagesCallback,
       getMainContainerCallback,
@@ -132,8 +138,9 @@ export default function App() {
     const linguistPage = Linguist(cb);
     const settingsPage = Settings(cb);
     const loginPage = Login(getLoginDataCallback);
+    const vocabularyPage = Vocabulary(cb);
     pages = {
-      mainPage, linguistPage, settingsPage, loginPage,
+      mainPage, linguistPage, settingsPage, loginPage, vocabularyPage
     };
   };
 
