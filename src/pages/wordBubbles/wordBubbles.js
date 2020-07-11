@@ -1,7 +1,7 @@
 import './wordBubbles.css'
 
 export const WordBubbles = () => {
-  let containerWrdBbbls = null
+  let containerRef = null
   let state = {
     level: 0
   }
@@ -13,16 +13,16 @@ export const WordBubbles = () => {
   }
 
   const addEventListeners = () => {
-    containerWrdBbbls.querySelector('.own-game-how-to-play').addEventListener('click', function() {
+    containerRef.querySelector('.own-game-how-to-play').addEventListener('click', function() {
       helpMe()
     })
-    containerWrdBbbls.querySelector('.own-game-go-to-play').addEventListener('click', function() {
+    containerRef.querySelector('.own-game-go-to-play').addEventListener('click', function() {
       mainGame()
     })
   }
 
   const helpMe = () => {
-    containerWrdBbbls.innerHTML = `
+    containerRef.innerHTML = `
       <div class="own-game-main-container">
         <div class="own-game-modal-window">
           <form id="own-game-modal-window-header">
@@ -46,7 +46,7 @@ export const WordBubbles = () => {
         </div>
       </div>
       `
-      containerWrdBbbls.querySelector('.own-game-main-container').style.backgroundImage = 'url(\'../../assets/img/wordbubbles/ownGame-startBackground-38.png\')'
+      containerRef.querySelector('.own-game-main-container').style.backgroundImage = 'url(\'../../assets/img/wordbubbles/ownGame-startBackground-38.png\')'
   }
 
   const mainGame = () => {
@@ -54,13 +54,13 @@ export const WordBubbles = () => {
     let allEnteredWords = []
     let res = []
     state = {
-      level: containerWrdBbbls.querySelector('.own-game-hardness').value - 1
+      level: containerRef.querySelector('.own-game-hardness').value - 1
     }
 
     function appendTimeout() {
-      const bodyTimer = containerWrdBbbls.querySelector('#own-game-timer')
+      const bodyTimer = containerRef.querySelector('#own-game-timer')
       const output = document.createElement('span')
-      const tickingDown = containerWrdBbbls.querySelector('#owngame-audio-tiking-down')
+      const tickingDown = containerRef.querySelector('#owngame-audio-tiking-down')
       output.id = 'own-game-output'
       const slider = document.createElement('div')
       slider.id = 'own-game-slider'
@@ -130,7 +130,7 @@ export const WordBubbles = () => {
 
 
     function mainGame() {
-      const firstLettersInRender = containerWrdBbbls.querySelector('.own-game-first-letters')
+      const firstLettersInRender = containerRef.querySelector('.own-game-first-letters')
       const getWords = async () => {
         const url = `https://afternoon-falls-25894.herokuapp.com/words?page=${Math.floor(Math.random() * 29)}&group=${state.level}`
         const res = await fetch(url)
@@ -141,8 +141,8 @@ export const WordBubbles = () => {
           firstLetters: `${json[randomIndex].word.substring(0, 2)}`
         }
       }
-      const gameScore = containerWrdBbbls.querySelector('#own-game-score-wrapper')
-      const addGameScore = containerWrdBbbls.querySelector('#own-game-score')
+      const gameScore = containerRef.querySelector('#own-game-score-wrapper')
+      const addGameScore = containerRef.querySelector('#own-game-score')
       const gameScorePoints = document.createElement('p')
 
       gameScorePoints.classList.add('own-game-score-points')
@@ -223,7 +223,7 @@ export const WordBubbles = () => {
     }
 
     function gameResults() {
-      containerWrdBbbls.innerHTML = `
+      containerRef.innerHTML = `
           <div class="own-game-ending-container">
             <div class="own-game-modal-window-ending">
               <h1 id="own-game__result-h1">Results</h1>
@@ -237,11 +237,11 @@ export const WordBubbles = () => {
           </div>
       `
 
-      const resultIs = containerWrdBbbls.querySelector('#own-game__result-is')
-      const bodyTimer = containerWrdBbbls.querySelector('.own-game-modal-window-ending')
-      const gameEndingAudio = containerWrdBbbls.querySelector('#owngame-audio-game-ending')
-      const amountOfTryings = containerWrdBbbls.querySelector('#own-game__result-tryings')
-      const maxScoreRender = containerWrdBbbls.querySelector('#own-game__result-maxscore')
+      const resultIs = containerRef.querySelector('#own-game__result-is')
+      const bodyTimer = containerRef.querySelector('.own-game-modal-window-ending')
+      const gameEndingAudio = containerRef.querySelector('#owngame-audio-game-ending')
+      const amountOfTryings = containerRef.querySelector('#own-game__result-tryings')
+      const maxScoreRender = containerRef.querySelector('#own-game__result-maxscore')
       const output = document.createElement('span')
       const slider = document.createElement('div')
 
@@ -271,7 +271,7 @@ export const WordBubbles = () => {
       amountOfTryings.innerHTML = `Количество попыток: ${amountOfTrying}`
     }
 
-    containerWrdBbbls.innerHTML = `
+    containerRef.innerHTML = `
         <div class="own-game-main-container">
           <div class="own-game-game-wrapper">
             <div id="own-game-timer"></div>
@@ -289,12 +289,12 @@ export const WordBubbles = () => {
           </div>
         </div>
     `
-    const container = containerWrdBbbls.querySelector('.own-game-main-container')
-    const input = containerWrdBbbls.querySelector('input')
-    const gameInput = containerWrdBbbls.querySelector('.own-game-game-input')
-    const form = containerWrdBbbls.querySelector('.own-game-input-place')
-    const audioRightAnswer = containerWrdBbbls.querySelector('#owngame-audio-right-answer')
-    const audioWrongAnswer = containerWrdBbbls.querySelector('#owngame-audio-wrong-answer')
+    const container = containerRef.querySelector('.own-game-main-container')
+    const input = containerRef.querySelector('input')
+    const gameInput = containerRef.querySelector('.own-game-game-input')
+    const form = containerRef.querySelector('.own-game-input-place')
+    const audioRightAnswer = containerRef.querySelector('#owngame-audio-right-answer')
+    const audioWrongAnswer = containerRef.querySelector('#owngame-audio-wrong-answer')
 
     container.style.backgroundImage = 'url(\'../../assets/img/wordbubbles/ownGame-gameBackground-3.png\')'
     // container.style.height = '100vh'
@@ -365,7 +365,7 @@ export const WordBubbles = () => {
     levelOfHardness.append(labelForLevel)
     levelOfHardness.append(selectForLevel)
 
-    containerWrdBbbls = mainWb
+    containerRef = mainWb
 
     return mainWb
   }
