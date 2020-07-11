@@ -15,6 +15,7 @@ export default function aboutUs() {
     const container = document.createElement('div');
     container.classList.add('box-aboutUs');
     container.innerHTML = `
+                         <h2 class='aboutUs-title'>О Команде</h2>
                          <div class='slider-container-aboutUs'>
                             <div class='aboutUs-slide fade'>
                                 <div class='aboutUs-picture'>
