@@ -126,7 +126,7 @@ body {
     margin-bottom: 20px;
 }
 
-.innactive{
+.speakIt-innactive{
     user-select: none;
     pointer-events: none;
 }
@@ -176,7 +176,7 @@ body {
     outline-color: #009179;
 }
 
-.none {
+.speakIt-none {
     display: none;
 }
 
@@ -249,6 +249,7 @@ body {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 0 1px rgba(255,255,255,.1), 0 2px 4px 0 rgba(14,30,37,.12);
+    overflow-y: auto;
 }
 
 .speakIt-errors-num {
@@ -305,11 +306,11 @@ body {
     background: rgba(60, 70, 97, .1);
 }
 
-.game{
+.speakIt-game{
     box-shadow: blue;
 }
 
-.succes{
+.speakIt-game-succes{
     background-color: red;
 }
 
