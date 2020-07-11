@@ -61,7 +61,8 @@ export default function aboutUs() {
                             </div>
                             <a class="prev">&#10094</a>
                             <a class="next">&#10095</a>
-                         </div>   
+                         </div>
+                         <div class="wave"></div>   
                        `;
     return container;
   };
@@ -88,6 +89,9 @@ function showSlides(n) {
       document.querySelector('.prev').addEventListener('click',()=>{handleSlide(-1)});
       document.querySelector('.next').addEventListener('click',()=>{handleSlide(1)});
   }
+
+
+
 
   return {
     onInit,

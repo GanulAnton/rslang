@@ -1,12 +1,4 @@
 
-*{
-    box-sizing: border-box;
-    transition-property: all;
-    transition-duration: .6s; 
-    transition-timing-function: ease;
-    margin: 0;
-    padding: 0;
-}
 
 .box_sprintGame {
     display: block;
