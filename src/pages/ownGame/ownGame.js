@@ -1,6 +1,6 @@
 import './ownGame.css'
 
-export const WordBubbles = () => {
+export const OwnGame = () => {
   let state = {
     level: 0
   }
@@ -138,15 +138,15 @@ export const WordBubbles = () => {
         const url = `https://afternoon-falls-25894.herokuapp.com/words?page=${Math.floor(Math.random() * 29)}&group=${state.level}`
         const res = await fetch(url)
         const json = await res.json()
-        firstLettersInRender.innerText = `${json[1].word.substring(0,2)}`
+        let randomIndex = Math.floor(Math.random() * 19)
+        firstLettersInRender.innerText = `${json[randomIndex].word.substring(0,2)}`
         state = {
-          firstLetters: `${json[1].word.substring(0, 2)}`
+          firstLetters: `${json[randomIndex].word.substring(0, 2)}`
         }
       }
       const gameScore = document.querySelector('#own-game-score-wrapper')
       const addGameScore = document.querySelector('#own-game-score')
       const gameScorePoints = document.createElement('p')
-
 
       gameScorePoints.classList.add('own-game-score-points')
 
@@ -300,7 +300,7 @@ export const WordBubbles = () => {
     const audioWrongAnswer = document.querySelector('#owngame-audio-wrong-answer')
 
     container.style.backgroundImage = 'url(\'../../assets/img/ownGame-gameBackground-3.png\')'
-    container.style.height = '100vh'
+    // container.style.height = '100vh'
 
     mainGame()
     appendTimeout()
