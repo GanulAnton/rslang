@@ -1,4 +1,4 @@
-export const SpeakIt = () => {
+export default const SpeakIt = () => {
   let difficulty = 1;
   let round = 0;
   let wordsArray;
