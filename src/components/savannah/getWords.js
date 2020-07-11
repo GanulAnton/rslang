@@ -1,10 +1,27 @@
 import { shuffle } from './optionalFunction';
 
-export function getWords(group, page) {
+
+function getWords(group, page) {
     const url = `https://afternoon-falls-25894.herokuapp.com/words?group=${group}&page=${page}`;
     return fetch(url)
         .then((res) => res.json());
 }
+//{"userId":"5eee5422f49dab0017302a3f","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZWU1NDIyZjQ5ZGFiMDAxNzMwMmEzZiIsImlhdCI6MTU5NDQ5ODA4NiwiZXhwIjoxNTk0NTEyNDg2fQ.H3ycCXYWNwCDeAX0HuvD2ZyK7nnCCAgOf7A2xos_X3A"}
+
+// export async function getLearnedWords(user) {
+//     const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/5eee5422f49dab0017302a3f/aggregatedWords?filter={"$or":[{"userWord.difficulty":"good"},{"userWord":null}]}`, {
+//         method: 'GET',
+//         headers: {
+//             Authorization: `Bearer ${user.token}`,
+//             Accept: 'application/json',
+//             'Content-Type': 'application/json',
+//         },
+//     });
+
+//     const content = await rawResponse.json();
+//     console.log(content, 'sm');
+//     return [...content];
+// }
 
 export async function setWords(group, page) {
     try {

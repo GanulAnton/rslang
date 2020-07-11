@@ -1,3 +1,4 @@
-import { onInit } from '../components/savannah/onInit';
+import { Savannah } from '../components/savannah/onInit';
 
-onInit();
+const savannah = Savannah();
+savannah.onInit(document.querySelector('#app'));
