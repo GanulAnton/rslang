@@ -108,6 +108,11 @@ export default function MainPage(cb) {
         mainContainer.innerHTML = '';
       }
 
+      if (element.dataset.name === 'speakIt') {
+        mainContainer.innerHTML = '';
+        pages.speakIt.onInit(mainContainer);
+      }
+
       appContainerRef.querySelector('.header-nav').classList.remove('header-navActive');
     }
   };

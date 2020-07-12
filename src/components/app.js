@@ -5,6 +5,7 @@ import Settings from '../pages/settings/settings';
 import Linguist from '../pages/linguist/linguist';
 import Sprint from '../pages/sprint/sprintTest';
 import AboutUs from '../pages/aboutUs/aboutUs';
+import SpeakIt from '../pages/speakIt/renderSpeakIt';
 
 import defaultUrl from '../accessories/defaultUrl';
 import defaultSettings from '../accessories/defaultSettings';
@@ -136,8 +137,9 @@ export default function App() {
     const sprintPage = Sprint(cb);
     const aboutUsPage = AboutUs();
     const loginPage = Login(getLoginDataCallback);
+    const speakIt = SpeakIt(cb);
     pages = {
-      mainPage, linguistPage, settingsPage, loginPage, sprintPage, aboutUsPage,
+      mainPage, linguistPage, settingsPage, loginPage, sprintPage, aboutUsPage, speakIt
     };
   };
 

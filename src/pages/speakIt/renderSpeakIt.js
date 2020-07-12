@@ -1,4 +1,6 @@
-export const SpeakIt = () => {
+import './stylesSpeakIt.css';
+
+export default function SpeakIt(cb) {
   let difficulty = 1;
   let round = 0;
   let wordsArray;
@@ -20,11 +22,12 @@ export const SpeakIt = () => {
   message.lang = 'en-EN';
   message.volume = 0.5;
 
-  const onInit = (anchor) => {
-    const container = anchor.append(renderSpeakIt());
-    addEventListeners();
-    return container;
-  };
+  function createElement(tag, parentElement, className) {
+    const newElement = document.createElement(tag);
+    if (className) newElement.classList.add(className);
+    parentElement.appendChild(newElement);
+    return newElement;
+  }
 
   const renderSpeakIt = () => {
     const container = document.createElement('div');
@@ -49,7 +52,6 @@ export const SpeakIt = () => {
     const speakItItems = document.createElement('div');
     const item = document.createElement('div');
     const icon = document.createElement('span');
-    const iconImg = document.createElement('img');
     const speakItWord = document.createElement('p');
     const speakItTranscription = document.createElement('p');
     const speakItTranslation = document.createElement('p');
@@ -149,7 +151,7 @@ export const SpeakIt = () => {
       const item = createElement('div', speakItItems, 'speakIt-item');
       const icon = createElement('span', item, 'speakIt-audio-icon');
       const iconImg = createElement('img', icon, '');
-      iconImg.src = '../assets/img/speakItSound.jpg';
+      iconImg.src = '../assets/img/speakItSound.png';
       const speakItWord = createElement('p', item, 'speakIt-word');
       const speakItTranscription = createElement('p', item, 'speakIt-transcription');
       const speakItTranslation = createElement('p', item, 'speakIt-translation');
@@ -184,7 +186,7 @@ export const SpeakIt = () => {
     const item = createElement('div', speakItSuccesContainer, 'speakIt-succes-item');
     const icon = createElement('span', item, 'speakIt-audio-icon');
     const iconImg = createElement('img', icon, '');
-    iconImg.src = '../assets/img/speakItSound.jpg';
+    iconImg.src = '../assets/img/speakItSound.png';
     const speakItWord = createElement('p', item, 'speakIt-succes-word');
     const speakItTranscription = createElement('p', item, 'speakIt-succes-transcription');
     const speakItTranslation = createElement('p', item, 'speakIt-succes-translation');
@@ -194,18 +196,11 @@ export const SpeakIt = () => {
     const item = createElement('div', speakItFailContainer, 'speakIt-fail-item');
     const icon = createElement('span', item, 'speakIt-audio-icon');
     const iconImg = createElement('img', icon, '');
-    iconImg.src = '../assets/img/speakItSound.jpg';
+    iconImg.src = '../assets/img/speakItSound.png';
     const speakItWord = createElement('p', item, 'speakIt-fail-word');
     const speakItTranscription = createElement('p', item, 'speakIt-fail-transcription');
     const speakItTranslation = createElement('p', item, 'speakIt-fail-translation');
   };
-
-  function createElement(tag, parentElement, className) {
-    const newElement = document.createElement(tag);
-    if (className) newElement.classList.add(className);
-    parentElement.appendChild(newElement);
-    return newElement;
-  }
 
   async function getWords(group, page) {
     const url = `https://afternoon-falls-25894.herokuapp.com/words?group=${group - 1}&page=${page}`;
@@ -216,14 +211,12 @@ export const SpeakIt = () => {
   async function setWords(group, page) {
     try {
       const words = await getWords(group, page);
-      console.log(words);
       wordsArray = [];
       words.forEach((element) => {
         wordsArray.push({
           word: element.word, wordTranslate: element.wordTranslate, transcription: element.transcription, image: element.image,
         });
       });
-      console.log(wordsArray);
 
       document.querySelectorAll('.speakIt-word').forEach((element, i) => {
         element.textContent = wordsArray[i].word;
@@ -244,8 +237,8 @@ export const SpeakIt = () => {
   }
 
   function randomPage(min, max) {
-    const round = min + Math.random() * (max - min);
-    return Math.round(round);
+    const raund = min + Math.random() * (max - min);
+    return Math.round(raund);
   }
 
   const addEventListeners = () => {
@@ -263,7 +256,6 @@ export const SpeakIt = () => {
 
     document.querySelectorAll('.speakIt-item').forEach((element, i) => {
       element.addEventListener('click', () => {
-        console.log('privet');
         message.lang = 'en-EN';
         message.text = `${wordsArray[i].word}`;
         synth.speak(message);
@@ -280,10 +272,8 @@ export const SpeakIt = () => {
       for (let i = 0; i < allItems.length; i++) {
         if (allItems[i].classList.contains('speakIt-game-succes')) {
           succesWords.push({ word: allWords[i].textContent, wordTranslate: allTranslations[i].textContent, transcription: allTranscriptions[i].textContent });
-          console.log(succesWords);
         } else {
           failWords.push({ word: allWords[i].textContent, wordTranslate: allTranslations[i].textContent, transcription: allTranscriptions[i].textContent });
-          console.log(failWords);
         }
       }
       if (round < 29) {
@@ -325,10 +315,8 @@ export const SpeakIt = () => {
       for (let i = 0; i < allItems.length; i++) {
         if (allItems[i].classList.contains('speakIt-game-succes')) {
           succesWords.push({ word: allWords[i].textContent, wordTranslate: allTranslations[i].textContent, transcription: allTranscriptions[i].textContent });
-          console.log(succesWords);
         } else {
           failWords.push({ word: allWords[i].textContent, wordTranslate: allTranslations[i].textContent, transcription: allTranscriptions[i].textContent });
-          console.log(failWords);
         }
       }
       document.querySelector('.speakIt-errors-num').textContent = failWords.length;
@@ -366,7 +354,6 @@ export const SpeakIt = () => {
 
       document.querySelectorAll('.speakIt-fail-item').forEach((element, i) => {
         element.addEventListener('click', () => {
-          console.log('privet');
           message.lang = 'en-EN';
           message.text = `${failWords[i].word}`;
           synth.speak(message);
@@ -375,7 +362,6 @@ export const SpeakIt = () => {
 
       document.querySelectorAll('.speakIt-succes-item').forEach((element, i) => {
         element.addEventListener('click', () => {
-          console.log('privet');
           message.lang = 'en-EN';
           message.text = `${succesWords[i].word}`;
           synth.speak(message);
@@ -424,11 +410,8 @@ export const SpeakIt = () => {
         document.querySelector('.speakIt-input').classList.remove('speakIt-none');
         document.querySelector('.speakIt-input').value = result[0].transcript.trim().toLowerCase();
         for (let i = 0; i < allWords.length; i++) {
-          console.log(allWords[i].textContent == result[0].transcript.trim().toLowerCase());
           if (allWords[i].textContent == result[0].transcript.trim().toLowerCase()) {
-            console.log('right');
             allItems[i].classList.add('speakIt-game-succes');
-            console.log(succesWords);
             document.querySelector('.speakIt-img').src = `https://raw.githubusercontent.com/ixionBY/rslang-data/master/${wordsArray[i].image}`;
           }
         }
@@ -438,7 +421,13 @@ export const SpeakIt = () => {
     };
   };
 
+  const onInit = (anchor) => {
+    const container = anchor.append(renderSpeakIt());
+    addEventListeners();
+    return container;
+  };
+
   return {
     onInit,
   };
-};
+}
