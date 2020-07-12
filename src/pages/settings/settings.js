@@ -1,10 +1,10 @@
 import './settings.css';
-import Modal from '../../components/modal/modal'
+import Modal from '../../components/modal/modal';
 
 export default function Settings(cb) {
   const callbacks = cb;
   const modal = Modal();
-  
+
   let pages = null;
   let settings = null;
   let newSettings = null;
@@ -40,8 +40,7 @@ export default function Settings(cb) {
     });
 
     if (check) {
-      modal.showModal("Выберите хоть один параметр")
-      console.log('Выберите хоть один параметр');
+      modal.showModal('Выберите хоть один параметр подсказок');
     }
 
     return check;
@@ -124,14 +123,11 @@ export default function Settings(cb) {
       e.preventDefault();
 
       if (e.submitter.classList.contains('settings-save')) {
-        console.log(callbacks);
         callbacks.setSettingsCallback({ ...settings.optional, linguist: newSettings });
         goToMainPage();
-        console.log(newSettings, 'Новые настройки');
       }
 
       if (e.submitter.classList.contains('settings-cancel')) {
-        console.log(settings, 'Старые настройки');
         goToMainPage();
       }
     });
@@ -157,39 +153,39 @@ export default function Settings(cb) {
     <div class="settings-container">
       <form action="#">
         <div class="settings-wordsperday">
-          <label for="">Words per day</label>
+          <label for="">Слова на каждый день</label>
           <input type="text" id="settingsInputWordsperday" class="settings-input" value="${settings.optional.linguist.wordsPerDay}" maxlength="3" size="${settings.optional.linguist.wordsPerDay.length}">
         </div>
         <div class="settings-newwords">
-          <label for="">New words per day</label>
+          <label for="">Новые слова</label>
           <input type="text" id="settingsInputNewWords" class="settings-input" value="${settings.optional.linguist.newWords}" maxlength="3" size="${settings.optional.linguist.newWords.length}">
         </div>
         <div class="settings-translate">
-          <h3>Hint:</h3>
-          <label for="settingsTranslate">Translation of word <input type="checkbox" name="settings-translate" id="settingsTranslate"></label>
-          <label for="settingsMeaning">Meaning of the word <input type="checkbox" name="settings-meaning" id="settingsMeaning" ></label>
-          <label for="settingsExample">Example of usage of word <input type="checkbox" name="settings-example" id="settingsExample" ></label>
+          <h3>Подсказки:</h3>
+          <label for="settingsTranslate">Перевод слова <input type="checkbox" name="settings-translate" id="settingsTranslate"></label>
+          <label for="settingsMeaning">Значение слова <input type="checkbox" name="settings-meaning" id="settingsMeaning" ></label>
+          <label for="settingsExample">Пример слова <input type="checkbox" name="settings-example" id="settingsExample" ></label>
         </div>
         <div class="settings-additional">
-          <h3>Additional:</h3>
-          <label for="settingsTranscription">Transcription <input type="checkbox" name="settings-transcription" id="settingsTranscription" ></label>
-          <label for="settingsImage">Image <input type="checkbox" name="settings-image" id="settingsImage" ></label>
+          <h3>Дополнительные:</h3>
+          <label for="settingsTranscription">Транскрипция слова <input type="checkbox" name="settings-transcription" id="settingsTranscription" ></label>
+          <label for="settingsImage">Картинка <input type="checkbox" name="settings-image" id="settingsImage" ></label>
         </div>
         <div class="settings-make-vocabulary">
-          <label for="settingsVocabulary">Make vocabulary</label><input type="checkbox" name="settings-vocabulary" id="settingsVocabulary">
+          <label for="settingsVocabulary">Добавить слова в словарь</label><input type="checkbox" name="settings-vocabulary" id="settingsVocabulary">
         </div>
         <div class="settings-show-answer">
-          <label for="settingsAnswer">Show answer</label><input type="checkbox" name="settings-show-answer" id="settingsShowAnswer">
+          <label for="settingsAnswer">Показать ответ</label><input type="checkbox" name="settings-show-answer" id="settingsShowAnswer">
         </div>
         <div class="settings-control-panel">
-          <button class="settings-btn settings-save" type="submit">Save</button>
-          <button class="settings-btn settings-cancel" type="submit">Cancel</button>
+          <button class="settings-btn settings-save" type="submit">Сохранить</button>
+          <button class="settings-btn settings-cancel" type="submit">Отменить</button>
         </div>
       </form>
     </div> 
     `;
 
-    modal.onInit(container)
+    modal.onInit(container);
 
     return container;
   };

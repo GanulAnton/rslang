@@ -166,6 +166,35 @@
   display: none;
 }
 
+@media (min-width: 320px) and (max-width: 768px) {
+  .linguist-card-cont{
+    width: 300px;
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+
+  .linguist-card-hint {
+    padding: 0.75rem 0.5rem;
+  }  
+
+  .linguist-additional-control {
+    width: 300px;
+  }
+
+  .linguist-additional-counter {
+    width: 300px;
+  }
+
+  .linguist-card-image img {
+    width: 150px;
+    height: auto;
+  }
+
+  .linguist-deleteWord-btn {
+    margin-top: 0.5rem;
+  }
+}
+
 @media(hover: hover){
   .linguist-btn:hover {
     background: #000000;
