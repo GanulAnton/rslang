@@ -509,7 +509,7 @@ export default function Sprint(cb) {
 
     let learnedWordsArr = [];
     let learnedWordsArrAmount;
-    const rawResponse = await fetch(`${defaultUrl}/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(param.filter)}`, {
+    const rawResponse = await fetch(`${defaultUrl}/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(param.filter)}&wordsPerPage=60`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${user.token}`,
