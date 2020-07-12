@@ -15,7 +15,7 @@
   width: 600px;
   margin: 0 auto;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .linguist-additional-counter{
