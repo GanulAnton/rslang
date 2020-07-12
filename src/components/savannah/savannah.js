@@ -1,6 +1,5 @@
-import { setWords, showWords, getLearnedWords } from './getWords';
-import { playAudio } from './optionalFunction';
-import { createDOMElement } from './createDomElement';
+import { setWords, showWords } from './getWords';
+import { playAudio, createDOMElement } from './optionalFunction';
 
 let wordsArray = [];
 let currentWordPosition = 0;
@@ -12,10 +11,10 @@ let answerCounter = 0;
 let links = {};
 
 export default function Savannah(cb) {
-    let user = null;
-    const callbacks = cb;
+    // let user = null;
+    // const callbacks = cb;
     const onInit = (anchor) => {
-        user = callbacks.getUserCallback();
+        // user = callbacks.getUserCallback();
         const container = renderSavannah(anchor);
         links = container;
         addEventListeners();
@@ -119,8 +118,8 @@ export default function Savannah(cb) {
             links.START_CONTAINER.classList.toggle('savannah__inactive');
             links.TRAININGS_CONTAINER.classList.toggle('savannah__inactive');
             if (links.CHECKBOX.checked) {
-                wordsArray = await getLearnedWords(user);
-                clickInterval = setInterval(circlePlay, 5000);
+                // wordsArray = await getLearnedWords(user);
+                // clickInterval = setInterval(circlePlay, 5000);
             } else {
                 const selectedRound = isNaN(links.ROUND_LIST_SELECT.options[links.ROUND_LIST_SELECT.selectedIndex].value) ? 1 : links.ROUND_LIST_SELECT.options[links.ROUND_LIST_SELECT.selectedIndex].value;
                 const selectedLvl = isNaN(links.LVL_LIST_SELECT.options[links.LVL_LIST_SELECT.selectedIndex].value) ? 1 : links.LVL_LIST_SELECT.options[links.LVL_LIST_SELECT.selectedIndex].value;
@@ -129,7 +128,7 @@ export default function Savannah(cb) {
             }
         });
 
-        links.TRAININGS_ANSWERS.querySelectorAll('div').forEach((element, i) => {
+        links.TRAININGS_ANSWERS.querySelectorAll('.savannah__trainings_answer').forEach((element, i) => {
             element.addEventListener('click', () => {
                 links.TRAININGS_ANSWERS.classList.add('savannah__disabled_trainings_answer');
                 clearInterval(clickInterval);
@@ -137,7 +136,7 @@ export default function Savannah(cb) {
                 clicked = true;
             });
             document.addEventListener('keydown', (evt) => {
-                if (evt.code === `Digit${i + 1}` && clicked === false) {
+                if (evt.code === `Digit${i + 1}` && !clicked) {
                     links.TRAININGS_ANSWERS.classList.add('savannah__disabled_trainings_answer');
                     clearInterval(clickInterval);
                     buttonPlay(element);
@@ -179,10 +178,10 @@ function circlePlay() {
         links.TRAININGS_WORD_CONTAINER.classList.add('savannah__trainings__word_fall');
         setTimeout(() => {
             links.TRAININGS_WORD_CONTAINER.classList.remove('savannah__trainings__word_fall');
-            if (clicked === false) {
+            if (!clicked) {
                 falseAnswer();
                 setTimeout(() => {
-                    links.TRAININGS_ANSWERS.querySelectorAll('div').forEach((el) => {
+                    links.TRAININGS_ANSWERS.querySelectorAll('.savannah__trainings_answer').forEach((el) => {
                         el.classList.remove('savannah__trueAnswer');
                     });
                     links.TRAININGS_ANSWERS.classList.add('savannah__disabled_trainings_answer');
@@ -204,7 +203,7 @@ function buttonPlay(element) {
         } else {
             clickInterval = setInterval(circlePlay, 5000);
         }
-        links.TRAININGS_ANSWERS.querySelectorAll('div').forEach((el) => {
+        links.TRAININGS_ANSWERS.querySelectorAll('.savannah__trainings_answer').forEach((el) => {
             el.classList.remove('savannah__trueAnswer');
         });
         element.classList.remove('savannah__falseAnswer');
@@ -221,7 +220,7 @@ function trueAnswer(selectedItem) {
 
 function falseAnswer(selectedItem) {
     setTimeout(() => {
-        links.TRAININGS_ANSWERS.querySelectorAll('div').forEach((el) => {
+        links.TRAININGS_ANSWERS.querySelectorAll('.savannah__trainings_answer').forEach((el) => {
             if (el.textContent === wordsArray[currentWordPosition].word) {
                 el.classList.add('savannah__trueAnswer');
             }
