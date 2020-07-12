@@ -1,6 +1,6 @@
 import './wordBubbles.css'
 
-export const WordBubbles = () => {
+export default function WordBubbles() {
   let containerRef = null
   let state = {
     level: 0

@@ -193,6 +193,11 @@ export default function MainPage(cb) {
         pages.sprintPage.onInit(mainContainer);
       }
 
+      if (element.dataset.name === 'wordBubbles') {
+        mainContainer.innerHTML = '';
+        pages.wordBubbles.onInit(mainContainer);
+      }
+
       appContainerRef.querySelector('.header-nav').classList.remove('header-navActive');
     }
   };
@@ -250,7 +255,7 @@ export default function MainPage(cb) {
               <div class="card-up peach-gradient"></div>
               <!-- Avatar -->
               <div class="avatar mx-auto white">
-                <img src="https://sun2-3.userapi.com/WDHOVt7dX0Ac_HA0uJdEGexRvQ4fh7B0oKM9ng/ou_Yh0moOtU.jpg" class="rounded-circle img-responsive" alt="woman avatar">
+                <img src="./assets/img/wordbubbles/savannah.jpg" class="rounded-circle img-responsive" alt="woman avatar">
               </div> 
               <!-- Content -->
               <div class="card-body">
@@ -268,10 +273,10 @@ export default function MainPage(cb) {
           <div class="wrapper">
             <div class="card testimonial-card mt-2 mb-3">
               <!-- Background color -->
-              <div class="card-up pink-gradient-3"></div>
+              <div class="card-up aqua-gradient"></div>
               <!-- Avatar -->
               <div class="avatar mx-auto white">
-                <img src="https://sun2-3.userapi.com/WDHOVt7dX0Ac_HA0uJdEGexRvQ4fh7B0oKM9ng/ou_Yh0moOtU.jpg" class="rounded-circle img-responsive" alt="woman avatar">
+                <img src="./assets/img/wordbubbles/sprint.jpg" class="rounded-circle img-responsive" alt="woman avatar">
               </div> 
               <!-- Content -->
               <div class="card-body">
@@ -292,7 +297,7 @@ export default function MainPage(cb) {
               <div class="card-up purple-gradient"></div>
               <!-- Avatar -->
               <div class="avatar mx-auto white">
-                <img src="https://sun9-22.userapi.com/-r62oIUN3dVY3TNbHW1g-m6XoXUn9bb-Bnk1SQ/JsR1ydlyMFs.jpg" class="rounded-circle img-responsive" alt="woman avatar">
+                <img src="./assets/img/wordbubbles/audiochallange.jpg" class="rounded-circle img-responsive" alt="woman avatar">
               </div> 
               <!-- Content -->
               <div class="card-body">
@@ -310,10 +315,10 @@ export default function MainPage(cb) {
           <div class="wrapper">
             <div class="card testimonial-card mt-2 mb-3">
               <!-- Background color -->
-              <div class="card-up green-light-color-gradient"></div>
+              <div class="card-up blue-gradient"></div>
               <!-- Avatar -->
               <div class="avatar mx-auto white">
-                <img src="https://sun2-3.userapi.com/sN3bCJEP7WZPw3r-GeBCTwVdhsG8o5ZowUWApA/9HvMGaRQlpQ.jpg" class="rounded-circle img-responsive" alt="woman avatar">
+                <img src="./assets/img/wordbubbles/speakit.jpg" class="rounded-circle img-responsive" alt="woman avatar">
               </div> 
               <!-- Content -->
               <div class="card-body">
@@ -334,7 +339,7 @@ export default function MainPage(cb) {
               <div class="card-up pink-gradient-2"></div>
               <!-- Avatar -->
               <div class="avatar mx-auto white">
-                <img src="https://sun9-66.userapi.com/p_wEiptf5CmpE7QKtYmdHS7UoP4xBdKECxLkUg/6czDmA03_nU.jpg" class="rounded-circle img-responsive" alt="woman avatar">
+                <img src="./assets/img/wordbubbles/ownGame.jpg" class="rounded-circle img-responsive" alt="woman avatar">
               </div> 
               <!-- Content -->
               <div class="card-body">
@@ -342,7 +347,7 @@ export default function MainPage(cb) {
                 <h4 class="card-title font-weight-bold">Word Bubbles</h4>
                 <hr>
                 <!-- Quotation -->
-                <p>The ability to rapidly retrieve words from your mental vocabulary.</p>
+                <p>Развивайте способность быстро извлекать слова из вашего словарного запаса.</p>
                 <button data-name="wordBubbles"class="main-page-btn">Word Bubbles</button>
               </div>
           </div>

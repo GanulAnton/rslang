@@ -53,6 +53,11 @@ export default function Header(container, cb) {
         pages.savannah.onInit(mainContainer);
       }
       
+      if (element.dataset.name === 'wordBubbles') {
+        mainContainer.innerHTML = '';
+        pages.wordBubbles.onInit(mainContainer);
+      }
+
       if (element.dataset.name === 'logOut') {
         removeFromLocalStorage('user');
 

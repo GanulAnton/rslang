@@ -5,22 +5,27 @@
 
 .login-rgba-stylish-strong {
   height: 100vh;
+  background-size: cover;
   font-family: 'Roboto', 'Arial', 'sans-serif';
   z-index: 9;
-  background: url("https://mdbootstrap.com/img/Photos/Horizontal/Nature/full page/img%20(11).jpg") no-repeat center center;
+  background-image: url("https://mdbootstrap.com/img/Photos/Horizontal/Nature/full page/img%20(11).jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 .login-form {
+  top: calc(50% - 130px);
+  left: calc(50% - 250px);
   display: flex;
   flex-direction: column;
   padding: 2rem 1rem;
   width: 500px;
-  margin: 180px 445px;
+  margin: 0 auto;
   justify-content: center;
   text-align: center;
   position: absolute;
   background-color: rgba(230, 230, 230, 0.85);
-  border: .5px solid rgba(0, 0, 0, 0.15);
+  border: 0.5px solid rgba(0, 0, 0, 0.15);
   align-items: center;
   border-radius: 5px;
   z-index: 10;
@@ -118,22 +123,23 @@
   background: linear-gradient(40deg, #ff6ec4, #7873f5) !important
 }
 
-@media (max-width: 769px) {
+@media (max-width: 414px) {
   .login-form {
-    margin: 100px 150px;
+    left: calc(50% - 195px);
+    width: 390px;
+  }
+  .fa-lock:before {
+    content: "";
+}
+  .fa-user:before {
+    content: "";
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 375px) {
   .login-form {
-    margin: 100px 35px;
-  }
-}
-
-@media (max-width: 376px) {
-  .login-form {
+    left: calc(50% - 174px);
     width: 347px;
-    margin: 100px 14px;
   }
   .fa-lock:before {
     content: "";
@@ -145,7 +151,8 @@
 
 @media (max-width: 340px) {
   .login-form {
+    top: 20%;
+    left: calc(50% - 150px);
     width: 300px;
-    margin: 100px 12px;
   }
 }

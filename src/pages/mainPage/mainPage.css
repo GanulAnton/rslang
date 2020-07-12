@@ -187,7 +187,9 @@ body {
   margin-top: 1rem;
   padding: 0.5rem 2rem;
   background: #ffffff;
-  border-color: 1px solid #d4dbd4;
+  color: #335fe7;
+  border: 2px solid #335fe7;
+  border-radius: 1rem;
   outline: none;
   cursor: pointer;
 }
@@ -209,11 +211,6 @@ body {
   border-bottom: 5px solid transparent;
   border-image-slice: 1;
 }
-
-/* #card-additions-img-3{
-  height: 85px;
-  width: 85px;
-} */
 
 #card-additions-4 {
   border-image: linear-gradient(#00C853, #B2FF59);
@@ -536,8 +533,14 @@ footer {
   flex-flow: column;
 }
 
-h3:first-letter {
+.footer__h3:first-letter {
   border-bottom: 3px solid #335fe7;
+}
+
+.linguist-select,
+.linguist-select:active,
+.linguist-select:hover {
+  outline: none;
 }
 
 @media only screen and (max-width: 1060px) {
