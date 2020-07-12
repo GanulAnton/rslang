@@ -88,7 +88,7 @@ export default function Header(container, cb) {
 
     header.innerHTML = ` 
     <div class="header-container">
-      <h1 class="header-heading">RSLang</h1>
+      <h1 class="header-heading">RS Lang</h1>
       <div class="header-nav-container">
         <button class="header-main-nav-btn">Menu</button>
         <div class="header-nav">

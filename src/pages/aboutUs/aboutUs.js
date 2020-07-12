@@ -72,7 +72,7 @@ export default function aboutUs() {
                                     <img src="../../assets/img/cat5.jpg" alt="employee">
                                 </div>
                                 <div class='aboutUs-text'>
-                                    <h2>Егор</h2>
+                                    <h2>Бадмаев Егор</h2>
                                     <p>Харизматичный надменный Милаш породы «Девонрекс». Меня зовут «Егорьян». КоТ пишет КоД как умеет, потому что у меня лапки. Люблю цветы и вождение автомобиля. Сотрудничал со Сфинксом.</p>
                                     <a target="_blank" href="https://github.com/htmlprogrammist">My Github</a>
                                 </div>

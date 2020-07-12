@@ -11,18 +11,12 @@ body {
 }
 
 .main-page__body {
-  background-image: url('https://sun9-35.userapi.com/en_UBEhbPTr_A_H5OuuGe4oh7a3B6hGJBLCh9A/wIuIkQjRReQ.jpg');
-  /* background-image: url('https://sun2-4.userapi.com/a56wq5e5hZYlOVQmZCRpXJFgssnnfirXdtuBHw/488fVtB-lDY.jpg'); */
+  background-image: url('../../assets/img/wordbubbles/973-blue.png');
   background-repeat: no-repeat;
   background-size: cover;
   height: 700px;
   background-position: center center;
-  /* background-size: 100% 100vh; */
 }
-  /*
-  text-align: center;
-  vertical-align: middle;
-  padding-top: 200px; */
  
   .main-page-linguist-container {
     padding: 50px;
@@ -41,10 +35,6 @@ body {
   .linguist-progress-bar {
     margin-top: 1rem;
   }
-
-  /* .linguist-stats {
-    flex-direction: column;
-  } */
 
   .info {
     width: 80%;
@@ -161,10 +151,6 @@ body {
   position: absolute;
   left: 225px;
   top: 40px;
-  /* width: 130px;
-  padding-top: 15px;
-  padding-left: 15px;
-  height: 130px; */
 }
 
 .card-additions__h1 {
@@ -455,10 +441,8 @@ body {
 }
 
 #big-logo {
-  /* color: #fd3156; */
   color: #fff;
   text-align: center;
-  /* padding: 50px 0 0 540px; */
   font-size: 142px;
   padding-top: 50px;
   text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
@@ -475,7 +459,6 @@ body {
   font-size: 30px;
   color: #fff;
   padding-left: 50px;
-  /* padding: 20px 140px 0 0; */
   text-shadow: 2px 2px 3px rgba(0,0,0,0.3);
 }
 
@@ -486,9 +469,7 @@ body {
   background-size: cover;
   height: 720px;
   background-position: center center;
-  background-image: url('https://sun9-26.userapi.com/9kRA7qFsNTMI8uQemTQiXQkFA2UoHNYhLDVR8A/wmrCYxVpLMo.jpg');
-  /* background-image: url('https://mdbootstrap.com/img/Photos/Others/gradient2.png'); */
-  /* transform: rotate(180deg); */
+  background-image: url('../../assets/img/wordbubbles/973-light-blue.png');
 }
 
 footer {
@@ -559,7 +540,6 @@ footer {
     background-position: center center;
     height: auto;
     background-size: cover;
-    /* background-size: 100% 100vh; */
   }
   
   .main-page__mini-games {

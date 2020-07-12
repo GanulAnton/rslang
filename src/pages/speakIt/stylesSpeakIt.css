@@ -171,6 +171,10 @@ body {
     text-align-last:center;
     margin-right: 20px;
 }
+.selected-dif:active,
+.selected-dif:hover {
+    outline: none;
+}
 
 .selected-round {
     cursor: pointer;
