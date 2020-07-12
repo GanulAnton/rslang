@@ -102,7 +102,7 @@ export default function MainPage(cb) {
           .then((res) => res.json());
       })
       .then((data) => {
-        const words = [...words, ...data[0].paginatedResults];
+        words = [...words, ...data[0].paginatedResults];
         startLinguist(words);
       });
   };
