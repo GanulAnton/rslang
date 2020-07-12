@@ -3,23 +3,27 @@
     --main-color: #f4f1ec;
     --main-color2:#e5dece;
     --main-color3:#ecd7d2;
-    --main-color4:#c59c96;
-    --main-color5:#a07f88;
+    --main-color4:#407097;
+    --main-color5:#0e141f;
     --main-color6:#fff;
     --main-font: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
-body{
+
+
+
+.savannah__container{
+    height: 100vh;
+    width: 100vw;
     background-color: var(--main-color5);
     color: var(--main-color6);
 }
-
 .savannah__loader-container{
     position: absolute;
-    top: 100px;
+    top: 120px;
     width: 100%;
     height: 80%;
     background-color: var(--main-color5);
-    background-image: url('../assets/img/savannah_hearts.svg');
+    background-image: url('../../assets/img/savannah_hearts.svg');
     background-size: 30%;
     background-position: center;
     z-index: 3;
@@ -142,7 +146,7 @@ body{
 .savannah__hearts{
     position: absolute;
     right: 60px;
-    top: 29px;
+    top: 92px;
     height: 16px;
     display: flex;
     flex-direction: row;
@@ -163,7 +167,7 @@ body{
     background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZD0iTS02LTZoMzB2MzBILTZ6Ii8+CiAgICAgICAgPHBhdGggZmlsbD0iI0RFREVERSIgZD0iTTE3Ljc1IDIuMDEyTDE1Ljk4OC4yNSA5IDcuMjM4IDIuMDEyLjI1LjI1IDIuMDEyIDcuMjM4IDkgLjI1IDE1Ljk4OGwxLjc2MiAxLjc2Mkw5IDEwLjc2Mmw2Ljk4OCA2Ljk4OCAxLjc2Mi0xLjc2MkwxMC43NjIgOXoiLz4KICAgIDwvZz4KPC9zdmc+Cg==);
     background-size: cover;
     position: absolute;
-    top: 27px;
+    top: 92px;
     right: 27px;
     cursor: pointer;
 }
@@ -186,7 +190,7 @@ body{
 .savannah__trainings__word_container {
     position: fixed;
     left: 0;
-    top: 0;
+    top: 105;
     font-size: 48px;
     line-height: 1;
     font-weight: 300;
@@ -243,8 +247,35 @@ body{
     opacity: 0;
 }
 
+@media (max-width: 770px){
+    .savannah__close{
+        top: 120px;
+    }
+    .savannah__hearts{
+        top: 120px;
+    }
+    .savannah__loader-container{
+        top: 150px;
+    }
+
+}
+
 @media (max-width: 600px){
     .savannah__trainings_answers> span{
         display: none;
     }
+}
+
+@media (max-width: 430px){
+    .savannah__h2{
+        padding-top: 50px;
+    }
+    .savannah__p{
+        padding-top: 5px;
+        margin-top: 15px;
+    }
+    .savannah__start__form{
+        margin-top: 10px;
+    }
+    
 }
