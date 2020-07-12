@@ -31,7 +31,7 @@ body {
 
 .speakIt-title {
     font-size: 40px;
-    margin: 0px auto 40px;
+    margin: 0px auto 20px;
     color: #6cffde;
     opacity: .8;
     text-transform: uppercase;
@@ -64,7 +64,7 @@ body {
     text-decoration: none;
     min-width: 200px;
     color: #fff;
-    background: #00c49d;
+    background: #4a8bfe;
     border-radius: 4px;
     visibility: visible;
     transition: .15s;
@@ -73,6 +73,7 @@ body {
 
 .speakIt-btn:hover {
     background: #00c2b2;
+    cursor: pointer;
 }
 
 .speakIt-btn:focus, .speakIt-btn:active {
@@ -150,7 +151,28 @@ body {
     display: none;
 }
 
+.selected-dif {
+    cursor: pointer;
+    display: inline-block;
+    width: 210px;
+    height: 34px;
+    line-height: 30px;
+    position: relative;
+    background-color: #4a8bfe;
+    text-align-last:center;
+    margin-right: 20px;
+}
 
+.selected-round {
+    cursor: pointer;
+    display: inline-block;
+    width: 210px;
+    height: 34px;
+    line-height: 30px;
+    position: relative;
+    background-color: #4a8bfe;
+    text-align-last:center;
+}
 
 .speakIt-input {
     display: block;
@@ -213,27 +235,6 @@ body {
 
 .speakIt-btns {
     display: flex;
-}
-
-.speakIt-btn {
-    display: inline-block;
-    margin: 0 auto;
-    appearance: none;
-    font-size: 24px;
-    text-align: center;
-    padding: 15px 25px;
-    text-decoration: none;
-    min-width: 200px;
-    color: #fff;
-    background: #00c49d;
-    border-radius: 4px;
-    visibility: visible;
-    transition: .15s;
-    box-shadow: 0 0 0 1px rgba(255,255,255,.1), 0 2px 4px 0 rgba(14,30,37,.12);
-}
-
-.speakIt-btn:hover {
-    background: #00c2b2;
 }
 
 .speakIt-btn.speakIt-voice {
@@ -309,11 +310,11 @@ body {
 }
 
 .speakIt-game{
-    box-shadow: blue;
+    background: #00c2b2;
 }
 
 .speakIt-game-succes{
-    background-color: red;
+    background-color: #9dbef9;
 }
 
 .speakIt-succes-item,
@@ -370,4 +371,93 @@ body {
     font-size: 22px;
     padding: 0px 5px;
     margin: 0;
+}
+
+
+@media (max-width: 380px){
+    .speakIt-succes-item, .speakIt-fail-item {
+        justify-content: start;
+    }
+
+    .speakIt-audio-icon img{
+        width: 20px
+    }
+
+    .speakIt-succes-word, .speakIt-fail-word {
+        font-size: 14px;
+        padding: 0px;
+    }
+
+    .speakIt-succes-transcription, .speakIt-fail-transcription {
+        font-size: 14px;
+    }
+
+    .speakIt-succes-translation, .speakIt-fail-translation {
+        font-size: 14px;
+        padding: 5px 5px;
+    }
+}
+
+@media (max-width: 390px){
+    .speakIt-img {
+        width: 300px;
+        height: 260px;
+    }
+}
+
+@media (max-width: 439px){
+    .speakIt-items {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 459px){
+    .selected-dif {
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 480px){
+    .speakIt-results-container {
+        padding: 40px 5px;
+    }
+}
+
+@media (max-width: 660px){
+    .speakIt-btns {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .speakIt-btn {
+        margin: 10px auto;
+    }
+
+    .speakIt-btn.speakIt-voice {
+        width: 200px;
+    }
+}
+
+@media (max-width: 768px){
+    .speakIt-intro, .speakIt-results {
+        top: 98px; 
+    }
+}
+
+@media (min-width: 660px) and (max-width: 767px){
+    .speakIt-btn.speakIt-voice {
+        width: 200px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 899px){
+    .speakIt-btn.speakIt-voice {
+        width: 300px;
+    }
+}
+
+@media (min-width: 900px) and (max-width: 1119px){
+    .speakIt-btn.speakIt-voice {
+        width: 440px;
+    }
 }
