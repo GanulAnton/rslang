@@ -3,6 +3,7 @@ import './stylesSpeakIt.css';
 export default function SpeakIt(cb) {
   let difficulty = 1;
   let round = 0;
+  let page;
   let wordsArray;
   let succesWords = [];
   let failWords = [];
@@ -214,8 +215,8 @@ export default function SpeakIt(cb) {
     return await res.json();
   }
 
-  async function getLearnedWords(paramFilter, user) {
-    const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(paramFilter)}&wordsPerPage=10`, {
+  async function getLearnedWords(paramFilter, user, pageNumber) {
+    const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(paramFilter)}&wordsPerPage=10&page=${pageNumber}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -224,6 +225,7 @@ export default function SpeakIt(cb) {
       },
     });
     const content = await rawResponse.json();
+    console.log(content);
     return [...content];
   }
 
@@ -236,42 +238,38 @@ export default function SpeakIt(cb) {
           word: element.word, wordTranslate: element.wordTranslate, transcription: element.transcription, image: element.image,
         });
       });
-
       document.querySelectorAll('.speakIt-word').forEach((element, i) => {
         element.textContent = wordsArray[i].word;
       });
-
       document.querySelectorAll('.speakIt-transcription').forEach((element, i) => {
         element.textContent = wordsArray[i].transcription;
       });
-
       document.querySelectorAll('.speakIt-translation').forEach((element, i) => {
         element.textContent = wordsArray[i].wordTranslate;
       });
-
       return wordsArray;
     } catch (error) {
       console.log(error);
     }
   }
 
-  async function setLearnedWords(paramFilter, user) {
+  async function setLearnedWords(paramFilter, user, pageNumber) {
     try {
-      const words = await getLearnedWords(paramFilter, user);
+      const words = await getLearnedWords(paramFilter, user, pageNumber);
       wordsArray = [];
       words[0].paginatedResults.forEach((element) => {
         wordsArray.push({
           word: element.word, wordTranslate: element.wordTranslate, transcription: element.transcription, image: element.image,
         });
-        document.querySelectorAll('.speakIt-word').forEach((element, i) => {
-          element.textContent = wordsArray[i].word;
-        });
-        document.querySelectorAll('.speakIt-transcription').forEach((element, i) => {
-          element.textContent = wordsArray[i].transcription;
-        });
-        document.querySelectorAll('.speakIt-translation').forEach((element, i) => {
-          element.textContent = wordsArray[i].wordTranslate;
-        });
+      });
+      document.querySelectorAll('.speakIt-word').forEach((element, i) => {
+        element.textContent = wordsArray[i].word;
+      });
+      document.querySelectorAll('.speakIt-transcription').forEach((element, i) => {
+        element.textContent = wordsArray[i].transcription;
+      });
+      document.querySelectorAll('.speakIt-translation').forEach((element, i) => {
+        element.textContent = wordsArray[i].wordTranslate;
       });
       return wordsArray;
     } catch (error) {
@@ -290,7 +288,8 @@ export default function SpeakIt(cb) {
       document.querySelector('.speakIt-intro').classList.add('speakIt-none');
       document.querySelector('.speakIt-container').classList.remove('speakIt-none');
       if (document.querySelector('.speakIt-checkbox-self-words').checked) {
-        setLearnedWords({'userWord.optional.status': 'learned' }, user);
+        page = 1;
+        setLearnedWords({ 'userWord.optional.status': 'learned' }, user, page);
       } else {
         round = randomPage(0, 22);
         difficulty = document.querySelector('.selected-dif').options.selectedIndex;
@@ -323,7 +322,10 @@ export default function SpeakIt(cb) {
           failWords.push({ word: allWords[i].textContent, wordTranslate: allTranslations[i].textContent, transcription: allTranscriptions[i].textContent });
         }
       }
-      if (round < 29) {
+      if (document.querySelector('.speakIt-checkbox-self-words').checked) {
+        page += 1;
+        setLearnedWords({ 'userWord.optional.status': 'learned' }, user, page);
+      } else if (round < 29) {
         round += 1;
         setWords(difficulty, round);
         document.querySelectorAll('.speakIt-item').forEach((element) => element.classList.remove('speakIt-game-succes'));
@@ -375,26 +377,21 @@ export default function SpeakIt(cb) {
         document.querySelectorAll('.speakIt-succes-word').forEach((element, i) => {
           element.textContent = succesWords[i].word;
         });
-
         document.querySelectorAll('.speakIt-succes-transcription').forEach((element, i) => {
           element.textContent = succesWords[i].transcription;
         });
-
         document.querySelectorAll('.speakIt-succes-translation').forEach((element, i) => {
           element.textContent = succesWords[i].wordTranslate;
         });
       }
-
       for (let i = 0; i < failWords.length; i++) {
         renderFailSpeakIt();
         document.querySelectorAll('.speakIt-fail-word').forEach((element, i) => {
           element.textContent = failWords[i].word;
         });
-
         document.querySelectorAll('.speakIt-fail-transcription').forEach((element, i) => {
           element.textContent = failWords[i].transcription;
         });
-
         document.querySelectorAll('.speakIt-fail-translation').forEach((element, i) => {
           element.textContent = failWords[i].wordTranslate;
         });
@@ -441,10 +438,15 @@ export default function SpeakIt(cb) {
       document.querySelector('.speakIt-input').classList.add('speakIt-none');
       document.querySelector('.speakIt-img-translation').classList.remove('speakIt-none');
       document.querySelector('.speakIt-img').src = '../assets/img/speakItBlank.jpg';
-      round = randomPage(1, 22);
-      difficulty = document.querySelector('.selected-dif').options.selectedIndex;
-      if (difficulty == 0) {
-        difficulty = 1;
+      if (document.querySelector('.speakIt-checkbox-self-words').checked) {
+        page = 1;
+        setLearnedWords({ 'userWord.optional.status': 'learned' }, user, page);
+      } else {
+        round = randomPage(1, 22);
+        difficulty = document.querySelector('.selected-dif').options.selectedIndex;
+        if (difficulty == 0) {
+          difficulty = 1;
+        }
       }
       setWords(difficulty, round);
     });
