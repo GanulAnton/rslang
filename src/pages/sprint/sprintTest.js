@@ -160,7 +160,7 @@ export default function Sprint(cb) {
           if (state.index < arr.length - 1) {
             state.index++;
             delay(1000).then(() => {
-              if(state.timeIsOut === true){
+              if (state.timeIsOut === true) {
                 finishGame();
               } else {
                 drawCard();
@@ -181,7 +181,7 @@ export default function Sprint(cb) {
           if (state.index < arr.length - 1) {
             state.index++;
             delay(1000).then(() => {
-              if(state.timeIsOut === true){
+              if (state.timeIsOut === true) {
                 finishGame();
               } else {
                 drawCard();
@@ -205,7 +205,7 @@ export default function Sprint(cb) {
       if (state.index < arr.length - 1) {
         state.index++;
         delay(1000).then(() => {
-          if(state.timeIsOut === true){
+          if (state.timeIsOut === true) {
             finishGame();
           } else {
             drawCard();
@@ -228,7 +228,7 @@ export default function Sprint(cb) {
       if (state.index < arr.length - 1) {
         state.index++;
         delay(1000).then(() => {
-          if(state.timeIsOut === true){
+          if (state.timeIsOut === true) {
             finishGame();
           } else {
             drawCard();
@@ -292,58 +292,64 @@ export default function Sprint(cb) {
       helpOn: false,
       timeIsOut: false,
     };
-    
+
 
     if (document.querySelector('#select__words').value === '1') {
       const container = document.querySelector('.box_sprintGame');
-    container.innerHTML = `
+      container.innerHTML = `
       <div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
     `;
       getWords().then(() => {
-      if (state.error) {
-        container.innerHTML = '';
-        container.insertAdjacentHTML('afterbegin', '<div class="black">error</div>');
-      } else {
-        setTimer();
-        shuffleItems();
-        const t = setTimeout(() => {
-          finishGame();
-          state.timeIsOut = true;
-        }, 65000);
-
-        container.insertAdjacentHTML('afterbegin', ' <div class="sprint-box"></div>');
-
-        drawCard(t);
-      }
-    })} else if (document.querySelector('#select__words').value === '2') {
-      const container = document.querySelector('.box_sprintGame');
-      container.innerHTML = `
-        <div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-      `;
-      getLearnedWords({ filter:{ "userWord.optional.status": "learned" }})
-      .then((data)=>{
-        userWordsObj = data;
-        state.items = [...userWordsObj[0].paginatedResults];
-        console.log(state.items);
-        if(state.items.length > 1){
-          delay(500).then(() => {
-          document.querySelector('.box_sprintGame').innerHTML = '';
-        }).then(()=>{
+        if (state.error) {
+          container.innerHTML = '';
+          container.insertAdjacentHTML('afterbegin', '<div class="black">error</div>');
+        } else {
           setTimer();
           shuffleItems();
           const t = setTimeout(() => {
             finishGame();
             state.timeIsOut = true;
           }, 65000);
+
           container.insertAdjacentHTML('afterbegin', ' <div class="sprint-box"></div>');
+
           drawCard(t);
-        })} else {
-          startRender();
-          alert('недостаточно выученных слов');
         }
       })
+    } else if (document.querySelector('#select__words').value === '2') {
+      const container = document.querySelector('.box_sprintGame');
+      container.innerHTML = `
+        <div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+      `;
+      getLearnedWords({
+          filter: {
+            "userWord.optional.status": "learned"
+          }
+        })
+        .then((data) => {
+          userWordsObj = data;
+          state.items = [...userWordsObj[0].paginatedResults];
+          console.log(state.items);
+          if (state.items.length > 1) {
+            delay(500).then(() => {
+              document.querySelector('.box_sprintGame').innerHTML = '';
+            }).then(() => {
+              setTimer();
+              shuffleItems();
+              const t = setTimeout(() => {
+                finishGame();
+                state.timeIsOut = true;
+              }, 65000);
+              container.insertAdjacentHTML('afterbegin', ' <div class="sprint-box"></div>');
+              drawCard(t);
+            })
+          } else {
+            startRender();
+            alert('недостаточно выученных слов');
+          }
+        })
 
-     
+
     }
   }
 
@@ -499,26 +505,26 @@ export default function Sprint(cb) {
   };
 
 
-    const getLearnedWords = async (param) => {
-       
-      let learnedWordsArr= [];
-      let learnedWordsArrAmount;
-      const rawResponse = await fetch(`${defaultUrl}/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(param.filter)}`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      });
-  
-      const content = await rawResponse.json();
-      /* console.log(content, 'sm');
-      learnedWordsArrAmount = content[0].totalCount[0].count;
-      learnedWordsArr = content[0].paginatedResults;
-      console.log(learnedWordsArr); */
-      return [...content]
-    }; 
+  const getLearnedWords = async (param) => {
+
+    let learnedWordsArr = [];
+    let learnedWordsArrAmount;
+    const rawResponse = await fetch(`${defaultUrl}/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(param.filter)}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const content = await rawResponse.json();
+    /* console.log(content, 'sm');
+    learnedWordsArrAmount = content[0].totalCount[0].count;
+    learnedWordsArr = content[0].paginatedResults;
+    console.log(learnedWordsArr); */
+    return [...content]
+  };
 
 
   return {

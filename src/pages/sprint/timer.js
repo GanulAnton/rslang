@@ -1,10 +1,10 @@
 export default function setTimer(end = 0) {
 
-  if(document.documentElement.clientWidth<601){
+  if (document.documentElement.clientWidth < 601) {
     document.querySelector('.box_sprintGame').insertAdjacentHTML('afterbegin', `<svg class="timer-sprint" width='50px' height='50px'>
     <circle class="timer__circle-sprint" fill='transparent' stroke-width='2' cx=25 cy='25' r='21'/>
     </svg>`);
-  }else {
+  } else {
     document.querySelector('.box_sprintGame').insertAdjacentHTML('afterbegin', `<svg class="timer-sprint" width='120px' height='120px'>
     <circle class="timer__circle-sprint" fill='transparent' stroke-width='4' cx='60' cy='60' r='52'/>
     </svg>`);
@@ -16,6 +16,7 @@ export default function setTimer(end = 0) {
 
   circle.style.strokeDasharray = `${circumference} ${circumference}`;
   circle.style.strokeDashoffset = circumference;
+
   function setTime(p) {
     const offset = circumference - (p / 100) * circumference;
     circle.style.strokeDashoffset = offset;
