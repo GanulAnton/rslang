@@ -108,7 +108,7 @@ export default function MainPage(cb) {
         mainContainer.innerHTML = '';
       }
 
-      if (element.dataset.name === 'linguist') {
+      if (element.dataset.name === 'speakIt') {
         mainContainer.innerHTML = '';
         pages.speakIt.onInit(mainContainer);
       }
