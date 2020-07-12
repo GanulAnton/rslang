@@ -4,7 +4,9 @@
     position: relative;
     display: block;
     min-height: 100vh;
-    background: linear-gradient(to top left, #3471FF, #87D0FD);
+    /* background: linear-gradient(to top left, #3471FF, #87D0FD); */
+     background-size: 100%; 
+    background:  url(../../assets/img/bg-purple.png) center no-repeat;
 }
 
 .slider-container-aboutUs{
@@ -27,9 +29,10 @@
 
 .aboutUs-slide{
     display: flex;
+    flex-wrap: wrap;
     max-width: 800px;
     width: 100%;
-    height: 300px;
+    min-height: 300px;
     background-color: #fff;
 }
 
@@ -49,6 +52,7 @@
 
 .aboutUs-text{
     max-width: 500px;
+    min-width: 400px;
     width: 100%;
     height: 300px;
     text-align: left;
@@ -64,7 +68,7 @@
 }
 .aboutUs-text p{
     display: block;
-    padding: 50px 50px 20px 0;
+    padding: 10px 50px 20px 0;
     word-spacing: 5px;
     line-height: 20px;
     font-size: 20px;
@@ -165,5 +169,38 @@
   
     100% {
       background-position: 0;
+    }
+  }
+
+  @media(max-width: 600px){
+    .slider-container-aboutUs{
+        position: absolute;
+        top: 50%;
+        right: 50%;
+        transform: translateX(50%) translateY(-50%);
+        width: 300px;
+        box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+    }
+
+    .aboutUs-slide{
+        display: flex;
+        flex-wrap: wrap;
+        width: 300px;
+        min-height: 300px;
+        background-color: #fff;
+    }
+    
+    
+    .aboutUs-text{
+        width: 300px;
+        min-height: 300px;
+        text-align: center;
+    }
+    .aboutUs-text h2{
+        width: 300px;
+    }
+    .aboutUs-text p{
+        padding: 50px 0px 20px 0;
+        width: 300px;
     }
   }

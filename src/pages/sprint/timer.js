@@ -1,8 +1,14 @@
 export default function setTimer(end = 0) {
-  document.querySelector('.box_sprintGame').insertAdjacentHTML('afterbegin', `<svg class="timer-sprint" width='120px' height='120px'>
+
+  if(document.documentElement.clientWidth<601){
+    document.querySelector('.box_sprintGame').insertAdjacentHTML('afterbegin', `<svg class="timer-sprint" width='50px' height='50px'>
+    <circle class="timer__circle-sprint" fill='transparent' stroke-width='2' cx=25 cy='25' r='21'/>
+    </svg>`);
+  }else {
+    document.querySelector('.box_sprintGame').insertAdjacentHTML('afterbegin', `<svg class="timer-sprint" width='120px' height='120px'>
     <circle class="timer__circle-sprint" fill='transparent' stroke-width='4' cx='60' cy='60' r='52'/>
     </svg>`);
-
+  }
   const circle = document.querySelector('.timer__circle-sprint');
   const radius = circle.r.baseVal.value;
   const circumference = 2 * Math.PI * radius;

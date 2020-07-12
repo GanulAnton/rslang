@@ -5,7 +5,10 @@ import defaultUrl from '../../accessories/defaultUrl';
 const svgSound = '<svg xmlns="http://www.w3.org/2000/svg" id="Capa_1" enable-background="new 0 0 512.01 512.01" fill="#fff" height="25" viewBox="0 0 512.01 512.01" width="25"><g><path d="m234.603 46.947-134.809 82.058h-84.794c-8.284 0-15 6.716-15 15v224c0 8.284 6.716 15 15 15h84.794l134.808 82.058c29.996 18.259 68.398-3.311 68.398-38.439v-341.238c0-35.116-38.394-56.703-68.397-38.439zm-204.603 112.058h59v194h-59zm243 267.619c0 11.698-12.787 18.908-22.8 12.813l-131.2-79.862v-207.14l131.2-79.861c9.995-6.084 22.8 1.091 22.8 12.813z"/><path d="m345.678 217.114c-5.858 5.858-5.858 15.355 0 21.213 9.77 9.771 9.771 25.584 0 35.355-5.858 5.858-5.858 15.355 0 21.213 5.857 5.858 15.355 5.859 21.213 0 21.444-21.444 21.444-56.337 0-77.781-5.858-5.858-15.356-5.858-21.213 0z"/><path d="m412.146 171.86c-5.857-5.858-15.355-5.858-21.213 0s-5.858 15.355 0 21.213c34.701 34.701 34.701 91.164 0 125.865-5.858 5.858-5.858 15.355 0 21.213 5.857 5.858 15.355 5.859 21.213 0 46.398-46.398 46.398-121.893 0-168.291z"/><path d="m457.4 126.605c-5.857-5.858-15.355-5.858-21.213 0s-5.858 15.355 0 21.213c60.666 60.666 60.666 155.709 0 216.375-5.858 5.858-5.858 15.355 0 21.213 5.857 5.858 15.355 5.859 21.213 0 72.774-72.774 72.851-185.95 0-258.801z"/></g></svg>';
 export default function Sprint(cb) {
   const callbacks = cb;
+  let user = null;
+  user = callbacks.getUserCallback();
   let state = {
+    timeIsOut: false,
     click: false,
     error: null,
     isLoaded: false,
@@ -18,11 +21,11 @@ export default function Sprint(cb) {
     helpOn: false,
   };
   let arr = [];
+  let userWordsObj;
   const delay = (ms) => new Promise((r) => setTimeout(() => r(), ms));
 
   const onInit = (anchor) => {
     const container = anchor.append(render());
-    userWords();
     addEventListeners();
     return container;
   };
@@ -88,6 +91,7 @@ export default function Sprint(cb) {
   }
 
   function drawCard(t) {
+    /* console.log(state.timeIsOut); */
     const wrongTrans = getRandomTranslate(arr);
     let helpPhrase = '';
     let blackStyle = '';
@@ -153,10 +157,14 @@ export default function Sprint(cb) {
             /* console.log('это слово не правильное'); */
             handleNotCorrect();
           }
-          if (state.index < arr.length) {
+          if (state.index < arr.length - 1) {
             state.index++;
             delay(1000).then(() => {
-              drawCard();
+              if(state.timeIsOut === true){
+                finishGame();
+              } else {
+                drawCard();
+              }
             });
           } else {
             finishGame();
@@ -170,10 +178,14 @@ export default function Sprint(cb) {
             handleNotCorrect();
           }
 
-          if (state.index < arr.length) {
+          if (state.index < arr.length - 1) {
             state.index++;
             delay(1000).then(() => {
-              drawCard();
+              if(state.timeIsOut === true){
+                finishGame();
+              } else {
+                drawCard();
+              }
             });
           } else {
             finishGame();
@@ -190,10 +202,14 @@ export default function Sprint(cb) {
         /* console.log('это слово не правильное'); */
         handleNotCorrect();
       }
-      if (state.index < arr.length) {
+      if (state.index < arr.length - 1) {
         state.index++;
         delay(1000).then(() => {
-          drawCard();
+          if(state.timeIsOut === true){
+            finishGame();
+          } else {
+            drawCard();
+          }
         });
       } else {
         finishGame();
@@ -209,10 +225,14 @@ export default function Sprint(cb) {
         handleNotCorrect();
       }
 
-      if (state.index < arr.length) {
+      if (state.index < arr.length - 1) {
         state.index++;
         delay(1000).then(() => {
-          drawCard();
+          if(state.timeIsOut === true){
+            finishGame();
+          } else {
+            drawCard();
+          }
         });
       } else {
         finishGame();
@@ -270,28 +290,61 @@ export default function Sprint(cb) {
       corAnswers: [],
       incorAnswers: [],
       helpOn: false,
+      timeIsOut: false,
     };
-    /* getOwnWords(); */
-    const container = document.querySelector('.box_sprintGame');
+    
+
+    if (document.querySelector('#select__words').value === '1') {
+      const container = document.querySelector('.box_sprintGame');
     container.innerHTML = `
       <div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
     `;
-    getWords().then(() => {
+      getWords().then(() => {
       if (state.error) {
         container.innerHTML = '';
-        container.insertAdjacentHTML('afterbegin', '<div class=\'black\'>error</div>');
+        container.insertAdjacentHTML('afterbegin', '<div class="black">error</div>');
       } else {
         setTimer();
         shuffleItems();
         const t = setTimeout(() => {
           finishGame();
+          state.timeIsOut = true;
         }, 65000);
 
         container.insertAdjacentHTML('afterbegin', ' <div class="sprint-box"></div>');
 
         drawCard(t);
       }
-    });
+    })} else if (document.querySelector('#select__words').value === '2') {
+      const container = document.querySelector('.box_sprintGame');
+      container.innerHTML = `
+        <div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+      `;
+      getLearnedWords({ filter:{ "userWord.optional.status": "learned" }})
+      .then((data)=>{
+        userWordsObj = data;
+        state.items = [...userWordsObj[0].paginatedResults];
+        console.log(state.items);
+        if(state.items.length > 1){
+          delay(500).then(() => {
+          document.querySelector('.box_sprintGame').innerHTML = '';
+        }).then(()=>{
+          setTimer();
+          shuffleItems();
+          const t = setTimeout(() => {
+            finishGame();
+            state.timeIsOut = true;
+          }, 65000);
+          container.insertAdjacentHTML('afterbegin', ' <div class="sprint-box"></div>');
+          drawCard(t);
+        })} else {
+          startRender();
+          alert('недостаточно выученных слов');
+        }
+      })
+
+     
+    }
   }
 
   function finishGame() {
@@ -399,6 +452,13 @@ export default function Sprint(cb) {
                                                 <option value="6">6</option>
                                               </select>
                                             </div>
+                                            <div class="select_words">
+                                              <label for="select__words">C какими словами играть:</label>
+                                              <select id="select__words">
+                                                <option value="1">С выбранным уронем сложности</option>
+                                                <option value="2">С выученными словами</option>
+                                              </select>
+                                            </div>
                                               `;
     document.querySelector('.start-btn-sprint').addEventListener('click', () => {
       StartGame();
@@ -406,7 +466,6 @@ export default function Sprint(cb) {
   }
 
   const render = () => {
-
     const container = document.createElement('div');
     container.classList.add('box_sprintGame');
     container.innerHTML = `
@@ -427,24 +486,24 @@ export default function Sprint(cb) {
                                 <option value="6">6</option>
                               </select>
                             </div>
+                            <div class="select_words">
+                            <label for="select__words">C какими словами играть:</label>
+                            <select id="select__words">
+                              <option value="1">С выбранным уронем сложности</option>
+                              <option value="2">С выученными словами</option>
+                            </select>
+                          </div>
                             
                        `;
     return container;
   };
 
 
-  function userWords(){
-    let settings = null;
-    let user = null;
-    let pages = null;
-    let mainContainer = null;
-    let words = [];
-  
-    user = callbacks.getUserCallback();
-    settings = callbacks.getSettingsCallback();
-
-    const getWords = async (param) => {
-      const rawResponse = await fetch(`${defaultUrl}/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(param.filter)}&wordsPerPage=${param.amount}`, {
+    const getLearnedWords = async (param) => {
+       
+      let learnedWordsArr= [];
+      let learnedWordsArrAmount;
+      const rawResponse = await fetch(`${defaultUrl}/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(param.filter)}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -454,77 +513,13 @@ export default function Sprint(cb) {
       });
   
       const content = await rawResponse.json();
-      console.log(content, 'sm');
-      words = [...content[0].paginatedResults, ...words];
-      
-    };
-  
-    const getMixedWords = (param) => {
-      let diff = 0;
-      fetch(`${defaultUrl}/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(param.filter)}&wordsPerPage=${param.amount - param.newWords}`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          words = [...data[0].paginatedResults];
-          console.log(words, 'smth');
-  
-          if (data[0].paginatedResults.length < param.amount - param.newWords) {
-            diff += param.amount - param.newWords - data[0].paginatedResults.length;
-          }
-  
-          const filterNew = {
-            $or: [
-              { userWord: null },
-            ],
-          };
-          console.log(data);
-          return fetch(`${defaultUrl}/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(filterNew)}&wordsPerPage=${+param.newWords + +diff}`, {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${user.token}`,
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-          })
-            .then((res) => res.json());
-        })
-        .then((data) => {
-          words = [...words, ...data[0].paginatedResults];
-        });
-    };
-  
-    const getDataForLinguist = () => {
-      words = [];
-      // new user userSettings.optional.linguist.isNewUser
-      const param = {
-        amount: settings.optional.linguist.wordsPerDay,
-        newWords: settings.optional.linguist.newWords,
-        filter: {
-          $or: [
-            { userWord: null },
-          ],
-        },
-      };
-  
-      if (settings.optional.linguist.isNewUser) {
-        getWords(param);
-      } else {
-        param.filter = { 'userWord.optional.status': 'inProgress' };
-  
-        getMixedWords(param);
-      }
-  
-      return words;
-    };
+      /* console.log(content, 'sm');
+      learnedWordsArrAmount = content[0].totalCount[0].count;
+      learnedWordsArr = content[0].paginatedResults;
+      console.log(learnedWordsArr); */
+      return [...content]
+    }; 
 
-    getDataForLinguist();
-}
 
   return {
     onInit,

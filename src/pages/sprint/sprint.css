@@ -4,7 +4,9 @@
     display: block;
     min-height: 100vh;
     /* background: linear-gradient(135deg, rgba(85,239,203,1) 0%,rgba(30,87,153,1) 0%,rgba(85,239,203,1) 0%,rgba(91,202,255,1) 100%); */
-    background: linear-gradient(to top left, #3471FF, #87D0FD);
+    /* background: linear-gradient(to top left, #3471FF, #87D0FD); */
+    background:  url(../../assets/img/bg-purple.png) center no-repeat;
+    background-size: 100%; 
 }
 
 
@@ -144,7 +146,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background:  #11AEFD;
+    background:  #bb45ff;
     border-radius: 6px 6px 0 0;
 }
 
@@ -195,7 +197,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background:  #11AEFD;
+    background:  #bb45ff;
     border-radius: 0 0 6px 6px;
 }
 
@@ -262,7 +264,7 @@
 
   .play-btn-sprint:hover{
     background-color: #fff;
-    color: #11AEFD;
+    color: #bb45ff;
     
   }
 
@@ -325,6 +327,7 @@
 }
 
 .timer__circle-sprint{
+  transition-duration: .25s !important; 
    transform-origin: center;
    transform: rotate(-90deg);
    stroke: #fff;
@@ -357,6 +360,15 @@
   text-align: center;
 }
 
+.select_words{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(320%);
+  font-size: 14px;
+  color: #fff;
+}
+
 /*   ***************************** SCROLLBAR ********************************************************* */
 
 ::-webkit-scrollbar {
@@ -378,7 +390,15 @@
 }
 
 
+@media(max-width: 1200px){
+  .box_sprintGame {
+  background-size: auto;
+ }
+}
+
 @media(max-width: 600px){
+  
+  
   .settings-box-sprint{
     position: absolute;
     width: 200px;
@@ -399,6 +419,6 @@
   margin-right: 40px;
 }
 .timer-sprint{
-  top: 1%;
-}
+  top: 13%;
+} 
 }
