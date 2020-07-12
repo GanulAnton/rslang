@@ -26,7 +26,8 @@ export default function Header(container, cb) {
         mainContainer.innerHTML = '';
         pages.vocabularyPage.onInit(mainContainer);
       }
-        if (element.dataset.name === 'aboutUs') {
+      
+      if (element.dataset.name === 'aboutUs') {
         mainContainer.innerHTML = '';
         pages.aboutUsPage.onInit(mainContainer);
       } 
@@ -35,6 +36,11 @@ export default function Header(container, cb) {
         mainContainer.innerHTML = '';
         pages.sprintPage.onInit(mainContainer);
       } 
+      
+      if (element.dataset.name === 'speakIt') {
+        mainContainer.innerHTML = '';
+        pages.speakIt.onInit(mainContainer);
+      }
 
       if (element.dataset.name === 'logOut') {
         removeFromLocalStorage('user');

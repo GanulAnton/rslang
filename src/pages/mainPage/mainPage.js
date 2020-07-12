@@ -170,6 +170,11 @@ export default function MainPage(cb) {
         getDataForLinguist();
       }
 
+      if (element.dataset.name === 'speakIt') {
+        mainContainer.innerHTML = '';
+        pages.speakIt.onInit(mainContainer);
+      }
+
       appContainerRef.querySelector('.header-nav').classList.remove('header-navActive');
     }
   };
