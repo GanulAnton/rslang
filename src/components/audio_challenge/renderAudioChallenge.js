@@ -24,7 +24,8 @@ export default function AudioChallenge(cb) {
 
   const renderAudioChallenge = (anchor) => {
     /// ////INTRO PAGE
-    const INTRO = createTag('div', anchor, 'audio_intro');
+    const MY_APP_CONTAINER = createTag('div', anchor, 'my-app-container');
+    const INTRO = createTag('div', MY_APP_CONTAINER, 'audio_intro');
     const START_FORM = createTag('form', INTRO, 'audio_start-form');
     const TITLE = createTag('h2', START_FORM, 'audio_title');
     TITLE.textContent = 'Аудиовызов';
@@ -63,7 +64,7 @@ export default function AudioChallenge(cb) {
     TEXT_INTRO_BUTTON.textContent = 'Начать';
 
     /// /////MAIN PAGE
-    const CONTAINER = createTag('div', anchor, 'audio_container');
+    const CONTAINER = createTag('div', MY_APP_CONTAINER, 'audio_container');
     CONTAINER.classList.add('audio_hidden');
     const GAME_INTERACTION_WRAPPER = createTag('div', CONTAINER, 'audio_game_interaction__wrapper');
     const SOUND_BUTTON = createTag('div', GAME_INTERACTION_WRAPPER, 'audio_sound_button');
@@ -87,7 +88,7 @@ export default function AudioChallenge(cb) {
     NEXT_BUTTON.classList.add('audio_hidden');
 
     /// //////RESULT PAGE
-    const RESULTS = createTag('div', anchor, 'audio_results');
+    const RESULTS = createTag('div', MY_APP_CONTAINER, 'audio_results');
     RESULTS.classList.add('audio_hidden');
     const RESULTS_CONTAINER = createTag('div', RESULTS, 'audio_results-container');
     const RESULTS_TITLE = createTag('h2', RESULTS_CONTAINER, 'audio_results-title');
