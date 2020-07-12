@@ -6,6 +6,8 @@ export default function SpeakIt(cb) {
   let wordsArray;
   let succesWords = [];
   let failWords = [];
+  let user;
+  const callbacks = cb;
   let allItems;
   let allWords;
   let allTranscriptions;
@@ -137,6 +139,10 @@ export default function SpeakIt(cb) {
       option.value = i;
       option.textContent = i;
     }
+    const textForCheckbox = createElement('p', startForm, 'speakIt-text-for-checkbox');
+    textForCheckbox.textContent = 'Играть с моими словами';
+    const selfWordsCheckbox = createElement('input', textForCheckbox, 'speakIt-checkbox-self-words');
+    selfWordsCheckbox.type = 'checkbox';
     startForm.append(pIntroButton);
     pIntroButton.append(introButton);
     introButton.textContent = 'Начать';
@@ -208,6 +214,19 @@ export default function SpeakIt(cb) {
     return await res.json();
   }
 
+  async function getLearnedWords(paramFilter, user) {
+    const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(paramFilter)}&wordsPerPage=10`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+    const content = await rawResponse.json();
+    return [...content];
+  }
+
   async function setWords(group, page) {
     try {
       const words = await getWords(group, page);
@@ -236,6 +255,30 @@ export default function SpeakIt(cb) {
     }
   }
 
+  async function setLearnedWords(paramFilter, user) {
+    try {
+      const words = await getLearnedWords(paramFilter, user);
+      wordsArray = [];
+      words[0].paginatedResults.forEach((element) => {
+        wordsArray.push({
+          word: element.word, wordTranslate: element.wordTranslate, transcription: element.transcription, image: element.image,
+        });
+        document.querySelectorAll('.speakIt-word').forEach((element, i) => {
+          element.textContent = wordsArray[i].word;
+        });
+        document.querySelectorAll('.speakIt-transcription').forEach((element, i) => {
+          element.textContent = wordsArray[i].transcription;
+        });
+        document.querySelectorAll('.speakIt-translation').forEach((element, i) => {
+          element.textContent = wordsArray[i].wordTranslate;
+        });
+      });
+      return wordsArray;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   function randomPage(min, max) {
     const raund = min + Math.random() * (max - min);
     return Math.round(raund);
@@ -246,12 +289,16 @@ export default function SpeakIt(cb) {
       e.preventDefault();
       document.querySelector('.speakIt-intro').classList.add('speakIt-none');
       document.querySelector('.speakIt-container').classList.remove('speakIt-none');
-      round = randomPage(0, 22);
-      difficulty = document.querySelector('.selected-dif').options.selectedIndex;
-      if (difficulty == 0) {
-        difficulty = 1;
+      if (document.querySelector('.speakIt-checkbox-self-words').checked) {
+        setLearnedWords({'userWord.optional.status': 'learned' }, user);
+      } else {
+        round = randomPage(0, 22);
+        difficulty = document.querySelector('.selected-dif').options.selectedIndex;
+        if (difficulty == 0) {
+          difficulty = 1;
+        }
+        setWords(difficulty, round);
       }
-      setWords(difficulty, round);
     });
 
     document.querySelectorAll('.speakIt-item').forEach((element, i) => {
@@ -291,6 +338,7 @@ export default function SpeakIt(cb) {
       e.preventDefault();
       if (document.querySelector('.speakIt-user-speach').classList.contains('speakIt-game')) {
         document.querySelectorAll('.speakIt-item').forEach((element) => element.classList.remove('speakIt-innactive'));
+        document.querySelectorAll('.speakIt-item').forEach((element) => element.classList.remove('speakIt-game-succes'));
         document.querySelector('.speakIt-user-speach').classList.remove('speakIt-game');
         document.querySelector('.speakIt-img-translation').classList.remove('speakIt-none');
         document.querySelector('.speakIt-input').classList.add('speakIt-none');
@@ -403,6 +451,7 @@ export default function SpeakIt(cb) {
 
     recognizer.onresult = function (event) {
       const result = event.results[event.resultIndex];
+
       if (result.isFinal) {
         const allItems = document.querySelectorAll('.speakIt-item');
         const allWords = document.querySelectorAll('.speakIt-word');
@@ -422,6 +471,7 @@ export default function SpeakIt(cb) {
   };
 
   const onInit = (anchor) => {
+    user = callbacks.getUserCallback();
     const container = anchor.append(renderSpeakIt());
     addEventListeners();
     return container;

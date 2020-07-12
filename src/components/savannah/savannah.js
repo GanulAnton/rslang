@@ -1,4 +1,5 @@
-import { setWords, showWords } from './getWords';
+import './styleSavannah.css';
+import { setWords, showWords, getLearnedWords, setLearnedWords } from './getWords';
 import { playAudio, createDOMElement } from './optionalFunction';
 
 let wordsArray = [];
@@ -11,10 +12,10 @@ let answerCounter = 0;
 let links = {};
 
 export default function Savannah(cb) {
-    // let user = null;
-    // const callbacks = cb;
+    let user = null;
+    const callbacks = cb;
     const onInit = (anchor) => {
-        // user = callbacks.getUserCallback();
+        user = callbacks.getUserCallback();
         const container = renderSavannah(anchor);
         links = container;
         addEventListeners();
@@ -22,11 +23,12 @@ export default function Savannah(cb) {
     };
 
     const renderSavannah = (anchor) => {
-        const START_CONTAINER = createDOMElement('section', anchor, ['savannah__start-container']);
+        const CONTAINER = createDOMElement('section', anchor, ['savannah__container']);
+        const START_CONTAINER = createDOMElement('section', CONTAINER, ['savannah__start-container']);
         createDOMElement('h2', START_CONTAINER, ['savannah__h2'], 'Саванна', '');
         createDOMElement('p', START_CONTAINER, ['savannah__p'], 'Тренировка Саванна развивает словарный запас. Чем больше слов ты знаешь, тем больше очков опыта получишь.', '');
         const START_FORM = createDOMElement('form', START_CONTAINER, ['savannah__start__form']);
-        const FOR_CHECKBOX = createDOMElement('p', START_FORM, ['savannah__p'], 'Играть с моими словами');
+        const FOR_CHECKBOX = createDOMElement('p', START_FORM, ['savannah__p'], 'Играть с моими словами ');
         const CHECKBOX = createDOMElement('input', FOR_CHECKBOX, ['savannah__checkbox'], '', 1, 'checkbox');
         const LVL_LIST = createDOMElement('p', START_FORM, ['savannah__lvl-list', 'savannah__p']);
         const LVL_LIST_SELECT = createDOMElement('select', LVL_LIST, ['savannah__lvl-list_select']);
@@ -44,8 +46,8 @@ export default function Savannah(cb) {
         }
         const BUTTON_CONTAINER = createDOMElement('p', START_FORM, ['savannah__p']);
         const START_BUTTON = createDOMElement('button', BUTTON_CONTAINER, ['savannah__start-button', 'savannah__button'], 'Начать', '', 'submit');
-        const LOADER = createDOMElement('section', anchor, ['savannah__loader-container', 'savannah__inactive']);
-        const TRAININGS_CONTAINER = createDOMElement('section', anchor, ['savannah__trainings-container', 'savannah__inactive']);
+        const LOADER = createDOMElement('section', CONTAINER, ['savannah__loader-container', 'savannah__inactive']);
+        const TRAININGS_CONTAINER = createDOMElement('section', CONTAINER, ['savannah__trainings-container', 'savannah__inactive']);
         const TRAININGS_WORD_CONTAINER = createDOMElement('div', TRAININGS_CONTAINER, ['savannah__trainings__word_container']);
         const TRAININGS_HEADER = createDOMElement('div', TRAININGS_CONTAINER, ['savannah__trainings__header']);
         const SOUND_BUTTON = createDOMElement('div', TRAININGS_HEADER, ['savannah__sound-button']);
@@ -60,7 +62,7 @@ export default function Savannah(cb) {
             createDOMElement('span', TRAININGS_ANSWERS, [''], `${i + 1}.`);
             createDOMElement('div', TRAININGS_ANSWERS, ['savannah__trainings_answer']);
         }
-        const STATISTIC_CONTAINER = createDOMElement('section', anchor, ['savannah__statistic-container', 'savannah__inactive']);
+        const STATISTIC_CONTAINER = createDOMElement('section', CONTAINER, ['savannah__statistic-container', 'savannah__inactive']);
         const TRUE_ANSWER_COUNT = createDOMElement('p', STATISTIC_CONTAINER, ['savannah__p']);
         const ANSWER_COUNT = createDOMElement('p', STATISTIC_CONTAINER, ['savannah__p']);
         const RESTART_BUTTON_CONTAINER = createDOMElement('p', STATISTIC_CONTAINER, ['savannah__p']);
@@ -108,6 +110,20 @@ export default function Savannah(cb) {
             answerCounter = 0;
             currentWordPosition = 0;
             countHearts = 0;
+        
+            if (links.CHECKBOX.checked) {
+                wordsArray = await setLearnedWords({ "userWord.optional.status": "learned" }, user);
+                if(wordsArray.length < 19){
+                    console.log('Недостаточно слов для игры со своими словами');
+                    return;
+                }
+                clickInterval = setInterval(circlePlay, 5000);
+            } else {
+                const selectedRound = isNaN(links.ROUND_LIST_SELECT.options[links.ROUND_LIST_SELECT.selectedIndex].value) ? 1 : links.ROUND_LIST_SELECT.options[links.ROUND_LIST_SELECT.selectedIndex].value;
+                const selectedLvl = isNaN(links.LVL_LIST_SELECT.options[links.LVL_LIST_SELECT.selectedIndex].value) ? 1 : links.LVL_LIST_SELECT.options[links.LVL_LIST_SELECT.selectedIndex].value;
+                wordsArray = await setWords(selectedLvl - 1, selectedRound - 1);
+                clickInterval = setInterval(circlePlay, 5000);
+            }    
             links.LOADER.classList.toggle('savannah__inactive');
             setTimeout(() => {
                 links.LOADER.classList.toggle('savannah__inactive');
@@ -117,15 +133,6 @@ export default function Savannah(cb) {
             });
             links.START_CONTAINER.classList.toggle('savannah__inactive');
             links.TRAININGS_CONTAINER.classList.toggle('savannah__inactive');
-            if (links.CHECKBOX.checked) {
-                // wordsArray = await getLearnedWords(user);
-                // clickInterval = setInterval(circlePlay, 5000);
-            } else {
-                const selectedRound = isNaN(links.ROUND_LIST_SELECT.options[links.ROUND_LIST_SELECT.selectedIndex].value) ? 1 : links.ROUND_LIST_SELECT.options[links.ROUND_LIST_SELECT.selectedIndex].value;
-                const selectedLvl = isNaN(links.LVL_LIST_SELECT.options[links.LVL_LIST_SELECT.selectedIndex].value) ? 1 : links.LVL_LIST_SELECT.options[links.LVL_LIST_SELECT.selectedIndex].value;
-                wordsArray = await setWords(selectedLvl - 1, selectedRound - 1);
-                clickInterval = setInterval(circlePlay, 5000);
-            }
         });
 
         links.TRAININGS_ANSWERS.querySelectorAll('.savannah__trainings_answer').forEach((element, i) => {
@@ -214,7 +221,7 @@ function trueAnswer(selectedItem) {
     selectedItem.classList.add('savannah__trueAnswer');
     trueAnswerCounter++;
     if (!links.SOUND_BUTTON.classList.contains('savannah__sound-button-m-muted')) {
-        playAudio('../assets/audio/savannah_trueAnswer.mp3');
+        playAudio('../../assets/audio/savannah_trueAnswer.mp3');
     }
 }
 
@@ -230,7 +237,7 @@ function falseAnswer(selectedItem) {
         selectedItem.classList.add('savannah__falseAnswer');
     }
     if (!links.SOUND_BUTTON.classList.contains('savannah__sound-button-m-muted')) {
-        playAudio('../assets/audio/savannah_falseAnswer.mp3');
+        playAudio('../../assets/audio/savannah_falseAnswer.mp3');
     }
     countHearts++;
     LifeTaker();

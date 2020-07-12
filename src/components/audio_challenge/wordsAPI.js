@@ -63,3 +63,30 @@ export function createImage(wordImage) {
     image.src = wordImage;
     return image.src;
 }
+
+export async function getLearnedWords(paramFilter, user) {
+    const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(paramFilter)}&wordsPerPage=19`, {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${user.token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+    });
+
+    const content = await rawResponse.json();
+    return [...content];
+}
+
+export async function setLearnedWords(paramFilter, user) {
+    try {
+        const words = await getLearnedWords(paramFilter, user);
+        const wordsArray = [];
+        words[0].paginatedResults.forEach((element) => {
+            wordsArray.push({ word: element.word, wordTranslate: element.wordTranslate, audio: element.audio, image: element.image });
+        });
+        return wordsArray;
+    } catch (error) {
+        console.log(error);
+    }
+}

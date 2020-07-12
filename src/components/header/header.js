@@ -42,6 +42,16 @@ export default function Header(container, cb) {
         pages.speakIt.onInit(mainContainer);
       }
 
+      if (element.dataset.name === 'audioChallenge') {
+        mainContainer.innerHTML = '';
+        pages.audioChallenge.onInit(mainContainer);
+      }
+      
+      if (element.dataset.name === 'savannah') {
+        mainContainer.innerHTML = '';
+        pages.savannah.onInit(mainContainer);
+      }
+      
       if (element.dataset.name === 'logOut') {
         removeFromLocalStorage('user');
 
