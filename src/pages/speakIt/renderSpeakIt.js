@@ -1,4 +1,6 @@
-export default function SpeakIt() {
+import './stylesSpeakIt.css';
+
+export default function SpeakIt(cb) {
   let difficulty = 1;
   let round = 0;
   let wordsArray;

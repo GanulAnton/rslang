@@ -132,8 +132,9 @@ export default function App() {
     const linguistPage = Linguist(cb);
     const settingsPage = Settings(cb);
     const loginPage = Login(getLoginDataCallback);
+    const speakIt = SpeakIt(cb);
     pages = {
-      mainPage, linguistPage, settingsPage, loginPage,
+      mainPage, linguistPage, settingsPage, loginPage, speakIt
     };
   };
 

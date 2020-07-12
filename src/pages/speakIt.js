@@ -1,4 +1,4 @@
-import '../components/speakIt/stylesSpeakIt.css';
+
 import SpeakIt from '../components/speakIt/renderSpeakIt';
 
 const speakIt = SpeakIt();

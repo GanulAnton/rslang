@@ -22,6 +22,11 @@ export default function Header(container, cb) {
         pages.settingsPage.onInit(mainContainer);
       }
 
+      if (element.dataset.name === 'speakIt') {
+        mainContainer.innerHTML = '';
+        pages.speakIt.onInit(mainContainer);
+      }
+
       if (element.dataset.name === 'logOut') {
         removeFromLocalStorage('user');
 
