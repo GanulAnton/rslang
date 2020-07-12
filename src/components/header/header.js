@@ -21,6 +21,11 @@ export default function Header(container, cb) {
         mainContainer.innerHTML = '';
         pages.settingsPage.onInit(mainContainer);
       }
+
+      if (element.dataset.name === 'vocabulary') {
+        mainContainer.innerHTML = '';
+        pages.vocabularyPage.onInit(mainContainer);
+      }
       
       if (element.dataset.name === 'aboutUs') {
         mainContainer.innerHTML = '';
@@ -79,7 +84,7 @@ export default function Header(container, cb) {
           <ul class="header-main-nav">
             <Li data-name="main" class="header-link">Main</Li>
             <Li data-name="speakIt" class="header-link">SpeakIt</Li>
-            <Li data-name="safari" class="header-link">Safari</Li>
+            <Li data-name="savannah" class="header-link">Savannah</Li>
             <Li data-name="sprint" class="header-link">Sprint</Li>
             <Li data-name="audioChallenge" class="header-link">Audio challenge</Li>
             <li data-name="wordBubbles" class="header-link">Word Bubbles</li>

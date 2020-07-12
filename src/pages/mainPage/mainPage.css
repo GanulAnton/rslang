@@ -33,13 +33,18 @@ body {
   .linguist-stats, .linguist-control {
     width: 50%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
   }
 
-  .linguist-stats {
-    flex-direction: column;
+  .linguist-progress-bar {
+    margin-top: 1rem;
   }
+
+  /* .linguist-stats {
+    flex-direction: column;
+  } */
 
   .info {
     width: 80%;
@@ -492,7 +497,7 @@ body {
 footer {
   display: flex;
   position: relative;
-  height: 120px;
+  min-height: 120px;
   justify-content: space-between;
   padding: 50px;
   border-bottom: 50px solid #dadada;
@@ -519,7 +524,7 @@ footer {
   position: absolute;
   font-weight: 300;
   font-size: 16px;
-  top: 235px;
+  top: 210px;
 }
 .footer__h3 {
   font-size: 22px;
@@ -731,7 +736,7 @@ h3:first-letter {
 
   .card-additions {
     width: 330px;
-    height: 140px;
+    min-height: 140px;
   }
 
   .main-page__addition {
@@ -813,5 +818,20 @@ h3:first-letter {
   .card-additions__h5 {
     font-size: 25px;
     top: 86px;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 768px) {
+  .main-page-linguist-container {
+    flex-direction: column;
+    padding: 25px;
+  }
+
+  .linguist-stats, .linguist-control {
+    width: 100%;
+  }
+
+  .linguist-control {
+    padding-top: 1rem;
   }
 }
