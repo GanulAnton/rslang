@@ -66,6 +66,9 @@ export default function MainPage(cb) {
 
   const getMixedWords = (param) => {
     let diff = 0;
+
+    let words = [];
+
     fetch(`${defaultUrl}/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(param.filter)}&wordsPerPage=${param.amount - param.newWords}`, {
       method: 'GET',
       headers: {
