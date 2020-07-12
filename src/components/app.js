@@ -5,6 +5,7 @@ import Settings from '../pages/settings/settings';
 import Linguist from '../pages/linguist/linguist';
 import Sprint from '../pages/sprint/sprintTest';
 import AboutUs from '../pages/aboutUs/aboutUs';
+import SpeakIt from '../pages/speakIt/renderSpeakIt';
 
 import defaultUrl from '../accessories/defaultUrl';
 import defaultSettings from '../accessories/defaultSettings';
