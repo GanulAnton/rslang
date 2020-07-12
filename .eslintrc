@@ -1,7 +1,7 @@
 {
     "extends": [
-      "react-app",
-      "prettier"
+      "prettier",
+      "airbnb-base"
     ],
     "rules": {
       "jsx-quotes": [
@@ -13,3 +13,4 @@
       "prettier"
     ]
   }
+  
