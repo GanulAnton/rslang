@@ -19,7 +19,7 @@ body {
     justify-content: center;
     flex-direction: column;
     position: absolute;
-    top: 0;
+    top: 70px;
     bottom: 0;
     left: 0;
     right: 0;
