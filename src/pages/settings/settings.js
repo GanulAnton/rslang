@@ -68,7 +68,8 @@ export default function Settings(cb) {
     const inputWordsPerDay = containerRef.querySelector('#settingsInputWordsperday');
     const inputNewWords = containerRef.querySelector('#settingsInputNewWords');
     inputWordsPerDay.addEventListener('change', () => {
-      if (!validateInput(inputWordsPerDay.value)) {
+      console.log(inputWordsPerDay.value <= settings.optional.linguist.newWords)
+      if ((inputWordsPerDay.value <= settings.optional.linguist.newWords) || !validateInput(inputWordsPerDay.value)) {
         // restore default
         inputWordsPerDay.value = settings.optional.linguist.wordsPerDay;
       } else {
@@ -77,7 +78,7 @@ export default function Settings(cb) {
     });
 
     inputNewWords.addEventListener('change', () => {
-      if (inputNewWords.value >= inputWordsPerDay.value || !validateInput(inputNewWords.value)) {
+      if (inputNewWords.value >= settings.optional.linguist.wordsPerDay || !validateInput(inputNewWords.value)) {
         // restore default
         inputNewWords.value = settings.optional.linguist.newWords;
       } else {
@@ -121,7 +122,7 @@ export default function Settings(cb) {
 
     containerRef.querySelector('form').addEventListener('submit', (e) => {
       e.preventDefault();
-
+      console.log(e)
       if (e.submitter.classList.contains('settings-save')) {
         callbacks.setSettingsCallback({ ...settings.optional, linguist: newSettings });
         goToMainPage();
