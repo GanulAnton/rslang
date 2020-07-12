@@ -188,6 +188,11 @@ export default function MainPage(cb) {
         pages.savannah.onInit(mainContainer);
       }
 
+      if (element.dataset.name === 'sprint') {
+        mainContainer.innerHTML = '';
+        pages.sprintPage.onInit(mainContainer);
+      }
+
       appContainerRef.querySelector('.header-nav').classList.remove('header-navActive');
     }
   };
