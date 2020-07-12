@@ -480,6 +480,8 @@ export default function SpeakIt(cb) {
   const onInit = (anchor) => {
     user = callbacks.getUserCallback();
     const container = anchor.append(renderSpeakIt());
+    succesWords = [];
+    failWords = [];
     addEventListeners();
     return container;
   };
