@@ -1,9 +1,11 @@
 import './mainPage.css';
+import Modal from '../../components/modal/modal';
 
 import defaultUrl from '../../accessories/defaultUrl';
 
 export default function MainPage(cb) {
   const callbacks = cb;
+  const modal = Modal();
 
   let settings = null;
   let user = null;
@@ -11,11 +13,9 @@ export default function MainPage(cb) {
   let mainContainer = null;
   let containerRef = null;
   let appContainerRef = null;
-  let gameParameter = "default";
-  let words = [];
+  let gameParameter = 'default';
 
   const startLinguist = (userWords) => {
-    console.log(words, 'gotovo');
     pages.linguistPage.onInit(mainContainer, userWords);
   };
 
@@ -30,9 +30,10 @@ export default function MainPage(cb) {
     });
 
     const content = await rawResponse.json();
-    console.log(content, 'sm');
-    words = [...content[0].paginatedResults, ...words];
-    startLinguist(words);
+
+    const words = [...content[0].paginatedResults];
+
+    return words
   };
 
   const getLearnedWords = async (param) => {
@@ -46,19 +47,22 @@ export default function MainPage(cb) {
     });
 
     const content = await rawResponse.json();
-    console.log(content, 'sm');
-    return [...content]
+
+    return [...content];
   };
 
   const makeLinguistStats = (arr) => {
-    console.log(arr[0].totalCount[0].count, 'smth')
+    let learnedWords = 0;
+
+    if (arr[0].totalCount.length !== 0) learnedWords = arr[0].totalCount[0].count;
+
     containerRef.querySelector('.linguist-stats').innerHTML = `
     <p>Статистика:</p>
     <p>Карточек на каждый день: ${settings.optional.linguist.wordsPerDay}.</p>  
-    <p>Выученно слов: ${arr[0].totalCount[0].count} с 3600.</p>
-    <progress class="linguist-progress-bar" value="${arr[0].totalCount[0].count}" max="3600"></progress>
-    `
-  }
+    <p>Выученно слов: ${learnedWords} с 3600.</p>
+    <progress class="linguist-progress-bar" value="${learnedWords}" max="3600"></progress>
+    `;
+  };
 
   const getMixedWords = (param) => {
     let diff = 0;
@@ -73,7 +77,6 @@ export default function MainPage(cb) {
       .then((res) => res.json())
       .then((data) => {
         words = [...data[0].paginatedResults];
-        console.log(words, 'smth');
 
         if (data[0].paginatedResults.length < param.amount - param.newWords) {
           diff += param.amount - param.newWords - data[0].paginatedResults.length;
@@ -84,7 +87,7 @@ export default function MainPage(cb) {
             { userWord: null },
           ],
         };
-        console.log(data);
+
         return fetch(`${defaultUrl}/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(filterNew)}&wordsPerPage=${+param.newWords + +diff}`, {
           method: 'GET',
           headers: {
@@ -96,14 +99,12 @@ export default function MainPage(cb) {
           .then((res) => res.json());
       })
       .then((data) => {
-        words = [...words, ...data[0].paginatedResults];
+        const words = [...words, ...data[0].paginatedResults];
         startLinguist(words);
       });
   };
 
-  const getDataForLinguist = () => {
-    words = [];
-    // new user userSettings.optional.linguist.isNewUser
+  const getDataForLinguist = async () => {
     const param = {
       amount: settings.optional.linguist.wordsPerDay,
       newWords: settings.optional.linguist.newWords,
@@ -114,30 +115,51 @@ export default function MainPage(cb) {
       },
     };
 
-    if (settings.optional.linguist.isNewUser) {
-      getWords(param);
-    } else {
-      if ( gameParameter === "new" ) {
-        param.filter = { 'userWord.optional.status': null };
+    if (gameParameter === 'new') {
+      param.filter = { 'userWord.optional.status': null };
 
-        getWords(param);
-      } else if ( gameParameter === "repeat" ) {
-        param.filter = { 'userWord.optional.status': 'inProgress' };
+      const words = await getWords(param);
 
-        getWords(param);
-      } else if ( gameParameter === "hard" ) {
-        param.filter = { 'userWord.optional.status': 'hard' };
+      mainContainer.innerHTML = '';
+      startLinguist(words);
+    } else if (gameParameter === 'repeat') {
+      param.filter = { 'userWord.optional.status': 'inProgress' };
 
-        getWords(param);
-      } else {
-        param.filter = { 'userWord.optional.status': 'inProgress' };
+      const words = await getWords(param);
 
-        getMixedWords(param);
+      if(words.length === 0) {
+        modal.showModal("К сожалению нету слов для повторения.")
+        return
       }
 
-    }
+      mainContainer.innerHTML = '';
+      startLinguist(words);
+    } else if (gameParameter === 'hard') {
+      param.filter = { 'userWord.optional.status': 'hard' };
 
-    return words;
+      const words = await getWords(param);
+
+      if(words.length === 0) {
+        modal.showModal("К сожалению нету сложных слов.")
+        return
+      }
+
+      mainContainer.innerHTML = '';
+      startLinguist(words);
+    } else {
+      if (settings.optional.linguist.isNewUser) {
+        const words = await getWords(param);
+  
+        mainContainer.innerHTML = '';
+        startLinguist(words);
+        return
+      }
+
+      param.filter = { 'userWord.optional.status': 'inProgress' };
+
+      mainContainer.innerHTML = '';
+      getMixedWords(param);
+    }
   };
 
   const goToPage = (marker, element) => {
@@ -146,7 +168,6 @@ export default function MainPage(cb) {
 
       if (element.dataset.name === 'linguist') {
         getDataForLinguist();
-        mainContainer.innerHTML = '';
       }
 
       appContainerRef.querySelector('.header-nav').classList.remove('header-navActive');
@@ -156,8 +177,7 @@ export default function MainPage(cb) {
   const addEventListeners = () => {
     containerRef.querySelector('.linguist-select').addEventListener('change', (e) => {
       gameParameter = e.target.value;
-      console.log(gameParameter)
-    })
+    });
 
     containerRef.querySelector('.main-page__mini-games').addEventListener('click', (e) => {
       goToPage('main-page-btn', e.target);
@@ -368,10 +388,14 @@ export default function MainPage(cb) {
 
     containerRef = container;
 
+    modal.onInit(container);
+
     return container;
   };
 
   const onInit = async (anchor) => {
+    gameParameter = 'default';
+
     user = callbacks.getUserCallback();
     settings = callbacks.getSettingsCallback();
     pages = callbacks.getPagesCallback();
@@ -382,9 +406,9 @@ export default function MainPage(cb) {
 
     anchor.append(container);
 
-    const learnedWords = await getLearnedWords( { filter:{ "userWord.optional.status": "learned" }});
+    const learnedWords = await getLearnedWords({ filter: { 'userWord.optional.status': 'learned' } });
 
-    makeLinguistStats(learnedWords)
+    makeLinguistStats(learnedWords);
 
     addEventListeners();
     return container;

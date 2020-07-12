@@ -62,10 +62,26 @@ header .header-container {
   justify-content: space-between;
 }
 
-.header-main-nav-btn:hover {
-  color: #12394f;
-}
 
-header .header-link:hover {
-  color: #12394f; 
+
+@media (min-width: 320px) and (max-width: 768px) { 
+  .header-container {
+    flex-direction: column;
+  }
+
+  .header-nav{ 
+    top: 5.5rem;
+  }
+}  
+
+@media(hover: hover){
+  .header-main-nav-btn:hover {
+    cursor: pointer;
+    color: #12394f;
+  }
+  
+  .header-link:hover {
+    cursor: pointer;
+    color: #12394f; 
+  }
 }

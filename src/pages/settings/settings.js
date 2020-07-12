@@ -1,10 +1,10 @@
 import './settings.css';
-import Modal from '../../components/modal/modal'
+import Modal from '../../components/modal/modal';
 
 export default function Settings(cb) {
   const callbacks = cb;
   const modal = Modal();
-  
+
   let pages = null;
   let settings = null;
   let newSettings = null;
@@ -40,7 +40,7 @@ export default function Settings(cb) {
     });
 
     if (check) {
-      modal.showModal("Выберите хоть один параметр подсказок")
+      modal.showModal('Выберите хоть один параметр подсказок');
     }
 
     return check;
@@ -185,7 +185,7 @@ export default function Settings(cb) {
     </div> 
     `;
 
-    modal.onInit(container)
+    modal.onInit(container);
 
     return container;
   };

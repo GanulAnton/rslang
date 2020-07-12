@@ -100,10 +100,12 @@ export default function Linguist(cb) {
   };
 
   const renderCard = () => {
-    counterRef.innerHTML = `<span>${currentIndex + 1} с ${settings.wordsPerDay}</span>`;
+    counterRef.innerHTML = `<span>${currentIndex + 1} с ${data.length}</span>`;
 
-    nextBtnRef.innerText = "Проверить";
+    nextBtnRef.innerText = 'Проверить';
     nextBtnRef.classList.remove('linguist__display-none');
+    deleteWordBtnRef.classList.remove('linguist__display-none');
+    hardWordBtnRef.classList.remove('linguist__display-none');
 
     setAnswer();
     questionRef.innerHTML = makeQuestion(data[currentIndex].textExample, '<b>');
@@ -137,6 +139,10 @@ export default function Linguist(cb) {
 
     if (settings.vocabulary) {
       vocabularyRef.classList.remove('linguist__display-none');
+
+      if (data[currentIndex].userWord && data[currentIndex].userWord.optional.status === 'hard') {
+        hardWordBtnRef.classList.add('linguist__display-none');
+      }
     }
 
     if (settings.showAnswer) {
@@ -153,7 +159,7 @@ export default function Linguist(cb) {
 
   const changeCard = () => {
     // end
-    if (currentIndex !== settings.wordsPerDay -1) {
+    if (currentIndex !== data.length - 1) {
       isAnswered = false;
       currentIndex += 1;
       error = 0;
@@ -263,13 +269,13 @@ export default function Linguist(cb) {
     }
 
     word.addEventListener('ended', () => {
-      if(settings.hint.example) {
+      if (settings.hint.example) {
         example.play();
       }
 
-      if(settings.hint.example && settings.hint.meaning) return
-      
-      if(settings.hint.meaning) {
+      if (settings.hint.example && settings.hint.meaning) return;
+
+      if (settings.hint.meaning) {
         meaning.play();
       }
     });
@@ -292,7 +298,7 @@ export default function Linguist(cb) {
     questionRef.querySelector('.linguist-answer-input-cont').innerHTML = `<span class="linguist__right">${answer}</span>`;
     // show meaning with answer without translate
 
-    nextBtnRef.innerText = "Следующее слово";
+    nextBtnRef.innerText = 'Следующее слово';
 
     if (settings.hint.meaning) {
       meaningRef.innerHTML = `<span>${data[currentIndex].textMeaning}</span>`;
@@ -305,6 +311,8 @@ export default function Linguist(cb) {
 
   const prepareCardBeforeChange = () => {
     nextBtnRef.classList.add('linguist__display-none');
+    deleteWordBtnRef.classList.add('linguist__display-none');
+    hardWordBtnRef.classList.add('linguist__display-none');
 
     if (needTranslate) {
       showTranslation();
@@ -332,6 +340,10 @@ export default function Linguist(cb) {
       wordInfo.isUpdated = true;
     }
 
+    if (data[currentIndex].userWord && data[currentIndex].userWord.optional.status === 'hard') {
+      wordInfo.status = 'hard';
+    }
+
     if (isAnswered) {
       prepareCardBeforeChange();
       words.push(wordInfo);
@@ -354,7 +366,6 @@ export default function Linguist(cb) {
   };
 
   const keydownEnterHandler = (e) => {
-
     if (e.key === 'Enter') {
       checkAnswer();
     }
@@ -362,27 +373,24 @@ export default function Linguist(cb) {
 
   const addEventListeners = () => {
     hardWordBtnRef.addEventListener('click', () => {
-      console.log('hard')
       const wordInfo = { id: data[currentIndex]._id, status: 'hard', isUpdated: false };
       if (data[currentIndex].userWord) {
         wordInfo.isUpdated = true;
       }
 
       words.push(wordInfo);
-      console.log(words)
       changeCard();
-    })
+    });
 
     deleteWordBtnRef.addEventListener('click', () => {
-      console.log('delete')
       const wordInfo = { id: data[currentIndex]._id, status: 'delete', isUpdated: false };
       if (data[currentIndex].userWord) {
         wordInfo.isUpdated = true;
       }
       words.push(wordInfo);
-      console.log(words)
+
       changeCard();
-    })
+    });
 
     nextBtnRef.addEventListener('click', () => {
       checkAnswer();

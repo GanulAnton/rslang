@@ -497,7 +497,7 @@ body {
 footer {
   display: flex;
   position: relative;
-  height: 120px;
+  min-height: 120px;
   justify-content: space-between;
   padding: 50px;
   border-bottom: 50px solid #dadada;
@@ -524,7 +524,7 @@ footer {
   position: absolute;
   font-weight: 300;
   font-size: 16px;
-  top: 235px;
+  top: 210px;
 }
 .footer__h3 {
   font-size: 22px;
@@ -736,7 +736,7 @@ h3:first-letter {
 
   .card-additions {
     width: 330px;
-    height: 140px;
+    min-height: 140px;
   }
 
   .main-page__addition {

@@ -10,6 +10,7 @@
   background-color: rgba(0, 0, 0, 0.7);
   opacity: 0;
   animation: modal-show 0.5s 1 forwards;
+  z-index: 100;
 }
 
 .modal-content {
