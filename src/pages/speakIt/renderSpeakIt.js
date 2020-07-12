@@ -291,6 +291,7 @@ export default function SpeakIt(cb) {
       e.preventDefault();
       if (document.querySelector('.speakIt-user-speach').classList.contains('speakIt-game')) {
         document.querySelectorAll('.speakIt-item').forEach((element) => element.classList.remove('speakIt-innactive'));
+        document.querySelectorAll('.speakIt-item').forEach((element) => element.classList.remove('speakIt-game-succes'));
         document.querySelector('.speakIt-user-speach').classList.remove('speakIt-game');
         document.querySelector('.speakIt-img-translation').classList.remove('speakIt-none');
         document.querySelector('.speakIt-input').classList.add('speakIt-none');
