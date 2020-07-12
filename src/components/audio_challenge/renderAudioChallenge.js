@@ -16,6 +16,8 @@ export default function AudioChallenge(cb) {
   let successCount = 0;
 
   const onInit = (anchor) => {
+    mistakesCount = 0;
+    successCount = 0;
     user = callbacks.getUserCallback();
     const container = renderAudioChallenge(anchor);
     addEventListeners();
