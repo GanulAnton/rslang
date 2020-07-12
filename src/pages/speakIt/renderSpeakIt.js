@@ -288,7 +288,7 @@ export default function SpeakIt(cb) {
       document.querySelector('.speakIt-intro').classList.add('speakIt-none');
       document.querySelector('.speakIt-container').classList.remove('speakIt-none');
       if (document.querySelector('.speakIt-checkbox-self-words').checked) {
-        page = 1;
+        page = 0;
         setLearnedWords({ 'userWord.optional.status': 'learned' }, user, page);
       } else {
         round = randomPage(0, 22);
@@ -298,6 +298,11 @@ export default function SpeakIt(cb) {
         }
         setWords(difficulty, round);
       }
+    });
+
+    document.querySelector('.speakIt-checkbox-self-words').addEventListener('click', () =>{
+      document.querySelector('.selected-dif').classList.toggle('speakIt-innactive-select');
+      document.querySelector('.selected-round').classList.toggle('speakIt-innactive-select');
     });
 
     document.querySelectorAll('.speakIt-item').forEach((element, i) => {
@@ -439,7 +444,7 @@ export default function SpeakIt(cb) {
       document.querySelector('.speakIt-img-translation').classList.remove('speakIt-none');
       document.querySelector('.speakIt-img').src = '../assets/img/speakItBlank.jpg';
       if (document.querySelector('.speakIt-checkbox-self-words').checked) {
-        page = 1;
+        page = 0;
         setLearnedWords({ 'userWord.optional.status': 'learned' }, user, page);
       } else {
         round = randomPage(1, 22);
