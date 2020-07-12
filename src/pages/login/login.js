@@ -1,6 +1,6 @@
 import './login.css'
 
-export const Login = () => {
+export default function Login (callback) {
   let loginInputRef = null
   let passwordInputRef = null
   let formRef = null
@@ -57,13 +57,13 @@ export const Login = () => {
       .then(res => res.json())
       .then(authentication => {
         data = authentication
-        console.log(authentication)
+        callback()
       })
   }
 
 
   const getData = () => ({
-    data: () => data
+    data
   })
 
   const render = () => {
@@ -85,16 +85,16 @@ export const Login = () => {
     const headerLogin = document.createElement('div')
     const headerText = document.createElement('h3')
 
-    wrapper.classList.add('rgba-stylish-strong')
-    headerLogin.classList.add('form-header', 'purple-gradient')
+    wrapper.classList.add('login-rgba-stylish-strong')
+    headerLogin.classList.add('login-form-header', 'login-purple-gradient')
     container.classList.add('login-form')
-    backgroundImg.classList.add('view')
+    backgroundImg.classList.add('login-view')
     form.method = 'POST'
     form.action = '#'
     loginInpCont.classList.add('login-input-cont')
     loginLabel.for = 'login'
     headerText.innerText = 'RS Lang Authorization'
-    headerText.classList.add('white-text')
+    headerText.classList.add('login-white-text')
     loginInput.id = 'login'
     loginInput.classList.add('login-input')
     loginInput.type = 'text'
@@ -107,18 +107,18 @@ export const Login = () => {
     passwordInput.type = 'password'
     controlPanel.classList.add('login-control')
     btnLogIn.type = 'submit'
-    btnLogIn.classList.add('btn', 'btn-lg')
+    btnLogIn.classList.add('login-btn', 'login-btn-lg', 'login-control-buttonLogIn')
     btnLogIn.innerText = 'LogIn'
     btnCreateAcc.type = 'submit'
-    btnCreateAcc.classList.add('btn', 'btn-lg')
+    btnCreateAcc.classList.add('login-btn', 'login-btn-lg', 'login-control-buttonCreateAcc')
     btnCreateAcc.innerText = 'Create Acc'
     passwordImage.classList.add('fas')
     loginImage.classList.add('fas')
     loginImage.classList.add('fa-user')
     loginImage.classList.add('prefix')
-    loginImage.classList.add('pink-text')
+    loginImage.classList.add('login-pink-text')
     passwordImage.classList.add('fa-lock')
-    passwordImage.classList.add('pink-text')
+    passwordImage.classList.add('login-pink-text')
     passwordImage.classList.add('mt-2')
     passwordImage.classList.add('mb-2')
 
