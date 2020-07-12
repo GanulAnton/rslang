@@ -1,15 +1,3 @@
-@font-face {
-    font-family: 'Roboto Light';
-    src: url('assets/fonts/Roboto-Light.ttf');
-}
-@font-face {
-    font-family: 'Roboto Regular';
-    src: url('assets/fonts/Roboto-Regular.ttf');
-}
-@font-face {
-    font-family: 'Roboto Bold';
-    src: url('assets/fonts/Roboto-Bold.ttf');
-}
 
 body{
     height: 100vh;
@@ -18,6 +6,7 @@ body{
 }
 #app{
     margin:auto;
+    /* background-color: #444444; */
     background: linear-gradient(-45deg, #f4f1ec, #e5dece, #ecd7d2, #c59c96);
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
@@ -52,7 +41,7 @@ body{
     color: #a07f88;
     margin-top: 40px;
 }
-.audio_intro-text{
+.audio_intro-text, .audio-text-for-checkbox{
     font-family: 'Roboto Regular';
     color: #a07f88;
     font-size: 20px;
@@ -62,7 +51,7 @@ body{
     margin-left: 15px;
 }
 
-select {
+.audio-difficulty-level-select, .audio-round-number-select {
     cursor:pointer;
     display: inline-block;
     width: 210px;
@@ -72,7 +61,7 @@ select {
     background-color: rgba(0, 120, 201, 0.1);
     text-align-last:center;
 }
-option {
+.main_page_option {
     font-family: 'Roboto Regular';
     font-size: 15px;
 }
@@ -128,7 +117,7 @@ option {
 .audio_sound_button{
     border: #6d7486 2px solid;
     border-radius: 50%;
-    background-image: url('./assets/images/headphones.png');
+    background-image: url('../../assets/img/headphones.png');
     width: 120px;
     height: 120px;
     background-size: 80%;
@@ -169,12 +158,15 @@ option {
 }
 
 .audio_russian_words__wrapper{
+    padding-right: 20px;
     display: flex;
     flex-direction: row;
-
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.audio_russian_words__wrapper > *{
+.audio_russian_word_to_choose{
     margin-top: 50px;
     margin-left: 50px;
     font-family: 'Roboto Regular';
@@ -183,7 +175,7 @@ option {
     cursor: pointer;
 }
 
-.audio_russian_words__wrapper > *:hover{
+.audio_russian_word_to_choose:hover{
     border: 2px solid black; /* Параметры границы */
     border-radius: 15px;
     border-color: #6d7486;
@@ -191,6 +183,15 @@ option {
     transition: 0.3s;
     padding: 3px;
 }
+
+.audio-text-for-checkbox{
+    padding-bottom: 10px;
+    
+}
+.audio-checkbox-my-words{
+    margin-left: 5px;
+}
+
 .audio_dont_know_button__wrapper{
     margin-top: 70px;
 }
@@ -250,7 +251,7 @@ option {
     font-size: 40px;
 }
 .audio_result_img {
-    background-image: url('./assets/images/register.png');
+    background-image: url('../../assets/img/register.png');
     width: 120px;
     height: 120px;
     background-size: 80%;
@@ -282,4 +283,15 @@ option {
 .audio_disabledWord {
     pointer-events: none;
     opacity: 0.4;
+}
+@media (max-width: 515px){
+    .audio_russian_words__wrapper{
+        padding-right: 50px;
+        flex-direction: column;
+    }
+}
+@media (max-width: 434px){
+    .audio_round-number{
+        margin-left: 0px;;
+    }
 }

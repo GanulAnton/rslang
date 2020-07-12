@@ -7,6 +7,7 @@ import Vocabulary from '../pages/vocabulary/vocabulary';
 import Sprint from '../pages/sprint/sprintTest';
 import AboutUs from '../pages/aboutUs/aboutUs';
 import SpeakIt from '../pages/speakIt/renderSpeakIt';
+import AudioChallenge from '../components/audio_challenge/renderAudioChallenge';
 
 import defaultUrl from '../accessories/defaultUrl';
 import defaultSettings from '../accessories/defaultSettings';
@@ -145,9 +146,10 @@ export default function App() {
     const loginPage = Login(getLoginDataCallback);
     const vocabularyPage = Vocabulary(cb);
     const speakIt = SpeakIt(cb);
-
+     const audioChallenge = AudioChallenge(cb);
+    
     pages = {
-      mainPage, linguistPage, settingsPage, loginPage, sprintPage, aboutUsPage, speakIt, vocabularyPage,
+      mainPage, linguistPage, settingsPage, loginPage, sprintPage, aboutUsPage, speakIt, vocabularyPage, audioChallenge
     };
   };
 

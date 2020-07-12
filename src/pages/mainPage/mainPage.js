@@ -178,6 +178,11 @@ export default function MainPage(cb) {
         pages.speakIt.onInit(mainContainer);
       }
 
+      if (element.dataset.name === 'audioChallenge') {
+        mainContainer.innerHTML = '';
+        pages.audioChallenge.onInit(mainContainer);
+      }
+
       appContainerRef.querySelector('.header-nav').classList.remove('header-navActive');
     }
   };
