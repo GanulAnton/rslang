@@ -237,18 +237,18 @@ export default function AudioChallenge(cb) {
       });
 
       // listener on main page for repeat sound button
-      document.querySelector('.audio_sound_button').addEventListener('click', () => {
-        const audioOfWord = `${URL_TO_BACK}${WordsArray[0].audio}`;
-        setTimeout(() => {
-          playAudio(audioOfWord);
-        }, 500);
-      }, false);
-      document.querySelector('.audio_english_translate').addEventListener('click', () => {
-        const audioOfWord = `${URL_TO_BACK}${WordsArray[0].audio}`;
-        setTimeout(() => {
-          playAudio(audioOfWord);
-        }, 500);
-      }, false);
+      
+    });
+    document.querySelector('.audio_sound_button').addEventListener('mouseup', (ev) => {
+      ev.preventDefault();
+      const audioOfWord = `${URL_TO_BACK}${WordsArray[0].audio}`;
+      console.log('TESTTESTTEST')
+      playAudio(audioOfWord);
+    });
+    document.querySelector('.audio_english_translate').addEventListener('mousedown', () => {
+      const audioOfWord = `${URL_TO_BACK}${WordsArray[0].audio}`;
+      
+      playAudio(audioOfWord);
     });
     document.querySelector('.audio_new-game').addEventListener('click', () => {
       document.querySelector('.audio_intro').classList.toggle('audio_hidden');
