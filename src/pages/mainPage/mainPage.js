@@ -1,9 +1,11 @@
 import './mainPage.css';
+import Modal from '../../components/modal/modal';
 
 import defaultUrl from '../../accessories/defaultUrl';
 
 export default function MainPage(cb) {
   const callbacks = cb;
+  const modal = Modal();
 
   let settings = null;
   let user = null;
@@ -11,10 +13,9 @@ export default function MainPage(cb) {
   let mainContainer = null;
   let containerRef = null;
   let appContainerRef = null;
-  let words = [];
+  let gameParameter = 'default';
 
   const startLinguist = (userWords) => {
-    console.log(words, 'gotovo');
     pages.linguistPage.onInit(mainContainer, userWords);
   };
 
@@ -29,13 +30,45 @@ export default function MainPage(cb) {
     });
 
     const content = await rawResponse.json();
-    console.log(content, 'sm');
-    words = [...content[0].paginatedResults, ...words];
-    startLinguist(words);
+
+    const words = [...content[0].paginatedResults];
+
+    return words
+  };
+
+  const getLearnedWords = async (param) => {
+    const rawResponse = await fetch(`${defaultUrl}/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(param.filter)}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const content = await rawResponse.json();
+
+    return [...content];
+  };
+
+  const makeLinguistStats = (arr) => {
+    let learnedWords = 0;
+
+    if (arr[0].totalCount.length !== 0) learnedWords = arr[0].totalCount[0].count;
+
+    containerRef.querySelector('.linguist-stats').innerHTML = `
+    <p>Статистика:</p>
+    <p>Карточек на каждый день: ${settings.optional.linguist.wordsPerDay}.</p>  
+    <p>Выученно слов: ${learnedWords} с 3600.</p>
+    <progress class="linguist-progress-bar" value="${learnedWords}" max="3600"></progress>
+    `;
   };
 
   const getMixedWords = (param) => {
     let diff = 0;
+
+    let words = [];
+
     fetch(`${defaultUrl}/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(param.filter)}&wordsPerPage=${param.amount - param.newWords}`, {
       method: 'GET',
       headers: {
@@ -47,7 +80,6 @@ export default function MainPage(cb) {
       .then((res) => res.json())
       .then((data) => {
         words = [...data[0].paginatedResults];
-        console.log(words, 'smth');
 
         if (data[0].paginatedResults.length < param.amount - param.newWords) {
           diff += param.amount - param.newWords - data[0].paginatedResults.length;
@@ -58,7 +90,7 @@ export default function MainPage(cb) {
             { userWord: null },
           ],
         };
-        console.log(data);
+
         return fetch(`${defaultUrl}/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(filterNew)}&wordsPerPage=${+param.newWords + +diff}`, {
           method: 'GET',
           headers: {
@@ -75,9 +107,7 @@ export default function MainPage(cb) {
       });
   };
 
-  const getDataForLinguist = () => {
-    words = [];
-    // new user userSettings.optional.linguist.isNewUser
+  const getDataForLinguist = async () => {
     const param = {
       amount: settings.optional.linguist.wordsPerDay,
       newWords: settings.optional.linguist.newWords,
@@ -88,15 +118,51 @@ export default function MainPage(cb) {
       },
     };
 
-    if (settings.optional.linguist.isNewUser) {
-      getWords(param);
-    } else {
+    if (gameParameter === 'new') {
+      param.filter = { 'userWord.optional.status': null };
+
+      const words = await getWords(param);
+
+      mainContainer.innerHTML = '';
+      startLinguist(words);
+    } else if (gameParameter === 'repeat') {
       param.filter = { 'userWord.optional.status': 'inProgress' };
 
+      const words = await getWords(param);
+
+      if(words.length === 0) {
+        modal.showModal("К сожалению нету слов для повторения.")
+        return
+      }
+
+      mainContainer.innerHTML = '';
+      startLinguist(words);
+    } else if (gameParameter === 'hard') {
+      param.filter = { 'userWord.optional.status': 'hard' };
+
+      const words = await getWords(param);
+
+      if(words.length === 0) {
+        modal.showModal("К сожалению нету сложных слов.")
+        return
+      }
+
+      mainContainer.innerHTML = '';
+      startLinguist(words);
+    } else {
+      if (settings.optional.linguist.isNewUser) {
+        const words = await getWords(param);
+  
+        mainContainer.innerHTML = '';
+        startLinguist(words);
+        return
+      }
+
+      param.filter = { 'userWord.optional.status': 'inProgress' };
+
+      mainContainer.innerHTML = '';
       getMixedWords(param);
     }
-
-    return words;
   };
 
   const goToPage = (marker, element) => {
@@ -105,7 +171,11 @@ export default function MainPage(cb) {
 
       if (element.dataset.name === 'linguist') {
         getDataForLinguist();
+      }
+
+      if (element.dataset.name === 'speakIt') {
         mainContainer.innerHTML = '';
+        pages.speakIt.onInit(mainContainer);
       }
 
       appContainerRef.querySelector('.header-nav').classList.remove('header-navActive');
@@ -113,6 +183,10 @@ export default function MainPage(cb) {
   };
 
   const addEventListeners = () => {
+    containerRef.querySelector('.linguist-select').addEventListener('change', (e) => {
+      gameParameter = e.target.value;
+    });
+
     containerRef.querySelector('.main-page__mini-games').addEventListener('click', (e) => {
       goToPage('main-page-btn', e.target);
     });
@@ -135,11 +209,18 @@ export default function MainPage(cb) {
     <div class="main-page__father-div">
     <div class="main-page-linguist-container">
       <div class="linguist-stats">
-        <p>Статистика</p>
-        <p>Выучить сегодня: ${settings.optional.linguist.wordsPerDay};</p>  
-        <p>Выученно слов: 0 с 3600;</p>
+        <p>Статистика:</p>
+        <p>Карточек на каждый день: ${settings.optional.linguist.wordsPerDay}.</p>  
+        <p>Выученно слов: 0 с 3600.</p>
+        <progress class="progress-bar" value="52" max="3600"></progress>
       </div>
       <div class="linguist-control">
+        <select class="linguist-select">
+          <option value="default">Стандартный набор</option>
+          <option value="new">Только новые карточки</option>
+          <option value="repeat">Только карточки на повтор</option>
+          <option value="hard">Только сложные карточки</option>          
+        </select>
         <button data-name="linguist" class="main-page-btn linguist-start-game">Start Game</button>
       </div>
     </div>
@@ -154,7 +235,7 @@ export default function MainPage(cb) {
               <div class="card-up peach-gradient"></div>
               <!-- Avatar -->
               <div class="avatar mx-auto white">
-                <img src="https://sun2-4.userapi.com/berjmRBX9vV4PGGmvpliFg1eV8P2Z0_-EEd6Rg/x09oQtDLPNs.jpg" class="rounded-circle img-responsive" alt="woman avatar">
+                <img src="https://sun2-3.userapi.com/WDHOVt7dX0Ac_HA0uJdEGexRvQ4fh7B0oKM9ng/ou_Yh0moOtU.jpg" class="rounded-circle img-responsive" alt="woman avatar">
               </div> 
               <!-- Content -->
               <div class="card-body">
@@ -205,7 +286,7 @@ export default function MainPage(cb) {
                 <hr>
                 <!-- Quotation -->
                 <p>Тренируйте навык аудирования для наилучшего понимания речи</p>
-                <button data-name="audioChallenge"class="main-page-btn">Audio Challenge</button>
+                <button data-name="audioChallenge" class="main-page-btn">Audio Challenge</button>
               </div>
           </div>
         </li>
@@ -315,10 +396,14 @@ export default function MainPage(cb) {
 
     containerRef = container;
 
+    modal.onInit(container);
+
     return container;
   };
 
-  const onInit = (anchor) => {
+  const onInit = async (anchor) => {
+    gameParameter = 'default';
+
     user = callbacks.getUserCallback();
     settings = callbacks.getSettingsCallback();
     pages = callbacks.getPagesCallback();
@@ -328,6 +413,11 @@ export default function MainPage(cb) {
     const container = render();
 
     anchor.append(container);
+
+    const learnedWords = await getLearnedWords({ filter: { 'userWord.optional.status': 'learned' } });
+
+    makeLinguistStats(learnedWords);
+
     addEventListeners();
     return container;
   };
