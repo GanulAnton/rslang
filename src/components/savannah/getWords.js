@@ -1,17 +1,13 @@
-
 import { shuffle } from './optionalFunction';
-
-//let param = { "userWord.optional.status": "learned" };
 
 function getWords(group, page) {
     const url = `https://afternoon-falls-25894.herokuapp.com/words?group=${group}&page=${page}`;
     return fetch(url)
         .then((res) => res.json());
 }
-//{"userId":"5eee5422f49dab0017302a3f","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZWU1NDIyZjQ5ZGFiMDAxNzMwMmEzZiIsImlhdCI6MTU5NDQ5ODA4NiwiZXhwIjoxNTk0NTEyNDg2fQ.H3ycCXYWNwCDeAX0HuvD2ZyK7nnCCAgOf7A2xos_X3A"}
 
-export async function getLearnedWords(param, user) {
-    const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(param.filter)}`, {
+export async function getLearnedWords(paramFilter, user) {
+    const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(paramFilter)}&wordsPerPage=19`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${user.token}`,
@@ -21,7 +17,6 @@ export async function getLearnedWords(param, user) {
     });
 
     const content = await rawResponse.json();
-    console.log(content, 'sm');
     return [...content];
 }
 
@@ -30,6 +25,19 @@ export async function setWords(group, page) {
         const words = await getWords(group, page);
         const wordsArray = [];
         words.forEach((element) => {
+            wordsArray.push({ word: element.word, wordTranslate: element.wordTranslate });
+        });
+        return wordsArray;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function setLearnedWords(paramFilter, user) {
+    try {
+        const words = await getLearnedWords(paramFilter, user);
+        const wordsArray = [];
+        words[0].paginatedResults.forEach((element) => {
             wordsArray.push({ word: element.word, wordTranslate: element.wordTranslate });
         });
         return wordsArray;

@@ -46,7 +46,12 @@ export default function Header(container, cb) {
         mainContainer.innerHTML = '';
         pages.audioChallenge.onInit(mainContainer);
       }
-
+      
+      if (element.dataset.name === 'savannah') {
+        mainContainer.innerHTML = '';
+        pages.savannah.onInit(mainContainer);
+      }
+      
       if (element.dataset.name === 'logOut') {
         removeFromLocalStorage('user');
 
