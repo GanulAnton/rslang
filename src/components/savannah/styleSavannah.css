@@ -9,11 +9,9 @@
     --main-font: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-
-
 .savannah__container{
-    height: 100vh;
-    width: 100vw;
+    min-height: calc(100vh - 70px);
+    width: 100%;
     background-color: var(--main-color5);
     color: var(--main-color6);
 }
@@ -257,7 +255,9 @@
     .savannah__loader-container{
         top: 150px;
     }
-
+    .savannah__container{
+        min-height: calc(100vh - 98px);
+    }
 }
 
 @media (max-width: 600px){

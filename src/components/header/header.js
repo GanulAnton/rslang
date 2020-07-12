@@ -11,7 +11,8 @@ export default function Header(container, cb) {
   const goToPage = (marker, element) => {
     if (element.classList.contains(marker)) {
       pages.linguistPage.removeEvents();
-
+      pages.savannah.removeEvents();
+      
       if (element.dataset.name === 'main') {
         mainContainer.innerHTML = '';
         pages.mainPage.onInit(mainContainer);

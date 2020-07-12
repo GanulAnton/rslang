@@ -161,6 +161,7 @@ export default function Savannah(cb) {
         });
     };
     const removeEvents = () => {
+        clearInterval(clickInterval);
         document.onkeydown = null;
         currentWordPosition = 0;
         wordsArray = [];
@@ -226,6 +227,7 @@ function trueAnswer(selectedItem) {
 }
 
 function falseAnswer(selectedItem) {
+    if(wordsArray[currentWordPosition] == undefined) return;
     setTimeout(() => {
         links.TRAININGS_ANSWERS.querySelectorAll('.savannah__trainings_answer').forEach((el) => {
             if (el.textContent === wordsArray[currentWordPosition].word) {
