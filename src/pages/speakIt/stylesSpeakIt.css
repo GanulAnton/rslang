@@ -51,6 +51,7 @@ body {
 
 .speakIt-btn.speakIt-intro-btn {
     font-weight: 300;
+    margin-top: 20px;
 }
 
 .speakIt-btn {
@@ -296,6 +297,7 @@ body {
 
 .speakIt-btn-res:nth-child(1) {
     margin-right: 40px;
+    margin-top: 30px;
 }
 
 .speakIt-btn-res:focus, .speakIt-btn-res:active {
