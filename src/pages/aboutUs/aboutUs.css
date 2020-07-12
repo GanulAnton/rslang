@@ -173,6 +173,9 @@
   }
 
   @media(max-width: 600px){
+    .aboutUs-title{
+        transform: translateY(240px);
+    }
     .slider-container-aboutUs{
         position: absolute;
         top: 50%;
@@ -192,6 +195,7 @@
     
     
     .aboutUs-text{
+        min-width: 200px;
         width: 300px;
         min-height: 300px;
         text-align: center;
