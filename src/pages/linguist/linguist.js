@@ -100,7 +100,7 @@ export default function Linguist(cb) {
   };
 
   const renderCard = () => {
-    counterRef.innerHTML = `<span>${currentIndex + 1} с ${data.length}</span>`;
+    counterRef.innerHTML = `<span>${currentIndex + 1} из ${data.length}</span>`;
 
     nextBtnRef.innerText = 'Проверить';
     nextBtnRef.classList.remove('linguist__display-none');
@@ -298,6 +298,8 @@ export default function Linguist(cb) {
     questionRef.querySelector('.linguist-answer-input-cont').innerHTML = `<span class="linguist__right">${answer}</span>`;
     // show meaning with answer without translate
 
+    showAnswerBtnRef.classList.add('linguist__display-none');
+
     nextBtnRef.innerText = 'Следующее слово';
 
     if (settings.hint.meaning) {
@@ -350,19 +352,23 @@ export default function Linguist(cb) {
       return;
     }
     const input = document.querySelector('.linguist-answer-input');
-    if (input.value === answer) {
-      if (error === 0) {
-        wordInfo.status = 'learned';
-        words.push(wordInfo);
+
+    if (input) {
+      if (input.value === answer) {
+        if (error === 0) {
+          wordInfo.status = 'learned';
+          words.push(wordInfo);
+        } else {
+          words.push(wordInfo);
+        }
+        showAnswer();
+        prepareCardBeforeChange();
       } else {
-        words.push(wordInfo);
+        error += 1;
+        showMistakes();
       }
-      showAnswer();
-      prepareCardBeforeChange();
-    } else {
-      error += 1;
-      showMistakes();
     }
+
   };
 
   const keydownEnterHandler = (e) => {
@@ -415,10 +421,6 @@ export default function Linguist(cb) {
 
   const removeEvents = () => {
     document.onkeydown = null;
-    currentIndex = 0;
-    words = [];
-    needAudio = false;
-    needTranslate = true;
   };
 
   const onInit = (anchor, userWords) => {
@@ -426,6 +428,11 @@ export default function Linguist(cb) {
     const userSettings = callbacks.getSettingsCallback();
 
     data = userWords;
+
+    currentIndex = 0;
+    words = [];
+    needAudio = false;
+    needTranslate = true;
 
     settings = {
       ...userSettings.optional.linguist,
