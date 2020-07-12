@@ -66,6 +66,9 @@ export default function MainPage(cb) {
 
   const getMixedWords = (param) => {
     let diff = 0;
+
+    let words = [];
+
     fetch(`${defaultUrl}/users/${user.userId}/aggregatedWords?filter=${JSON.stringify(param.filter)}&wordsPerPage=${param.amount - param.newWords}`, {
       method: 'GET',
       headers: {
@@ -99,7 +102,7 @@ export default function MainPage(cb) {
           .then((res) => res.json());
       })
       .then((data) => {
-        const words = [...words, ...data[0].paginatedResults];
+        words = [...words, ...data[0].paginatedResults];
         startLinguist(words);
       });
   };
@@ -175,7 +178,12 @@ export default function MainPage(cb) {
         pages.speakIt.onInit(mainContainer);
       }
 
-      if (element.dataset.name === 'savannah') {
+      if (element.dataset.name === 'audioChallenge') {
+        mainContainer.innerHTML = '';
+        pages.audioChallenge.onInit(mainContainer);
+      }
+      
+       if (element.dataset.name === 'savannah') {
         mainContainer.innerHTML = '';
         pages.savannah.onInit(mainContainer);
       }
