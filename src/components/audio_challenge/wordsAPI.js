@@ -1,6 +1,6 @@
 // function for get words from API
 export async function getWords(group, page) {
-    const url = `https://afternoon-falls-25894.herokuapp.com/words?group=${group}&page=${page}`;
+    const url = `https://afternoon-falls-25894.herokuapp.com/words?group=${group - 1}&page=${page}`;
     const res = await fetch(url);
     return res.json();
 }
@@ -52,10 +52,11 @@ export function fillRussianWords(element, array) {
 }
 //function for play audio files
 export function playAudio(wordAuido) {
+
     const audio = new Audio();
     audio.src = wordAuido;
-    audio.load();
-    audio.play();
+    audio.autoplay = true;
+    
 }
 //function to create image
 export function createImage(wordImage) {
