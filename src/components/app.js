@@ -3,6 +3,8 @@ import Login from '../pages/login/login';
 import MainPage from '../pages/mainPage/mainPage';
 import Settings from '../pages/settings/settings';
 import Linguist from '../pages/linguist/linguist';
+import Sprint from '../pages/sprint/sprintTest';
+import AboutUs from '../pages/aboutUs/aboutUs';
 
 import defaultUrl from '../accessories/defaultUrl';
 import defaultSettings from '../accessories/defaultSettings';
@@ -131,10 +133,12 @@ export default function App() {
     const mainPage = MainPage(cb);
     const linguistPage = Linguist(cb);
     const settingsPage = Settings(cb);
+    const sprintPage = Sprint(cb);
+    const aboutUsPage = AboutUs();
     const loginPage = Login(getLoginDataCallback);
     const speakIt = SpeakIt(cb);
     pages = {
-      mainPage, linguistPage, settingsPage, loginPage, speakIt
+      mainPage, linguistPage, settingsPage, loginPage, sprintPage, aboutUsPage, speakIt
     };
   };
 
