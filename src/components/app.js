@@ -9,6 +9,7 @@ import AboutUs from '../pages/aboutUs/aboutUs';
 import SpeakIt from '../pages/speakIt/renderSpeakIt';
 import AudioChallenge from '../components/audio_challenge/renderAudioChallenge';
 import Savannah from '../components/savannah/savannah'
+import WordBubbles from '../pages/wordBubbles/wordBubbles'
 
 import defaultUrl from '../accessories/defaultUrl';
 import defaultSettings from '../accessories/defaultSettings';
@@ -149,8 +150,9 @@ export default function App() {
     const speakIt = SpeakIt(cb);
     const audioChallenge = AudioChallenge(cb);
     const savannah = Savannah(cb);
+    const wordBubbles = WordBubbles(cb);
     pages = {
-      mainPage, linguistPage, settingsPage, loginPage, sprintPage, aboutUsPage, speakIt, vocabularyPage, audioChallenge, savannah,
+      mainPage, linguistPage, settingsPage, loginPage, sprintPage, aboutUsPage, speakIt, vocabularyPage, audioChallenge, savannah, wordBubbles,
     };
   };
 
