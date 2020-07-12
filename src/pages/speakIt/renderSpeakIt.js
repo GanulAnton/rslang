@@ -151,7 +151,7 @@ export default function SpeakIt(cb) {
       const item = createElement('div', speakItItems, 'speakIt-item');
       const icon = createElement('span', item, 'speakIt-audio-icon');
       const iconImg = createElement('img', icon, '');
-      iconImg.src = '../assets/img/speakItSound.jpg';
+      iconImg.src = '../assets/img/speakItSound.png';
       const speakItWord = createElement('p', item, 'speakIt-word');
       const speakItTranscription = createElement('p', item, 'speakIt-transcription');
       const speakItTranslation = createElement('p', item, 'speakIt-translation');
@@ -186,7 +186,7 @@ export default function SpeakIt(cb) {
     const item = createElement('div', speakItSuccesContainer, 'speakIt-succes-item');
     const icon = createElement('span', item, 'speakIt-audio-icon');
     const iconImg = createElement('img', icon, '');
-    iconImg.src = '../assets/img/speakItSound.jpg';
+    iconImg.src = '../assets/img/speakItSound.png';
     const speakItWord = createElement('p', item, 'speakIt-succes-word');
     const speakItTranscription = createElement('p', item, 'speakIt-succes-transcription');
     const speakItTranslation = createElement('p', item, 'speakIt-succes-translation');
@@ -196,7 +196,7 @@ export default function SpeakIt(cb) {
     const item = createElement('div', speakItFailContainer, 'speakIt-fail-item');
     const icon = createElement('span', item, 'speakIt-audio-icon');
     const iconImg = createElement('img', icon, '');
-    iconImg.src = '../assets/img/speakItSound.jpg';
+    iconImg.src = '../assets/img/speakItSound.png';
     const speakItWord = createElement('p', item, 'speakIt-fail-word');
     const speakItTranscription = createElement('p', item, 'speakIt-fail-transcription');
     const speakItTranslation = createElement('p', item, 'speakIt-fail-translation');
