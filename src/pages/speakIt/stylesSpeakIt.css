@@ -49,6 +49,10 @@ body {
     opacity: .8;
 }
 
+.speakIt-text-for-checkbox{
+    margin-top: 20px;
+}
+
 .speakIt-btn.speakIt-intro-btn {
     font-weight: 300;
     margin-top: 20px;
