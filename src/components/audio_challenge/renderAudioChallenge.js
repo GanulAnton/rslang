@@ -1,5 +1,8 @@
+/* eslint-disable no-console */
+/* eslint-disable no-lonely-if */
+/* eslint-disable linebreak-style */
 import {
-  setWords, createArrayForApp, fillRussianWords, playAudio, createImage, createTag,
+  setWords, createArrayForApp, fillRussianWords, playAudio, createImage, createTag, getLearnedWords, setLearnedWords
 } from './wordsAPI';
 import {
   successSound, mistakeSound, URL_TO_BACK,
@@ -7,10 +10,13 @@ import {
 import './AudioStyle.css';
 
 export default function AudioChallenge(cb) {
+  let user = null;
+  const callbacks = cb;
   let mistakesCount = 0;
   let successCount = 0;
 
   const onInit = (anchor) => {
+    user = callbacks.getUserCallback();
     const container = renderAudioChallenge(anchor);
     addEventListeners();
     return container;
@@ -105,13 +111,16 @@ export default function AudioChallenge(cb) {
 
   const addEventListeners = () => {
     let WordsArray = [];
-    // Listener for button on intro page
     document.querySelector('.audio_intro-btn').addEventListener('click', async (ev) => {
       ev.preventDefault();
       let LevelOfDifficulty = document.querySelector('.audio-difficulty-level-select').options[document.querySelector('.audio-difficulty-level-select').selectedIndex].text;
       let NumberOfRound = document.querySelector('.audio-round-number-select').options[document.querySelector('.audio-round-number-select').selectedIndex].text;
-      if (!isNaN(LevelOfDifficulty) && !isNaN(NumberOfRound)) {
-        WordsArray = await setWords(LevelOfDifficulty, NumberOfRound);
+      if (document.querySelector('.audio-checkbox-my-words').checked) {
+        WordsArray = await setLearnedWords({ "userWord.optional.status": "learned" }, user);
+        if(WordsArray.length < 16){
+            console.log('Недостаточно слов для игры со своими словами');
+            return;
+        }
         const fiveWordsForPage = createArrayForApp(WordsArray);
         const russianWordsNode = document.querySelectorAll('.audio_russian_word_to_choose');
         const russianWordsArray = Array.from(russianWordsNode);
@@ -121,17 +130,29 @@ export default function AudioChallenge(cb) {
         document.querySelector('.audio_intro').classList.toggle('audio_hidden');
         document.querySelector('.audio_container').classList.toggle('audio_hidden');
       } else {
-        LevelOfDifficulty = 1;
-        NumberOfRound = 1;
-        WordsArray = await setWords(LevelOfDifficulty, NumberOfRound);
-        const fiveWordsForPage = createArrayForApp(WordsArray);
-        const russianWordsNode = document.querySelectorAll('.audio_russian_word_to_choose');
-        const russianWordsArray = Array.from(russianWordsNode);
-        fillRussianWords(russianWordsArray, fiveWordsForPage);
-        const audioOfWord = `${URL_TO_BACK}${WordsArray[0].audio}`;
-        playAudio(audioOfWord);
-        document.querySelector('.audio_intro').classList.toggle('audio_hidden');
-        document.querySelector('.audio_container').classList.toggle('audio_hidden');
+        if (!isNaN(LevelOfDifficulty) && !isNaN(NumberOfRound)) {
+          WordsArray = await setWords(LevelOfDifficulty, NumberOfRound);
+          const fiveWordsForPage = createArrayForApp(WordsArray);
+          const russianWordsNode = document.querySelectorAll('.audio_russian_word_to_choose');
+          const russianWordsArray = Array.from(russianWordsNode);
+          fillRussianWords(russianWordsArray, fiveWordsForPage);
+          const audioOfWord = `${URL_TO_BACK}${WordsArray[0].audio}`;
+          playAudio(audioOfWord);
+          document.querySelector('.audio_intro').classList.toggle('audio_hidden');
+          document.querySelector('.audio_container').classList.toggle('audio_hidden');
+        } else {
+          LevelOfDifficulty = 1;
+          NumberOfRound = 1;
+          WordsArray = await setWords(LevelOfDifficulty, NumberOfRound);
+          const fiveWordsForPage = createArrayForApp(WordsArray);
+          const russianWordsNode = document.querySelectorAll('.audio_russian_word_to_choose');
+          const russianWordsArray = Array.from(russianWordsNode);
+          fillRussianWords(russianWordsArray, fiveWordsForPage);
+          const audioOfWord = `${URL_TO_BACK}${WordsArray[0].audio}`;
+          playAudio(audioOfWord);
+          document.querySelector('.audio_intro').classList.toggle('audio_hidden');
+          document.querySelector('.audio_container').classList.toggle('audio_hidden');
+        }
       }
     });
 
