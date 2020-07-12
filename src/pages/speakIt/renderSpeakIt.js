@@ -300,6 +300,11 @@ export default function SpeakIt(cb) {
       }
     });
 
+    document.querySelector('.speakIt-checkbox-self-words').addEventListener('click', () =>{
+      document.querySelector('.selected-dif').classList.toggle('speakIt-innactive-select');
+      document.querySelector('.selected-round').classList.toggle('speakIt-innactive-select');
+    });
+
     document.querySelectorAll('.speakIt-item').forEach((element, i) => {
       element.addEventListener('click', () => {
         message.lang = 'en-EN';

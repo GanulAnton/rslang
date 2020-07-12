@@ -137,6 +137,11 @@ body {
     pointer-events: none;
 }
 
+.speakIt-innactive-select{
+    pointer-events: none;
+    opacity: 0.4;
+}
+
 .speakIt-word, .speakIt-translation, .speakIt-img-translation {
     color: #0e1e25;
     font-size: 22px;
