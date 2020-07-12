@@ -1,24 +1,13 @@
 import './settings.css';
+import Modal from '../../components/modal/modal'
 
-export default function Settings() {
-  const settings = {
-    wordsPerDay: '20',
-    newWords: '10',
-    hint: {
-      translation: false,
-      meaning: true,
-      example: false,
-    },
-    additional: {
-      transcription: true,
-      image: true,
-    },
-    vocabulary: true,
-    showAnswer: false,
-  };
-  const newSettings = {
-    ...settings,
-  };
+export default function Settings(cb) {
+  const callbacks = cb;
+  const modal = Modal();
+  
+  let pages = null;
+  let settings = null;
+  let newSettings = null;
   let containerRef = null;
   let translateCheckboxRef = null;
   let meaningCheckboxRef = null;
@@ -51,6 +40,7 @@ export default function Settings() {
     });
 
     if (check) {
+      modal.showModal("Выберите хоть один параметр")
       console.log('Выберите хоть один параметр');
     }
 
@@ -62,10 +52,17 @@ export default function Settings() {
   };
 
   const validateInput = (number) => {
-    if (Number.isInteger(+number) && number < 100 && number > 10) {
+    if (Number.isInteger(+number) && number < 100 && number > 9) {
       return true;
     }
     return false;
+  };
+
+  const goToMainPage = () => {
+    const mainContainer = callbacks.getMainContainerCallback();
+    mainContainer.innerHTML = '';
+
+    pages.mainPage.onInit(mainContainer);
   };
 
   const addEventListeners = () => {
@@ -74,7 +71,7 @@ export default function Settings() {
     inputWordsPerDay.addEventListener('change', () => {
       if (!validateInput(inputWordsPerDay.value)) {
         // restore default
-        inputWordsPerDay.value = settings.wordsPerDay;
+        inputWordsPerDay.value = settings.optional.linguist.wordsPerDay;
       } else {
         newSettings.wordsPerDay = inputWordsPerDay.value;
       }
@@ -83,7 +80,7 @@ export default function Settings() {
     inputNewWords.addEventListener('change', () => {
       if (inputNewWords.value >= inputWordsPerDay.value || !validateInput(inputNewWords.value)) {
         // restore default
-        inputNewWords.value = settings.newWords;
+        inputNewWords.value = settings.optional.linguist.newWords;
       } else {
         newSettings.newWords = inputNewWords.value;
       }
@@ -127,26 +124,30 @@ export default function Settings() {
       e.preventDefault();
 
       if (e.submitter.classList.contains('settings-save')) {
+        console.log(callbacks);
+        callbacks.setSettingsCallback({ ...settings.optional, linguist: newSettings });
+        goToMainPage();
         console.log(newSettings, 'Новые настройки');
       }
 
       if (e.submitter.classList.contains('settings-cancel')) {
         console.log(settings, 'Старые настройки');
+        goToMainPage();
       }
     });
   };
 
   const setCheckboxes = () => {
-    const { translate, meaning, example } = settings.hint;
-    const { transcription, image } = settings.additional;
+    const { translation, meaning, example } = settings.optional.linguist.hint;
+    const { transcription, image } = settings.optional.linguist.additional;
 
-    translateCheckboxRef.checked = translate;
+    translateCheckboxRef.checked = translation;
     meaningCheckboxRef.checked = meaning;
     exampleCheckboxRef.checked = example;
     transcriptionCheckboxRef.checked = transcription;
     imageCheckboxRef.checked = image;
-    vocabularyCheckboxRef.checked = settings.vocabulary;
-    showAnswerCheckboxRef.checked = settings.showAnswer;
+    vocabularyCheckboxRef.checked = settings.optional.linguist.vocabulary;
+    showAnswerCheckboxRef.checked = settings.optional.linguist.showAnswer;
   };
 
   const render = () => {
@@ -157,11 +158,11 @@ export default function Settings() {
       <form action="#">
         <div class="settings-wordsperday">
           <label for="">Words per day</label>
-          <input type="text" id="settingsInputWordsperday" class="settings-input" value="${settings.wordsPerDay}" maxlength="3" size="${settings.wordsPerDay.length}">
+          <input type="text" id="settingsInputWordsperday" class="settings-input" value="${settings.optional.linguist.wordsPerDay}" maxlength="3" size="${settings.optional.linguist.wordsPerDay.length}">
         </div>
         <div class="settings-newwords">
           <label for="">New words per day</label>
-          <input type="text" id="settingsInputNewWords" class="settings-input" value="${settings.newWords}" maxlength="3" size="${settings.newWords.length}">
+          <input type="text" id="settingsInputNewWords" class="settings-input" value="${settings.optional.linguist.newWords}" maxlength="3" size="${settings.optional.linguist.newWords.length}">
         </div>
         <div class="settings-translate">
           <h3>Hint:</h3>
@@ -188,10 +189,21 @@ export default function Settings() {
     </div> 
     `;
 
+    modal.onInit(container)
+
     return container;
   };
 
   const onInit = (anchor) => {
+    const settingsSaved = callbacks.getSettingsCallback();
+
+    settings = settingsSaved;
+    newSettings = {
+      ...settings.optional.linguist,
+    };
+
+    pages = callbacks.getPagesCallback();
+
     const container = anchor.append(render());
     setRefs();
     setCheckboxes();
