@@ -1,6 +1,7 @@
 .vocabulary-container {
   width: 550px;
   margin: 0 auto;
+  padding-top: 70px;
 }
 
 .vocabulary-tabs {
@@ -68,11 +69,20 @@
 
 @media (min-width: 320px) and (max-width: 768px) {
   .vocabulary-container {
+    padding-top: 98px;
     width: 300px;
   }
 
+  .vocabulary-tab-title {
+    font-size: 0.75rem;
+  }
+
+  .vocabulary-tab-content {
+    padding: 5px;
+  }
+
   .vocabulary-word-item {
-    width: 280px;
+    width: 270px;
     font-size: 0.75rem;
   }  
 

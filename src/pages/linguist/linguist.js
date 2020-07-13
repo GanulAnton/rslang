@@ -4,6 +4,7 @@ import Modal from '../../components/modal/modal';
 export default function Linguist(cb) {
   const callbacks = cb;
   const modal = Modal();
+  const contentUrl = 'https://raw.githubusercontent.com/GanulAnton/rslang-data/master/';
   let data = null;
   let currentIndex = 0;
   let error = 0;
@@ -79,7 +80,7 @@ export default function Linguist(cb) {
     answer = data[currentIndex].word;
   };
 
-  const makeQuestion = () => `<div class="linguist-answer-input-cont"><input type="text" class="linguist-answer-input" size="${answer.length}" /></div>`;
+  const makeQuestion = () => `<div class="linguist-answer-input-cont"><input type="text" class="linguist-answer-input" size="${data[currentIndex].word.length}" /></div>`;
 
   const makeHint = (str, marker) => {
     let result = '';
@@ -100,6 +101,11 @@ export default function Linguist(cb) {
   };
 
   const renderCard = () => {
+    const { example, translation, meaning } = settings.hint;
+    const { transcription, image } = settings.additional;
+    
+    
+
     counterRef.innerHTML = `<span>${currentIndex + 1} из ${data.length}</span>`;
 
     nextBtnRef.innerText = 'Проверить';
@@ -107,14 +113,14 @@ export default function Linguist(cb) {
     deleteWordBtnRef.classList.remove('linguist__display-none');
     hardWordBtnRef.classList.remove('linguist__display-none');
 
-    setAnswer();
     questionRef.innerHTML = makeQuestion(data[currentIndex].textExample, '<b>');
+  
+    setAnswer(); 
     setInputFocus();
-    const { example, translation, meaning } = settings.hint;
 
-    if (settings.additional.image) {
+    if (image) {
       if (document.querySelector('.linguist-card-image')) {
-        document.querySelector('.linguist-card-image').innerHTML = `<img src="https://raw.githubusercontent.com/GanulAnton/rslang-data/master/${data[currentIndex].image}" loading="lazy">`;
+        document.querySelector('.linguist-card-image').innerHTML = `<img src="${contentUrl}${data[currentIndex].image}" loading="lazy">`;
       }
     }
 
@@ -132,7 +138,7 @@ export default function Linguist(cb) {
       translationContRef.innerHTML = makeHint(data[currentIndex].wordTranslate);
     }
 
-    if (settings.additional.transcription) {
+    if (transcription) {
       additionalRef.innerHTML = `<span>${data[currentIndex].transcription}</span>`;
       additionalRef.classList.add('linguist__margin-bottom');
     }
@@ -158,7 +164,6 @@ export default function Linguist(cb) {
   };
 
   const changeCard = () => {
-    // end
     if (currentIndex !== data.length - 1) {
       isAnswered = false;
       currentIndex += 1;
@@ -246,19 +251,19 @@ export default function Linguist(cb) {
   const playAudio = () => {
     const word = new Audio();
     word.preload = 'auto';
-    word.src = `https://raw.githubusercontent.com/GanulAnton/rslang-data/master/${data[currentIndex].audio}`;
+    word.src = `${contentUrl}${data[currentIndex].audio}`;
     word.play();
 
     const example = new Audio();
     example.preload = 'auto';
-    example.src = `https://raw.githubusercontent.com/GanulAnton/rslang-data/master/${data[currentIndex].audioExample}`;
+    example.src = `${contentUrl}${data[currentIndex].audioExample}`;
 
     let meaning = null;
 
     if (settings.hint.meaning) {
       meaning = new Audio();
       meaning.preload = 'auto';
-      meaning.src = `https://raw.githubusercontent.com/GanulAnton/rslang-data/master/${data[currentIndex].audioMeaning}`;
+      meaning.src = `${contentUrl}${data[currentIndex].audioMeaning}`;
 
       meaning.addEventListener('ended', () => {
         if (needTranslate) {
@@ -337,6 +342,7 @@ export default function Linguist(cb) {
 
   const checkAnswer = () => {
     const wordInfo = { id: data[currentIndex]._id, status: 'inProgress', isUpdated: false };
+    const input = document.querySelector('.linguist-answer-input');
 
     if (data[currentIndex].userWord) {
       wordInfo.isUpdated = true;
@@ -351,8 +357,7 @@ export default function Linguist(cb) {
       words.push(wordInfo);
       return;
     }
-    const input = document.querySelector('.linguist-answer-input');
-
+    
     if (input) {
       if (input.value === answer) {
         if (error === 0) {

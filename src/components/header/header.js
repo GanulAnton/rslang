@@ -69,6 +69,7 @@ export default function Header(container, cb) {
 
       if (headerRef.querySelector('.header-nav')) {
         headerRef.querySelector('.header-nav').classList.remove('header-navActive');
+        headerRef.querySelector('.shadow-background').classList.remove('shadow-background-active');
       }
     }
   };
@@ -76,11 +77,17 @@ export default function Header(container, cb) {
   const addEventListeners = () => {
     headerRef.querySelector('.header-main-nav-btn').addEventListener('click', () => {
       headerRef.querySelector('.header-nav').classList.toggle('header-navActive');
+      headerRef.querySelector('.shadow-background').classList.toggle('shadow-background-active');
     });
 
     headerRef.querySelector('header .header-nav').addEventListener('click', (e) => {
       goToPage('header-link', e.target);
     });
+
+    headerRef.querySelector('.shadow-background').addEventListener('click', () => {
+      headerRef.querySelector('.header-nav').classList.remove('header-navActive');
+      headerRef.querySelector('.shadow-background').classList.remove('shadow-background-active');
+    })
   };
 
   const render = () => {
@@ -110,6 +117,7 @@ export default function Header(container, cb) {
         </div>
       </div>
     </div>
+    <div class="shadow-background"></div> 
     `;
 
     headerRef = header;

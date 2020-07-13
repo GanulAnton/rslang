@@ -7,8 +7,7 @@
 
 .linguist-container {
   margin: 0 auto;
-  padding: 2rem 0 0;
-  height: calc(100vh - 70px);
+  padding: 120px 0 0;
 }
 
 .linguist-additional-control {
@@ -167,6 +166,10 @@
 }
 
 @media (min-width: 320px) and (max-width: 768px) {
+  .linguist-container {
+    padding: 140px 0 0;
+  }
+
   .linguist-card-cont{
     width: 300px;
     word-wrap: break-word;
