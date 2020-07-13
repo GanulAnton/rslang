@@ -148,8 +148,10 @@ export default function Settings(cb) {
   const render = () => {
     const container = document.createElement('div');
     containerRef = container;
+
+    container.classList.add('settings-container')
+
     container.innerHTML = `
-    <div class="settings-container">
       <form action="#">
         <div class="settings-wordsperday">
           <label for="">Слова на каждый день</label>
@@ -181,7 +183,6 @@ export default function Settings(cb) {
           <button class="settings-btn settings-cancel" type="submit">Отменить</button>
         </div>
       </form>
-    </div> 
     `;
 
     modal.onInit(container);

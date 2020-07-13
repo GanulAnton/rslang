@@ -1,6 +1,7 @@
 .settings-container{
-  text-align: center;
   margin: 0 auto;
+  padding-top: 70px;
+  text-align: center;
 }
 
 .settings-wordsperday {
@@ -58,6 +59,12 @@
 
 .settings-container h3 {
   font-family: "Roboto Bold";
+}
+
+@media (min-width: 320px) and (max-width: 768px) {
+  .settings-container {
+    padding-top: 98px;
+  }
 }
 
 @media(hover: hover){

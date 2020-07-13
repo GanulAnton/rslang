@@ -3,11 +3,14 @@
 }
 
 header {
+  position: fixed;
+  width: 100%;
   background: #10cbff;
   font-size: 1rem;
   color: #ffffff;
   letter-spacing: 0.01rem;
   user-select: none;
+  z-index: 55;
 }
 
 header .header-container {
@@ -16,6 +19,7 @@ header .header-container {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 10rem;
+  z-index: 55;
 }
 
 .header-main-nav-btn {
@@ -43,7 +47,7 @@ header .header-container {
   padding-top: 0.5rem;
   height: calc(100vh - 56px);
   background: linear-gradient(180deg, #10cbff, #0a82f2);
-  z-index: 10;
+  z-index: 55;
 }
 
 .header-nav .header-link {
@@ -65,13 +69,46 @@ header .header-container {
   justify-content: space-between;
 }
 
+.shadow-background {
+  display: none;
+  position: fixed;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 70px);
+  background-color: rgba(45,48,58, 0.7);
+  z-index: 50;
+}
+
+.shadow-background-active {
+  display: block;
+}
+
 @media (min-width: 320px) and (max-width: 768px) { 
-  .header-container {
+  header {
+    height: 98px;
+  }
+
+  header .header-container {
     flex-direction: column;
+    padding: 1rem 5rem;
+  }
+
+  .header-nav .header-link {
+    font-size: 1rem;
+  }
+  
+  .header-nav .header-profile-nav .header-link{
+    font-size: 0.75rem;
+  }  
+
+  .shadow-background {
+    top: 98px; 
   }
 
   .header-nav{ 
     top: 5.5rem;
+    height: calc(100vh - 88px);
   }
 }  
 

@@ -12,6 +12,11 @@ body {
     font-family: 'Roboto', 'Arial', 'sans-serif';
   }
 
+html, body {
+  scroll-behavior: smooth;
+}
+  
+
 @font-face {
   font-family: "Roboto Regular";
   font-style: normal;

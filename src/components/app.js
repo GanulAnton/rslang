@@ -116,6 +116,7 @@ export default function App() {
 
     document.querySelector('#app').innerHTML = '';
     mainContainer.classList.add('app-container');
+    mainContainer.innerHTML = '';
 
     header.onInit(document.querySelector('#app'));
     document.querySelector('#app').append(mainContainer);
