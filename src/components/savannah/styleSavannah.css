@@ -10,7 +10,7 @@
 }
 
 .savannah__container{
-    min-height: calc(100vh - 70px);
+    min-height: calc(100vh);
     width: 100%;
     background-color: var(--main-color5);
     color: var(--main-color6);
@@ -178,7 +178,7 @@
     background-size: contain;
     cursor: pointer;
     position: relative;
-    top: 15px;
+    top: 85px;
     left: 15px;
 }
 .savannah__sound-button-m-muted {
@@ -188,7 +188,7 @@
 .savannah__trainings__word_container {
     position: fixed;
     left: 0;
-    top: 105;
+    margin-top: 105px;
     font-size: 48px;
     line-height: 1;
     font-weight: 300;
@@ -256,7 +256,10 @@
         top: 150px;
     }
     .savannah__container{
-        min-height: calc(100vh - 98px);
+        min-height: calc(100vh);
+    }
+    .savannah__sound-button {
+        top: 112px;
     }
 }
 
@@ -268,14 +271,14 @@
 
 @media (max-width: 430px){
     .savannah__h2{
-        padding-top: 50px;
+        padding-top: 85px;
     }
     .savannah__p{
         padding-top: 5px;
         margin-top: 15px;
     }
     .savannah__start__form{
-        margin-top: 10px;
+        margin-top: 30px;
     }
     
 }
