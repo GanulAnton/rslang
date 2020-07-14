@@ -1,0 +1,281 @@
+
+:root {
+    --main-color: #f4f1ec;
+    --main-color2:#e5dece;
+    --main-color3:#ecd7d2;
+    --main-color4:#407097;
+    --main-color5:#0e141f;
+    --main-color6:#fff;
+    --main-font: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.savannah__container{
+    min-height: calc(100vh - 70px);
+    width: 100%;
+    background-color: var(--main-color5);
+    color: var(--main-color6);
+}
+.savannah__loader-container{
+    position: absolute;
+    top: 120px;
+    width: 100%;
+    height: 80%;
+    background-color: var(--main-color5);
+    background-image: url('../../assets/img/savannah_hearts.svg');
+    background-size: 30%;
+    background-position: center;
+    z-index: 3;
+    background-repeat: no-repeat;
+}
+.savannah__statistic-container{
+    position: absolute;
+    top: 200px;
+    width: 100%;
+    height: 80%;
+    background-color: var(--main-color5);
+    background-size: 30%;
+    background-position: center;
+    z-index: 3;
+    background-repeat: no-repeat;
+}
+.savannah__start-container{
+    font-size: 10px;
+    transition: all .20s ease;
+}
+.savannah__start__form{
+    margin-top: 70px;
+}
+.savannah__disabled_trainings_answer{
+    pointer-events: none;
+}
+
+.savannah__h2{
+    text-align: center;
+    padding-top: 85px;
+    font-family: var(--main-font);
+    font-size: 4.5rem;
+}
+.savannah__p{
+    text-align: center;
+    margin-top: 40px;
+    font-family: var(--main-font);
+    font-size: 1.4rem;
+}
+
+.savannah__button{
+    text-align: center;
+    font-size: 24px;
+    font-weight: 300;
+    line-height: 1;
+    text-align: center;
+    padding: 19px 15px 21px;
+    text-decoration: none;
+    min-width: 250px;
+    color: var(--main-color6);
+    background: linear-gradient(var(--main-color4), var(--main-color5)) var(--main-color6);
+    border-radius: 4px;
+    border-color: aliceblue;
+    cursor: pointer;
+}
+
+.savannah__button:hover { 
+    background:  linear-gradient(var(--main-color5), var(--main-color4)) var(--main-color6); 
+    border-color: var(--main-color6);
+}
+.savannah__button:active { 
+    background: var(--main-color5); 
+    border-color: var(--main-color6);
+}
+
+.savannah__inactive{
+    display: none;
+}
+
+.savannah__lvl-list_select, .savannah__round-list_select{
+    cursor:pointer;
+    display: inline-block;
+    width: 250px;
+    height: 38px;
+    line-height: 30px;
+    position: relative;
+    border: 5px solid  var(--main-color6);
+    border-radius: 10px;
+    background-color: var(--main-color4);
+    text-align-last:center;
+    color: var(--main-color6);
+}
+.savannah__lvl-list_select > option, savannah__round-list_select > option{
+    font-family: 'Roboto Regular';
+    font-size: 15px;
+    color: var(--main-color6);
+}
+.savannah__trainings_answer{
+    display: inline-block;
+    vertical-align: top;
+    font-size: 24px;
+    line-height: 30px;
+    font-weight: 300;
+    max-width: 270px;
+    text-align: left;
+    position: relative;
+    padding: 20px 15px 20px 30px;
+    color: #fff;
+    transition: all .15s ease;
+    border-radius: 2px;
+    cursor: pointer;
+    margin: 0 20px;
+    user-select: none;
+}
+
+.savannah__trainings_answers> span{
+    margin-bottom: 39px;
+    padding-top: 0px;
+    border-left-width: 47px;
+    margin-left: 25px;
+    position: absolute;
+    margin-top: 28px;
+}
+
+.savannah__trainings__header{
+    display: flex;
+    flex-direction: row;
+}
+
+.savannah__hearts{
+    position: absolute;
+    right: 60px;
+    top: 92px;
+    height: 16px;
+    display: flex;
+    flex-direction: row;
+}
+.savannah__heart{
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAQCAYAAAD0xERiAAAAAXNSR0IArs4c6QAAAQpJREFUOBFjYICC////CwLxRCA+D8TfgPgeEPcDsQCSmmQg/yQQfwHiB0C8FojNYPJgGihgCMTPgBgbuAsUdADi1dgkgWJ/gLgIZBAjkMEGpM8BsTZIgEzwF6jPigFoWBgQUwOsZQKaaEyma9C1GYMM40IXJZPPDTLsDJma0bWdBkWAEFD0DhALosuSyI8EqwcaWExhDIDSHiPMMBYgZy+ZBn4A6lNH8QVQQAiI75BoICjBeqEYBOMAJWSB+DaRBv4GqguF6cVKAxVIAfFFAgZ+Bcr7YTUAXRCokAeIN+Ew8DFQ3AhdD14+UAMo2VQCMShcYGAnkCGKVyM+SaBmCyAGebsQiCHRj0MDAN3VLCP8KQGSAAAAAElFTkSuQmCC) no-repeat;
+    height: 20px;
+    width: 20px;
+    background-size: 100%;
+}
+
+.savannah__empty-heart{
+    opacity: .2;
+}
+.savannah__close{
+    width: 20px;
+    height: 20px;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZD0iTS02LTZoMzB2MzBILTZ6Ii8+CiAgICAgICAgPHBhdGggZmlsbD0iI0RFREVERSIgZD0iTTE3Ljc1IDIuMDEyTDE1Ljk4OC4yNSA5IDcuMjM4IDIuMDEyLjI1LjI1IDIuMDEyIDcuMjM4IDkgLjI1IDE1Ljk4OGwxLjc2MiAxLjc2Mkw5IDEwLjc2Mmw2Ljk4OCA2Ljk4OCAxLjc2Mi0xLjc2MkwxMC43NjIgOXoiLz4KICAgIDwvZz4KPC9zdmc+Cg==);
+    background-size: cover;
+    position: absolute;
+    top: 92px;
+    right: 27px;
+    cursor: pointer;
+}
+
+.savannah__sound-button {
+    width: 23px;
+    height: 24px;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOSIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDE5IDI0Ij4KICAgIDxnIGZpbGw9IiNGRkYiPgogICAgICAgIDxwYXRoIGQ9Ik04Ljc3OCAyLjE1NlYxMi4zNzNjLS42MzctLjI1MS0xLjMxNi0uMzc4LTItLjM3My0xLjU5My0uMDA2LTMuMTIzLjYyNC00LjI1IDEuNzVDMS40MDMgMTQuODc4Ljc3MyAxNi40MDguNzc5IDE4Yy0uMDA2IDEuNTkuNjIyIDMuMTE3IDEuNzQ0IDQuMjQzQzMuNjQ1IDIzLjM2OSA1LjE3IDI0IDYuNzYgMjRjMy4wNTIuMDAxIDUuNjEzLTIuMyA1LjkzOC01LjMzM2guMDhWNi45MjVsLTQtNC43N3oiLz4KICAgICAgICA8cGF0aCBkPSJNMTIuNzYgNEwxOC4wNzYgNCAxOC4wNzYgMCA4Ljc2IDAgOC43NiA0LjQ0NCAxMi43NiA4LjQ0NHoiLz4KICAgIDwvZz4KPC9zdmc+Cg==);
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+    position: relative;
+    top: 15px;
+    left: 15px;
+}
+.savannah__sound-button-m-muted {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxnIGZpbGw9IiNGRkYiPgogICAgICAgIDxwYXRoIGQ9Ik05Ljc3OCA4LjIxM0wxLjU4MiAwIDAgMS41NzhsOS43NzggOS43Nzh2MS4wMTdjLS42MzctLjI1MS0xLjMxNi0uMzc4LTItLjM3My0xLjU5My0uMDA2LTMuMTIzLjYyNC00LjI1IDEuNzUtMS4xMjYgMS4xMjctMS43NTYgMi42NTctMS43NSA0LjI1LS4wMDYgMS41OS42MjIgMy4xMTcgMS43NDQgNC4yNDNDNC42NDUgMjMuMzY5IDYuMTcgMjQgNy43NiAyNGMzLjA1Mi4wMDEgNS42MTMtMi4zIDUuOTM4LTUuMzMzaC4wOHYtMy4zMzRMMjIuNDE4IDI0IDI0IDIyLjQzMSAxMy43NzggMTIuMjFsLTQtMy45OTZ6TTEzLjc2IDRMMTkuMDc2IDQgMTkuMDc2IDAgOS43NiAwIDkuNzYgNC40NDQgMTMuNzYgOC40NDR6Ii8+CiAgICA8L2c+Cjwvc3ZnPgo=);
+    width: 24px;
+}
+.savannah__trainings__word_container {
+    position: fixed;
+    left: 0;
+    top: 105;
+    font-size: 48px;
+    line-height: 1;
+    font-weight: 300;
+    white-space: nowrap;
+    color: #fff;
+    letter-spacing: 1px;
+    height: 100%;
+    width: 100%;
+    transform: translate(0);
+    transition: transform 5s ease-in;
+}
+
+
+.savannah__trainings__word{
+    position: absolute;
+    transform-origin: 50% bottom;
+    transition: all .3s ease;
+    transform: translate(-50%);
+    display: inline-block;
+    left: 50%;
+}
+.savannah__trainings_answers{
+    position: absolute;
+    top: 30%;
+    margin-top: -30px;
+    right: 0;
+    left: 0;
+    text-align: center;
+    min-height: 50%;
+    padding-top: 100px; 
+}
+
+.savannah__trueAnswer{
+    background-color: rgb(219, 214, 214);
+    opacity: .3;
+    border-radius: 50%;
+}
+.savannah__falseAnswer{
+    background-color: rgb(75, 72, 72);
+    opacity: .3;
+    border-radius: 50%;
+}
+
+.savannah__trainings__word_finish-fall {
+    transition: letter-spacing .6s ease;
+    letter-spacing: 100px;
+}
+.savannah__trainings__word_fall {
+    transform: translateY(50%);
+    transition: all 5s linear;
+}
+.savannah__trainings__word_start-fall {
+    transition: all .5s ease;
+    opacity: 0;
+}
+
+@media (max-width: 770px){
+    .savannah__close{
+        top: 120px;
+    }
+    .savannah__hearts{
+        top: 120px;
+    }
+    .savannah__loader-container{
+        top: 150px;
+    }
+    .savannah__container{
+        min-height: calc(100vh - 98px);
+    }
+}
+
+@media (max-width: 600px){
+    .savannah__trainings_answers> span{
+        display: none;
+    }
+}
+
+@media (max-width: 430px){
+    .savannah__h2{
+        padding-top: 50px;
+    }
+    .savannah__p{
+        padding-top: 5px;
+        margin-top: 15px;
+    }
+    .savannah__start__form{
+        margin-top: 10px;
+    }
+    
+}

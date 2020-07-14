@@ -1,0 +1,16 @@
+{
+    "extends": [
+      "prettier",
+      "airbnb-base"
+    ],
+    "rules": {
+      "jsx-quotes": [
+        1,
+        "prefer-double"
+      ]
+    },
+    "plugins": [
+      "prettier"
+    ]
+  }
+  
