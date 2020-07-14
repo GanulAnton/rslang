@@ -6,7 +6,7 @@
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
     min-width: 100%;
-    min-height: calc(100vh - 70px);
+    min-height: calc(100vh);
     position: relative;
 }
 
@@ -292,6 +292,6 @@
 }
 @media (max-width: 769px){
     .my-app-container{
-        min-height: calc(100vh - 98px);
+        min-height: calc(100vh);
     }
 }
