@@ -3,7 +3,7 @@
 }
 
 header {
-  background: #10cbff;
+  background: #0cb8ff;
   font-size: 1rem;
   color: #ffffff;
   letter-spacing: 0.01rem;
@@ -15,6 +15,7 @@ header .header-container {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 10rem;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 
 .header-main-nav-btn {
@@ -35,13 +36,15 @@ header .header-container {
   display: none;
   position: absolute;
   width: 250px;
-  top: 3.5rem;
+  top: 70px;
   right: 0;
   text-align: left;
   border-radius: 0 0 0 8px;
   padding-top: 0.5rem;
   height: calc(100vh - 56px);
-  background: linear-gradient(180deg, #10cbff, #0a82f2);
+  color: #00435f;
+  background: transparent;
+  backdrop-filter: blur(15px);
   z-index: 10;
 }
 
@@ -70,7 +73,7 @@ header .header-container {
   }
 
   .header-nav{ 
-    top: 5.5rem;
+    top: 98px;
   }
 }  
 
@@ -83,6 +86,6 @@ header .header-container {
   .header-link:hover {
     transition: .6s;
     cursor: pointer;
-    color: #12394f; 
+    color: #319edd; 
   }
 }

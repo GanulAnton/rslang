@@ -19,7 +19,8 @@ body {
 .own-game-main-wrapper {
   position: absolute;
   width: 600px;
-  height: 200px;
+  height: 300px;
+  padding: 10px;
   border-radius: 9px;
   background-color: rgba(255, 255, 255, 0.85);
   left: calc(50% - 530px / 2);
@@ -89,6 +90,7 @@ button {
 }
 
 .own-game-how-to-play {
+  display: none;
   width: 34px;
   text-align: center;
   font-size: 18px;
@@ -100,7 +102,7 @@ button {
 }
 
 .own-game-go-to-play {
-  width: 86%;
+  width: 90%;
   height: 34px;
   font-weight: 700;
   font-size: 16px;
@@ -176,13 +178,14 @@ button:focus {
   padding: 15px;
 }
 
-#own-game-tooltip-points-wrapper {
-  display: flex;
+.own-game-tooltip-points-wrapper {
   margin-top: 55px;
+  text-align: center;
 }
 
 .own-game-tooltip-points {
   font-size: 18px;
+  color: #1a4a5f;
 }
 
 #own-game-modal-window-header {
@@ -398,7 +401,7 @@ button:focus {
 
   }
 
-  #own-game-tooltip-points-wrapper {
+  .own-game-tooltip-points-wrapper {
     display: flex;
     flex-flow: column;
     justify-content: center;
@@ -829,7 +832,7 @@ button:focus {
     padding-top: 10px;
   }
   
-  #own-game-tooltip-points-wrapper {
+  .own-game-tooltip-points-wrapper {
     display: flex;
     margin-top: 35px;
   }
@@ -1001,7 +1004,7 @@ button:focus {
     padding-top: 10px;
   }
   
-  #own-game-tooltip-points-wrapper {
+  .own-game-tooltip-points-wrapper {
     display: flex;
     margin-top: 35px;
   }
@@ -1127,7 +1130,7 @@ button:focus {
     padding-top: 10px;
   }
   
-  #own-game-tooltip-points-wrapper {
+  .own-game-tooltip-points-wrapper {
     display: flex;
     margin-top: 35px;
   }
@@ -1299,7 +1302,7 @@ button:focus {
     padding-top: 10px;
   }
   
-  #own-game-tooltip-points-wrapper {
+  .own-game-tooltip-points-wrapper {
     display: flex;
     margin-top: 35px;
   }
@@ -1425,7 +1428,7 @@ button:focus {
     padding-top: 10px;
   }
   
-  #own-game-tooltip-points-wrapper {
+  .own-game-tooltip-points-wrapper {
     display: flex;
     margin-top: 35px;
   }

@@ -95,11 +95,11 @@ body {
 }
 
 .main-page__mini-game-separator {
-  border: 2px;
-  border-radius: 50%;
+  height: 2px;
+  border-radius: 1px;
   width: 95%;
   margin: 0 auto;
-  background-color: #742a92;
+  background-color: #2a6092;
 }
 
 .main-page__separator {
@@ -173,8 +173,8 @@ body {
   margin-top: 1rem;
   padding: 0.5rem 2rem;
   background: #ffffff;
-  color: #335fe7;
-  border: 2px solid #335fe7;
+  color: #1a3175;
+  border: 2px solid #1a3175;
   border-radius: 1rem;
   outline: none;
   cursor: pointer;
@@ -299,7 +299,7 @@ body {
 }
 
 .pink-gradient-2 {
-  background: linear-gradient(45deg, #eb423d 0%, #ffb635 33%, #b1bd73 66%, #3396e7 100%) !important;
+  background: linear-gradient(40deg, #00b3ff, #e5fbff);
 }
 
 .pink-gradient-3 {
@@ -515,13 +515,28 @@ footer {
 }
 
 .footer__h3:first-letter {
-  border-bottom: 3px solid #335fe7;
+  border-bottom: 3px solid #1a3175;
 }
 
 .linguist-select,
 .linguist-select:active,
 .linguist-select:hover {
   outline: none;
+  border: 2px solid #1a3175;
+  border-radius: 2px;
+  color: #1a3175;
+}
+
+p {
+  color: #1a3175;
+}
+
+#main-page-learned-words {
+  color: #3f9b53;
+}
+
+.main-page-card-text {
+  color: rgba(40, 40, 40, 0.9)
 }
 
 @media only screen and (max-width: 1060px) {
