@@ -13,40 +13,9 @@ export default function WordBubbles() {
   }
 
   const addEventListeners = () => {
-    containerRef.querySelector('.own-game-how-to-play').addEventListener('click', function() {
-      helpMe()
-    })
     containerRef.querySelector('.own-game-go-to-play').addEventListener('click', function() {
       mainGame()
     })
-  }
-
-  const helpMe = () => {
-    containerRef.innerHTML = `
-      <div class="own-game-main-container">
-        <div class="own-game-modal-window">
-          <form id="own-game-modal-window-header">
-            <h1 id="own-game-how-to-play">How to play?</h1>
-            <button class="own-game-close-icon"></button>
-          </form>
-          <div id="own-game-tooltip-points-wrapper">
-            <div class="own-game-tooltip-points-column">
-              <h5 class="own-game-tooltip-points">1. In this game, you'll type as many words as you can.</h5>
-              <img class="own-game-tooltip-img" id="typing-keyboard" src="https://res.cloudinary.com/meta-modern/image/upload/v1593893842/ownGame-keyboard_dqrgxf.jpg" alt="keyboard">
-            </div>
-            <div class="own-game-tooltip-points-column">
-              <h5 class="own-game-tooltip-points">2. Each word must start with the letters in the box.</h5>
-              <img class="own-game-tooltip-img" src="https://res.cloudinary.com/meta-modern/image/upload/v1593893842/ownGame-keyboard-with-letters_ggnnsg.jpg" alt="keyboard-with-letters">
-            </div>
-            <div class="own-game-tooltip-points-column">
-              <h5 class="own-game-tooltip-points">3. Long words are worth more than short words.</h5>
-              <img class="own-game-tooltip-img" src="https://res.cloudinary.com/meta-modern/image/upload/v1593975794/ownGame-score_i5cl3n.png" alt="long-words">
-            </div>
-          </div>
-        </div>
-      </div>
-      `
-      containerRef.querySelector('.own-game-main-container').style.backgroundImage = 'url(\'../../assets/img/wordbubbles/ownGame-startBackground-38.png\')'
   }
 
   const mainGame = () => {
@@ -321,6 +290,10 @@ export default function WordBubbles() {
     const levelOfHardness = document.createElement('section')
     const labelForLevel = document.createElement('label')
     const selectForLevel = document.createElement('select')
+    const sectionHowToPlay = document.createElement('section')
+    const tooltipHowToPlayFirst = document.createElement('h5')
+    const tooltipHowToPlaySecond = document.createElement('h5')
+    const tooltipHowToPlayThird = document.createElement('h5')
 
     container.classList.add('own-game-main-container')
     centeredBlock.classList.add('own-game-centered-block')
@@ -351,6 +324,13 @@ export default function WordBubbles() {
     <option value="5">5</option>
     <option value="6">6</option>
     `
+    sectionHowToPlay.classList.add('own-game-tooltip-points-wrapper')
+    tooltipHowToPlayFirst.classList.add('own-game-tooltip-points')
+    tooltipHowToPlaySecond.classList.add('own-game-tooltip-points')
+    tooltipHowToPlayThird.classList.add('own-game-tooltip-points')
+    tooltipHowToPlayFirst.innerText = '1. In this game, you will type as many words as you can.'
+    tooltipHowToPlaySecond.innerText = '2. Each word must start with the letters in the box.'
+    tooltipHowToPlayThird.innerText = '3. Long words are worth more than short words.'
 
     mainWb.append(container)
     container.append(wrapper)
@@ -359,11 +339,14 @@ export default function WordBubbles() {
     centeredBlock.append(description)
     wrapper.append(form)
     form.append(controlPanel)
-    controlPanel.append(btnHowToPlay)
     controlPanel.append(btnGoToPlay)
     wrapper.append(levelOfHardness)
     levelOfHardness.append(labelForLevel)
     levelOfHardness.append(selectForLevel)
+    wrapper.append(sectionHowToPlay)
+    sectionHowToPlay.append(tooltipHowToPlayFirst)
+    sectionHowToPlay.append(tooltipHowToPlaySecond)
+    sectionHowToPlay.append(tooltipHowToPlayThird)
 
     containerRef = mainWb
 
