@@ -3,8 +3,6 @@ import './wordBubbles.css'
 export default function WordBubbles() {
   let containerRef = null
   let state = {
-    level: 0,
-    isError: null,
     level: 0
   }
 
