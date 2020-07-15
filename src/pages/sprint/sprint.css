@@ -2,7 +2,7 @@
 
 .box_sprintGame {
     display: block;
-    min-height: calc(100vh - 71px);
+    min-height: 100vh;
     /* background: linear-gradient(135deg, rgba(85,239,203,1) 0%,rgba(30,87,153,1) 0%,rgba(85,239,203,1) 0%,rgba(91,202,255,1) 100%); */
     /* background: linear-gradient(to top left, #3471FF, #87D0FD); */
     background:  url(../../assets/img/bg-purple.png) center no-repeat;
