@@ -5,8 +5,7 @@ export default function WordBubbles() {
   let state = {
     level: 0,
     isError: null,
-    firstLetters: null,
-    userWord: null
+    level: 0
   }
 
   const onInit = (anchor) => {
@@ -21,113 +20,290 @@ export default function WordBubbles() {
     })
   }
 
-  const mainGame = () => {
+  const helpMe = () => {
     containerRef.innerHTML = `
-    <div class="own-game-container">
-      <div class="own-game-wrong-guesses">Wrong Guesses: <span id='mistakes'>0</span> of <span id='maxWrong'></span></div>
-        <div class="text-center">
-        <img id='hangmanPic' src="./assets/img/hangman/0.jpg" alt="hangman">
-        <p>Guess the Programming Language:</p>
-        <p id="wordSpotlight">The word to be guessed goes here</p>
-        <div id="keyboard"></div>
+      <div class="own-game-main-container">
+        <div class="own-game-modal-window">
+          <form id="own-game-modal-window-header">
+            <h1 id="own-game-how-to-play">How to play?</h1>
+            <button class="own-game-close-icon"></button>
+          </form>
+          <div id="own-game-tooltip-points-wrapper">
+            <div class="own-game-tooltip-points-column">
+              <h5 class="own-game-tooltip-points">1. In this game, you'll type as many words as you can.</h5>
+              <img class="own-game-tooltip-img" id="typing-keyboard" src="https://res.cloudinary.com/meta-modern/image/upload/v1593893842/ownGame-keyboard_dqrgxf.jpg" alt="keyboard">
+            </div>
+            <div class="own-game-tooltip-points-column">
+              <h5 class="own-game-tooltip-points">2. Each word must start with the letters in the box.</h5>
+              <img class="own-game-tooltip-img" src="https://res.cloudinary.com/meta-modern/image/upload/v1593893842/ownGame-keyboard-with-letters_ggnnsg.jpg" alt="keyboard-with-letters">
+            </div>
+            <div class="own-game-tooltip-points-column">
+              <h5 class="own-game-tooltip-points">3. Long words are worth more than short words.</h5>
+              <img class="own-game-tooltip-img" src="https://res.cloudinary.com/meta-modern/image/upload/v1593975794/ownGame-score_i5cl3n.png" alt="long-words">
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+      `
+      containerRef.querySelector('.own-game-main-container').style.backgroundImage = 'url(\'../../assets/img/wordbubbles/ownGame-startBackground-38.png\')'
+  }
+
+  const mainGame = () => {
+    let scorePoints = 0
+    let allEnteredWords = []
+    let res = []
+    state = {
+      level: containerRef.querySelector('.own-game-hardness').value - 1
+    }
+
+    function appendTimeout() {
+      const bodyTimer = containerRef.querySelector('#own-game-timer')
+      const output = document.createElement('span')
+      const tickingDown = containerRef.querySelector('#owngame-audio-tiking-down')
+      output.id = 'own-game-output'
+      const slider = document.createElement('div')
+      slider.id = 'own-game-slider'
+      bodyTimer.append(output)
+      bodyTimer.append(slider)
+
+      let time = 60,
+        fps = 60
+
+      let Timer = function(obj) {
+        this.time = obj.time
+        this.fps = obj.fps
+        this.onEnd = obj.onEnd || null
+        this.onStart = obj.onStart || null
+        this.onTick = obj.onTick || null
+
+        this.start = () => {
+          this.interval = setInterval(this.update, 1000 / this.fps)
+          this.onStart ? this.onStart() : void 0
+          return this
+        }
+        this.stop = () => {
+          clearInterval(this.interval)
+          this.onEnd ? this.onEnd() : void 0
+        }
+        this.update = () => {
+          this.time > 0 ? this.time -= 1 / this.fps : this.stop()
+          this.onTick ? this.onTick() : void 0
+          return this.get()
+        }
+        this.get = (par) => {
+          switch (par) {
+            case undefined:
+              return this.time
+            case 'dig':
+              return Math.ceil(this.time)
+            case 'end':
+              return this.onEnd()
+          }
+        }
+      }
+
+      let timer1 = new Timer({
+        time: time,
+        fps: fps,
+        onTick: tick,
+        onEnd: endTimer,
+        onStart: onTimerStart
+      })
+
+      function onTimerStart() {
+        tickingDown.play()
+      }
+
+      function endTimer() {
+        gameResults()
+      }
+
+      timer1.start()
+      requestAnimationFrame(tick)
+
+      function tick() {
+        output.innerHTML = timer1.get('dig')
+        slider.style.width = timer1.get() / time * 100 + '%'
+      }
+    }
+
+
+    function mainGame() {
+      const firstLettersInRender = containerRef.querySelector('.own-game-first-letters')
+      const getWords = async () => {
+        const url = `https://afternoon-falls-25894.herokuapp.com/words?page=${Math.floor(Math.random() * 29)}&group=${state.level}`
+        const res = await fetch(url)
+        const json = await res.json()
+        let randomIndex = Math.floor(Math.random() * 19)
+        firstLettersInRender.innerText = `${json[randomIndex].word.substring(0,2)}`
+        state = {
+          firstLetters: `${json[randomIndex].word.substring(0, 2)}`
+        }
+      }
+      const gameScore = containerRef.querySelector('#own-game-score-wrapper')
+      const addGameScore = containerRef.querySelector('#own-game-score')
+      const gameScorePoints = document.createElement('p')
+
+      gameScorePoints.classList.add('own-game-score-points')
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault()
+
+        if (e.submitter.classList.contains('own-game-game-enter')) {
+          let checkMeWord = state.firstLetters + input.value
+          let userWord = checkMeWord.replace(/ +/g, '').trim().toLowerCase()
+
+          function checkIsCorrect() {
+            const xhr = new XMLHttpRequest()
+            xhr.onreadystatechange = function() {
+              if (this.readyState === 4) {
+                if (xhr.status === 200) {
+                  let data = JSON.parse(xhr.responseText)
+                  if (data.length) {
+                    wordIsNotCorrect()
+                  } else {
+                    allEnteredWords.push(userWord)
+                    wordIsCorrect()
+                  }
+                } else {
+                  console.log(xhr.status)
+                }
+              }
+            }
+            xhr.open('GET', 'http://speller.yandex.net/services/spellservice.json/checkText?options=7&text=' + userWord)
+            xhr.send()
+          }
+
+
+          function wordIsCorrect() {
+            for (let i = 0; i < allEnteredWords.length; i++) {
+              if (!res.includes(allEnteredWords[i])) {
+                res.push(allEnteredWords[i])
+                audioRightAnswer.play()
+                gameInput.value = ''
+                if (allEnteredWords[i].length <= 4) {
+                  scorePoints += 20
+                  infoScorePoints(20)
+                } else if (allEnteredWords[i].length === 5 || allEnteredWords[i].length === 6) {
+                  scorePoints += 40
+                  infoScorePoints(40)
+                } else if (allEnteredWords[i].length === 7 || allEnteredWords[i].length === 8) {
+                  scorePoints += 60
+                  infoScorePoints(60)
+                } else if (allEnteredWords[i].length === 9 || allEnteredWords[i].length === 10) {
+                  scorePoints += 80
+                  infoScorePoints(80)
+                } else {
+                  scorePoints += 100
+                  infoScorePoints(100)
+                }
+                gameScore.innerHTML = `${scorePoints}`
+              }
+            }
+          }
+
+          function wordIsNotCorrect() {
+            audioWrongAnswer.play()
+          }
+
+          function infoScorePoints(number) {
+            gameScorePoints.innerText = `+${number}`
+            addGameScore.append(gameScorePoints)
+          }
+
+          checkIsCorrect()
+        }
+      })
+      getWords().then(() => {
+        if (state.error) {
+          console.log("Произошла ошибка, связанная с Backend'ом таска RS Lang.")
+        }
+      })
+    }
+
+    function gameResults() {
+      containerRef.innerHTML = `
+          <div class="own-game-ending-container">
+            <div class="own-game-modal-window-ending">
+              <h1 id="own-game__result-h1">Results</h1>
+              <h2 id="own-game__result-is"></h2>
+              <section id="own-game__previous-results">
+                <h3 id="own-game__result-tryings"></h3>
+                <h3 id="own-game__result-maxscore"></h3>
+              </section>
+              <audio id="owngame-audio-game-ending" src="https://res.cloudinary.com/meta-modern/video/upload/v1593942147/kessidi-dzyn_mp3cut.net_1_1_a3bme0.mp3"></audio>
+            </div>
+          </div>
+      `
+
+      const resultIs = containerRef.querySelector('#own-game__result-is')
+      const bodyTimer = containerRef.querySelector('.own-game-modal-window-ending')
+      const gameEndingAudio = containerRef.querySelector('#owngame-audio-game-ending')
+      const amountOfTryings = containerRef.querySelector('#own-game__result-tryings')
+      const maxScoreRender = containerRef.querySelector('#own-game__result-maxscore')
+      const output = document.createElement('span')
+      const slider = document.createElement('div')
+
+      output.id = 'own-game-output'
+      slider.id = 'own-game-slider'
+
+      bodyTimer.append(output)
+      bodyTimer.append(slider)
+      gameEndingAudio.play()
+
+      resultIs.innerHTML = `Ваш результат: ${scorePoints} баллов`
+      output.style.display = 'none'
+      slider.style.display = 'none'
+
+      let amount = localStorage.getItem('Word Bubbles Score')
+
+      if (scorePoints > amount) {
+        localStorage.setItem('Word Bubbles Score', scorePoints)
+        maxScoreRender.innerHTML = `Наилучший результат: ${scorePoints}`
+      } else {
+        maxScoreRender.innerHTML = `Наилучший результат: ${amount}`
+      }
+
+      let amountOfTrying = localStorage.getItem('Word Bubbles Tryings')
+      amountOfTrying++
+      localStorage.setItem('Word Bubbles Tryings', amountOfTrying)
+      amountOfTryings.innerHTML = `Количество попыток: ${amountOfTrying}`
+    }
+
+    containerRef.innerHTML = `
+        <div class="own-game-main-container">
+          <div class="own-game-game-wrapper">
+            <div id="own-game-timer"></div>
+            <div id="own-game-score">
+              <h4 id="own-game-score-wrapper"></h4>
+            </div>
+            <form class="own-game-input-place">
+              <h4 class="own-game-first-letters"></h4>
+              <input class="own-game-game-input" type="text" autofocus spellcheck="false">
+              <button class="own-game-game-enter">Enter</button>
+            </form>
+            <audio id="owngame-audio-tiking-down" src="https://res.cloudinary.com/meta-modern/video/upload/v1593935234/55_smy6vv.mp3"></audio>
+            <audio id="owngame-audio-right-answer" src="https://res.cloudinary.com/meta-modern/video/upload/v1593953407/rightAnswerBubble_du1wub.mp3"></audio>
+            <audio id="owngame-audio-wrong-answer" src="https://res.cloudinary.com/meta-modern/video/upload/v1593953406/wrongAnswerBubble_zmnjrn.mp3"></audio>
+          </div>
+        </div>
     `
-    
-    const programming_languages = [
-      "python",
-      "javascript",
-      "mongodb",
-      "json",
-      "java",
-      "html",
-      "css",
-      "c",
-      "csharp",
-      "golang",
-      "kotlin",
-      "php",
-      "sql",
-      "ruby"
-    ]
-    
-    let answer = '';
-    let maxWrong = 6;
-    let mistakes = 0;
-    let guessed = [];
-    let wordStatus = null;
-    
-    function randomWord() {
-      answer = programming_languages[Math.floor(Math.random() * programming_languages.length)];
-    }
-    
-    function generateButtons() {
-      let buttonsHTML = 'qwertyuiopasdfghjklzxcvbnm'.split('').map(letter =>
-        `
-          <button
-            class="own-game-btn btn-lg btn-primary m-2"
-            id='` + letter + `'
-            value="` + letter +`"
-          >
-            ` + letter + `
-          </button>
-        `).join('');
-    
-      document.getElementById('keyboard').innerHTML = buttonsHTML;
-    }
-    
-    function handleGuess(chosenLetter) {
-      guessed.indexOf(chosenLetter) === -1 ? guessed.push(chosenLetter) : null;
-      document.getElementById(chosenLetter).setAttribute('disabled', true);
-    
-      if (answer.indexOf(chosenLetter) >= 0) {
-        guessedWord();
-        checkIfGameWon();
-      } else if (answer.indexOf(chosenLetter) === -1) {
-        mistakes++;
-        updateMistakes();
-        checkIfGameLost();
-        updateHangmanPicture();
-      }
-    }
+    const container = containerRef.querySelector('.own-game-main-container')
+    const input = containerRef.querySelector('input')
+    const gameInput = containerRef.querySelector('.own-game-game-input')
+    const form = containerRef.querySelector('.own-game-input-place')
+    const audioRightAnswer = containerRef.querySelector('#owngame-audio-right-answer')
+    const audioWrongAnswer = containerRef.querySelector('#owngame-audio-wrong-answer')
 
-    function updateHangmanPicture() {
-      document.getElementById('hangmanPic').src = './assets/img/hangman/' + mistakes + '.jpg';
-    }
-    
-    function checkIfGameWon() {
-      if (wordStatus === answer) {
-        document.getElementById('keyboard').innerHTML = 'You Won!!!';
-      }
-    }
-    
-    function checkIfGameLost() {
-      if (mistakes === maxWrong) {
-        document.getElementById('wordSpotlight').innerHTML = 'The answer was: ' + answer;
-        document.getElementById('keyboard').innerHTML = 'You Lost!!!';
-      }
-    }
-    
-    function guessedWord() {
-      wordStatus = answer.split('').map(letter => (guessed.indexOf(letter) >= 0 ? letter : " _ ")).join('');
-    
-      document.getElementById('wordSpotlight').innerHTML = wordStatus;
-    }
-    
-    function updateMistakes() {
-      document.getElementById('mistakes').innerHTML = mistakes;
-    }
-    
-    document.getElementById('maxWrong').innerHTML = maxWrong;
-    
-    randomWord();
-    generateButtons();
-    guessedWord();
-    const buttonItems = document.querySelectorAll('.own-game-btn');
+    container.style.backgroundImage = 'url(\'../../assets/img/wordbubbles/ownGame-gameBackground-3.png\')'
+    // container.style.height = '100vh'
 
-    buttonItems.forEach((buttonItem) => buttonItem.addEventListener('click', () => {
-      handleGuess(buttonItem.value)
-    }))
+    mainGame()
+    appendTimeout()
+
+    input.addEventListener('keyup', function() {
+      this.value = this.value.replace(/[^A-Za-z]/g, '')
+    })
   }
 
   const render = () => {
@@ -144,10 +320,6 @@ export default function WordBubbles() {
     const levelOfHardness = document.createElement('section')
     const labelForLevel = document.createElement('label')
     const selectForLevel = document.createElement('select')
-    const howToPlay = document.createElement('section')
-    const howToPlayFirst = document.createElement('h5')
-    const howToPlaySecond = document.createElement('h5')
-    const howToPlayThird = document.createElement('h5')
 
     container.classList.add('own-game-main-container')
     centeredBlock.classList.add('own-game-centered-block')
@@ -178,13 +350,6 @@ export default function WordBubbles() {
     <option value="5">5</option>
     <option value="6">6</option>
     `
-    howToPlay.classList.add('own-game-tooltip-points-wrapper')
-    howToPlayFirst.classList.add('own-game-tooltip-points')
-    howToPlayFirst.innerText = '1. In this game, you will type as many words as you can.'
-    howToPlaySecond.classList.add('own-game-tooltip-points')
-    howToPlaySecond.innerText = '2. Each word must start with the letters in the box.'
-    howToPlayThird.classList.add('own-game-tooltip-points')
-    howToPlayThird.innerText = '3. Long words are worth more than short words.'
 
     mainWb.append(container)
     container.append(wrapper)
@@ -193,15 +358,10 @@ export default function WordBubbles() {
     centeredBlock.append(description)
     wrapper.append(form)
     form.append(controlPanel)
-    controlPanel.append(btnHowToPlay)
     controlPanel.append(btnGoToPlay)
     wrapper.append(levelOfHardness)
     levelOfHardness.append(labelForLevel)
     levelOfHardness.append(selectForLevel)
-    wrapper.append(howToPlay)
-    howToPlay.append(howToPlayFirst)
-    howToPlay.append(howToPlaySecond)
-    howToPlay.append(howToPlayThird)
 
     containerRef = mainWb
 
